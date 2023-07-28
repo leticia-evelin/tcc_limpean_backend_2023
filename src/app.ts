@@ -33,7 +33,7 @@ import { server } from './server/server'
 const app = express();
 // Middleware para configurar o CORS
 app.use((req: Request, res: Response, next: NextFunction) => {
-  const allowedOrigin = ['http://localhost:8080'];
+  const allowedOrigin = 'http://localhost:8080';
 
     // Verifica se a origem da requisição é igual à URL permitida
     // Permite a origem especificada

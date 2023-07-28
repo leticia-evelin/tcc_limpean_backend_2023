@@ -7,7 +7,7 @@ const express_1 = __importDefault(require("express"));
 const server_1 = require("./server/server");
 const app = (0, express_1.default)();
 app.use((req, res, next) => {
-    const allowedOrigin = ['http://localhost:8080'];
+    const allowedOrigin = 'http://localhost:8080';
     res.header('Access-Control-Allow-Origin', allowedOrigin);
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     next();
