@@ -7,8 +7,8 @@ const express_1 = __importDefault(require("express"));
 const server_1 = require("./server/server");
 const app = (0, express_1.default)();
 app.use((req, res, next) => {
-    const allowedOrigin = 'http://localhost:8080';
-    if (req.headers.origin === allowedOrigin) {
+    const allowedOrigin = ['https://api-rest-typescript-form2023.onrender.com'];
+    if (allowedOrigin.includes(req.headers.origin || '')) {
         res.header('Access-Control-Allow-Origin', allowedOrigin);
         res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     }
