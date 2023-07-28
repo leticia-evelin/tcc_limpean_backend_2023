@@ -1,2 +1,6 @@
 node_modules
-src
+src/
+*.log
+*.json
+*.map
+*.env
