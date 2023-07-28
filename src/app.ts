@@ -8,6 +8,9 @@
  *
  *  npm add -D  typescript @types/express ts-node-dev
  *
+ *  npm add cors
+ * 
+ *  npm add -D @types/cors
  *  tsc --init
  *
  *  npm run dev
@@ -23,30 +26,27 @@
  *  Para rodar node ./dist/app.js
  */
 
-import express from 'express'
-import {server} from './server/server'
+import express, { Request, Response, NextFunction } from 'express'
+import cors from 'cors'
+import { server } from './server/server'
 
 const app = express();
 // Middleware para configurar o CORS
-app.use((req, res, next) => {
-    // Definindo as origens permitidas
-    const allowedOrigins = ['http://localhost:8080'];
-    const origin = req.headers.origin;
-  
-    if ( typeof origin == 'string' && allowedOrigins.includes(origin)) {
-      res.setHeader('Access-Control-Allow-Origin', origin);
-    }
-  
-    // Permitindo apenas os métodos GET, POST, PUT e DELETE
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  
-    // Permitindo os cabeçalhos "Content-Type" e "Authorization"
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  
-    // Continua para a próxima middleware
-    next();
-  });
-  
+app.use((req: Request, res: Response, next: NextFunction) => {
+  // Permissões de origem de requisições
+  res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
+
+  // Permissões de métodos que serão utilizados na API
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+
+  // Define as permissões para o CORS
+  app.use(cors())
+
+  //Para continuar a leitura
+  next()
+
+});
+
 
 app.use(server)
 
