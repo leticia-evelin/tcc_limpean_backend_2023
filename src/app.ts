@@ -33,16 +33,11 @@ import { server } from './server/server'
 const app = express();
 // Middleware para configurar o CORS
 app.use((req: Request, res: Response, next: NextFunction) => {
-  const allowedOrigin = ['http://localhost:8080', ''];
+  const allowedOrigin = 'http://localhost:8080';
 
-  if (allowedOrigin.includes(req.headers.origin || '')) {
     // Permite a origem especificada
-    res.header('Access-Control-Allow-Origin', allowedOrigin);
+    res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  } else {
-    // Recusa a origem não permitida
-    return res.status(403).json({ error: 'Acesso negado.' });
-  }
 
     next()
 
