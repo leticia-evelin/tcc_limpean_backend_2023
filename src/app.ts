@@ -31,7 +31,7 @@ import cors from 'cors'
 import { server } from './server/server'
 
 const app = express();
-const allowedOrigin = 'https://api-rest-typescript-form2023.onrender.com'
+const allowedOrigin = 'http://testdecorsgustavo'
 
 //Configuração do cors
 const corsOptions = {

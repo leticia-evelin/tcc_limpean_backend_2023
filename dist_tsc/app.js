@@ -7,7 +7,7 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const server_1 = require("./server/server");
 const app = (0, express_1.default)();
-const allowedOrigin = 'https://api-rest-typescript-form2023.onrender.com';
+const allowedOrigin = 'http://testdecorsgustavo';
 const corsOptions = {
     origin: allowedOrigin,
     methods: 'GET, POST, PUT, DELETE, OPTION'
