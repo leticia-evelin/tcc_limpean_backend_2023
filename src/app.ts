@@ -31,19 +31,16 @@ import cors from 'cors'
 import { server } from './server/server'
 
 const app = express();
-// Middleware para configurar o CORS
-app.use((req: Request, res: Response, next: NextFunction) => {
-  const allowedOrigin = 'http://localhost:8080';
+const allowedOrigin = 'https://api-rest-typescript-form2023.onrender.com'
 
-    // Permite a origem especificada
-    res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+//Configuração do cors
+const corsOptions = {
+  origin: allowedOrigin,
+  methods: 'GET, POST, PUT, DELETE, OPTION'
+}
 
-    next()
-
-});
-
-
+app.use(cors(corsOptions))
+  
 app.use(server)
 
 app.listen(8080, () => console.log('Servidor Aguardando requisições na porta 8080'))

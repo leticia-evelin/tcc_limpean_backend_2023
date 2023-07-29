@@ -4,13 +4,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
 const server_1 = require("./server/server");
 const app = (0, express_1.default)();
-app.use((req, res, next) => {
-    const allowedOrigin = 'http://localhost:8080';
-    res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    next();
-});
+const allowedOrigin = 'https://api-rest-typescript-form2023.onrender.com';
+const corsOptions = {
+    origin: allowedOrigin,
+    methods: 'GET, POST, PUT, DELETE, OPTION'
+};
+app.use((0, cors_1.default)(corsOptions));
 app.use(server_1.server);
 app.listen(8080, () => console.log('Servidor Aguardando requisições na porta 8080'));
