@@ -41,7 +41,7 @@ const app = express();
 
 //Configuração do cors
 const corsOptions = {
-  origin: 'https://api-rest-typescript-form2023.onrender.com',
+  origin: '*',
   methods: 'GET, POST, PUT, DELETE, OPTIONS'
 }
 

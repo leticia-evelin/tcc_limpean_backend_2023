@@ -1,10 +1,31 @@
-import { Router, Request, Response } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 import bodyParser from 'body-parser';
 import * as controllerLogin from "../../controller/contollerLogin"
+import * as jwt from 'jsonwebtoken'
 
 const jsonParser = bodyParser.json()
 
 const router = Router()
+
+//Função para verifica token
+const verifyJWT = async function(request: Request, response: Response, next: NextFunction) {
+    const token = request.headers['x-access-token'];
+
+    const SECRETE = 'a1b2c3';
+
+    if (!token) {
+        return response.status(401).json({ message: 'Token não fornecido.' });
+    }
+
+    try {
+        const decoded = jwt.verify(Array.isArray(token) ? token[0] : token, SECRETE);
+        console.log('Token válido:', decoded);
+        next();
+    } catch (error) {
+        console.error('Erro na validação do token:', error);
+        return response.status(401).json({ message: 'Token inválido.' });
+    }
+};
 
 router.post('/v1/login-de-cadastro', jsonParser, async function (request: Request, response: Response) {
     
@@ -47,6 +68,10 @@ router.post('/v1/authenticator-login', jsonParser, async function (request, resp
             response.json("{'erro': 'erro no servidor'}")
         }
     }
+})
+
+router.get('/v1/form-dados', verifyJWT, jsonParser, async function (request, response) {
+    console.log("Acesso Fernada")
 })
 
 export { router }
