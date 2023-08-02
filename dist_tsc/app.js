@@ -1,17 +1,14 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const cors_1 = __importDefault(require("cors"));
+const express = require('express');
+const port = process.env.PORT || 8080;
+const cors = require('cors');
 const server_1 = require("./server/server");
-const app = (0, express_1.default)();
-const allowedOrigin = 'http://testdecorsgustavo';
+const app = express();
 const corsOptions = {
-    origin: allowedOrigin,
-    methods: 'GET, POST, PUT, DELETE, OPTION'
+    origin: 'https://api-rest-typescript-form2023.onrender.com',
+    methods: 'GET, POST, PUT, DELETE, OPTIONS'
 };
-app.use((0, cors_1.default)(corsOptions));
+app.use(cors(corsOptions));
 app.use(server_1.server);
-app.listen(8080, () => console.log('Servidor Aguardando requisições na porta 8080'));
+app.listen(port, () => console.log('Servidor Aguardando requisições na porta 8080'));

@@ -23,24 +23,30 @@
  *  Configura o package.json
  *  Para inicializar npm run build
  * 
+ * npm install jsonwebtoken
+ * npm install @types/jsonwebtoken
+ * 
  *  Para rodar node ./dist/app.js
  */
 
-import express, { Request, Response, NextFunction } from 'express'
-import cors from 'cors'
+const express = require('express')
+
+const port = process.env.PORT || 8080
+
+const cors = require('cors')
+
 import { server } from './server/server'
 
 const app = express();
-const allowedOrigin = 'http://testdecorsgustavo'
 
 //Configuração do cors
 const corsOptions = {
-  origin: allowedOrigin,
-  methods: 'GET, POST, PUT, DELETE, OPTION'
+  origin: 'https://api-rest-typescript-form2023.onrender.com',
+  methods: 'GET, POST, PUT, DELETE, OPTIONS'
 }
 
 app.use(cors(corsOptions))
   
 app.use(server)
 
-app.listen(8080, () => console.log('Servidor Aguardando requisições na porta 8080'))
+app.listen(port, () => console.log('Servidor Aguardando requisições na porta 8080'))
