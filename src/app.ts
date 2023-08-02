@@ -31,7 +31,7 @@
 
 const express = require('express')
 
-const port = process.env.PORT || 8080
+const port = process.env.PORT
 
 const cors = require('cors')
 
