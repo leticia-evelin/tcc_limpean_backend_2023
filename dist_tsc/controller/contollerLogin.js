@@ -1,30 +1,7 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.registerUser = void 0;
-const login = __importStar(require("../model/dbLogin"));
+exports.autenticarUser = exports.registerUser = void 0;
+const login = require('../model/dbLogin');
 const registerUser = async function (body) {
     if (body.name == '' || body.name == null ||
         body.email == '' || body.email == null ||
@@ -33,7 +10,36 @@ const registerUser = async function (body) {
     }
     else {
         let status = await login.registerUser(body);
-        console.log(status);
     }
 };
 exports.registerUser = registerUser;
+const autenticarUser = async function (dataBody) {
+    if (dataBody.email == '' || dataBody.email == null ||
+        dataBody.password == '' || dataBody.password == null) {
+        return false;
+    }
+    else {
+        try {
+            const jwt = require('../middleware/controllerJWT');
+            const dataUser = await login.verifyAccountUser(dataBody);
+            if (dataUser) {
+                const token = await jwt.createJWT(dataUser[0]);
+                let statusJson = {
+                    id: dataUser[0].id,
+                    name: dataUser[0].nome,
+                    token: token
+                };
+                console.log(statusJson);
+                return statusJson;
+            }
+            else {
+                return false;
+            }
+        }
+        catch (error) {
+            console.error('Erro durante autenticação:', error);
+            return false;
+        }
+    }
+};
+exports.autenticarUser = autenticarUser;

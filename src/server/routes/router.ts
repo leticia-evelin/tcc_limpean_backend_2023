@@ -14,6 +14,7 @@ const verifyJWT = async function(request: Request, response: Response, next: Nex
     const SECRETE = 'a1b2c3';
 
     if (!token) {
+        console.log('token')
         return response.status(401).json({ message: 'Token não fornecido.' });
     }
 
@@ -22,8 +23,7 @@ const verifyJWT = async function(request: Request, response: Response, next: Nex
         console.log('Token válido:', decoded);
         next();
     } catch (error) {
-        console.error('Erro na validação do token:', error);
-        return response.status(401).json({ message: 'Token inválido.' });
+        return response.json("{'erro': 'Seu token é inválido'}")
     }
 };
 

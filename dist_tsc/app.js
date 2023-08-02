@@ -6,7 +6,7 @@ const cors = require('cors');
 const server_1 = require("./server/server");
 const app = express();
 const corsOptions = {
-    origin: 'https://api-rest-typescript-form2023.onrender.com',
+    origin: '*',
     methods: 'GET, POST, PUT, DELETE, OPTIONS'
 };
 app.use(cors(corsOptions));

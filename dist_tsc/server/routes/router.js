@@ -30,9 +30,26 @@ exports.router = void 0;
 const express_1 = require("express");
 const body_parser_1 = __importDefault(require("body-parser"));
 const controllerLogin = __importStar(require("../../controller/contollerLogin"));
+const jwt = __importStar(require("jsonwebtoken"));
 const jsonParser = body_parser_1.default.json();
 const router = (0, express_1.Router)();
 exports.router = router;
+const verifyJWT = async function (request, response, next) {
+    const token = request.headers['x-access-token'];
+    const SECRETE = 'a1b2c3';
+    if (!token) {
+        console.log('token');
+        return response.status(401).json({ message: 'Token não fornecido.' });
+    }
+    try {
+        const decoded = jwt.verify(Array.isArray(token) ? token[0] : token, SECRETE);
+        console.log('Token válido:', decoded);
+        next();
+    }
+    catch (error) {
+        return response.json("{'erro': 'Seu token é inválido'}");
+    }
+};
 router.post('/v1/login-de-cadastro', jsonParser, async function (request, response) {
     let contentType = request.headers['content-type'];
     if (contentType === 'application/json') {
@@ -50,4 +67,22 @@ router.post('/v1/login-de-cadastro', jsonParser, async function (request, respon
     else {
         return response.send("Back-end não aceita arquivos sem o formato: Json");
     }
+});
+router.post('/v1/authenticator-login', jsonParser, async function (request, response) {
+    let contentType = request.headers['content-type'];
+    if (contentType === 'application/json') {
+        let dataBody = request.body;
+        let status = await controllerLogin.autenticarUser(dataBody);
+        if (status) {
+            response.status(200);
+            response.json(status);
+        }
+        else {
+            response.status(415);
+            response.json("{'erro': 'erro no servidor'}");
+        }
+    }
+});
+router.get('/v1/form-dados', verifyJWT, jsonParser, async function (request, response) {
+    console.log("Acesso Fernada");
 });
