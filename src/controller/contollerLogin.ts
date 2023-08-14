@@ -24,6 +24,8 @@ const registerCliente = async function (body: RegisterCliente) {
     }
 }
 
+//teste
+
 const autenticarUser = async function (dataBody: AuthenticatorUser) {
 
     if (
