@@ -1,6 +1,6 @@
 const login = require('../model/dbLogin');
 
-interface RegisterUser {
+interface RegisterCliente {
     name: string
     email: string,
     password: string
@@ -11,7 +11,7 @@ interface AuthenticatorUser {
     password: string
 }
 
-const registerUser = async function (body: RegisterUser) {
+const registerCliente = async function (body: RegisterCliente) {
     if (
         body.name == '' || body.name == null ||
         body.email == '' || body.email == null ||
@@ -60,6 +60,6 @@ const autenticarUser = async function (dataBody: AuthenticatorUser) {
 
 
 export {
-    registerUser,
+    registerCliente,
     autenticarUser
 }

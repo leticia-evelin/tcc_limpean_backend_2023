@@ -27,7 +27,7 @@ const verifyJWT = async function(request: Request, response: Response, next: Nex
     }
 };
 
-router.post('/v1/login-de-cadastro', jsonParser, async function (request: Request, response: Response) {
+router.post('/v1/cadastro/cliente', jsonParser, async function (request: Request, response: Response) {
     
     let contentType = request.headers['content-type']
 
@@ -35,7 +35,7 @@ router.post('/v1/login-de-cadastro', jsonParser, async function (request: Reques
 
         let dataBody = request.body
 
-        let status = await controllerLogin.registerUser(dataBody)
+        let status = await controllerLogin.registerCliente(dataBody)
 
         if(status){
             response.status(200)
@@ -50,7 +50,7 @@ router.post('/v1/login-de-cadastro', jsonParser, async function (request: Reques
     }
 })
 
-router.post('/v1/authenticator-login', jsonParser, async function (request, response) {
+router.post('/v1/authenticator-login/cliente', jsonParser, async function (request, response) {
 
     let contentType = request.headers['content-type']
 
@@ -71,7 +71,7 @@ router.post('/v1/authenticator-login', jsonParser, async function (request, resp
 })
 
 router.get('/v1/form-dados', verifyJWT, jsonParser, async function (request, response) {
-    console.log("Acesso Fernada")
+    console.log("Acesso")
 })
 
 export { router }
