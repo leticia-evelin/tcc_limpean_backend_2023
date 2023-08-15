@@ -19,6 +19,7 @@ interface RegisterCliente {
 // }
 
 const registerCliente = async function (body: RegisterCliente) {
+
     if (
         !body.email || !body.password ||
         !body.nameUser || !body.photoUser ||

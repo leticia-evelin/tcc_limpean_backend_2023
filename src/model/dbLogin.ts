@@ -32,6 +32,7 @@ const registerUser = async function (dataBody: DataBody) {
         where tbl_contratante.email = '${dataBody.email}';
         `
         const statusEmail = await prisma.$queryRawUnsafe(duplicateCheckEmail)
+        console.log(statusEmail)
         
         // Verifica se o cpf ja foi cadastrado
         const duplicateCheckCPF = `SELECT tbl_dados_pessoais_contratante.cpf
