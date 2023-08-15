@@ -63,6 +63,7 @@ router.post('/v1/cadastro/cliente', jsonParser, async function (request: Request
 
 //         if(status){
 //             response.status(200)
+
 //             response.json(status)
 //         }else{
 //             response.status(415)
