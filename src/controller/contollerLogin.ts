@@ -1,4 +1,4 @@
-import {ERRO_REQUIRED_DATA_CLIENTE, ERRO_REGISTER_USER, CREATED_REGISTER} from "../modulo/config"
+import {ERRO_REQUIRED_DATA_CLIENTE, ERRO_REGISTER_USER, CREATED_REGISTER} from "../modulo-config/config"
 const login = require('../model/dbLogin');
 
 interface RegisterCliente {
