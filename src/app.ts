@@ -23,6 +23,9 @@
  *  Configura o package.json
  *  Para inicializar npm run build
  * 
+ *  OU somente tsc para transpirar em javascript
+ * 
+ * 
  * npm install jsonwebtoken
  * npm install @types/jsonwebtoken
  * 

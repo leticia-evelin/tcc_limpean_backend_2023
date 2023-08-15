@@ -32,7 +32,6 @@ const registerUser = async function (dataBody: DataBody) {
         where tbl_contratante.email = '${dataBody.email}';
         `
         const statusEmail = await prisma.$queryRawUnsafe(duplicateCheckEmail)
-        console.log(statusEmail)
         
         // Verifica se o cpf ja foi cadastrado
         const duplicateCheckCPF = `SELECT tbl_dados_pessoais_contratante.cpf
@@ -40,8 +39,9 @@ const registerUser = async function (dataBody: DataBody) {
         where tbl_dados_pessoais_contratante.cpf = '${dataBody.cpf}';
         `
         const statusCPF = await prisma.$queryRawUnsafe(duplicateCheckCPF)
+        console.log(statusCPF)
         
-        if(statusEmail.length === 0 || statusCPF.length === 0){
+        if(statusEmail.length === 0 && statusCPF.length === 0){
             const sqlContratante = `
                 INSERT INTO tbl_contratante (email, senha)
                 VALUES ('${dataBody.email}', '${dataBody.password}');
