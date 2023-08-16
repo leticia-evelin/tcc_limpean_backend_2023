@@ -8,6 +8,7 @@ const ERROR_INVALID_CONTENT_TYPE = { status: 415, message: 'O tipo de mídia (Co
 const ERRO_REQUIRED_DATA_CLIENTE = {status: 400, message: 'Nome, CPF, data de nascimento, telefone , DDD, email e senha são campos obrigatorios.'}
 const ERRO_REGISTER_USER = {status: 500, message: "A inserção falhou verifique os dados e tente novamente."}
 const ERRO_REGISTER_EMAIL = {status: 500, message: "Atenção email no formato inválido. Ele deve ter esse formato: exemplo@gmail.com"}
+const ERRO_CPF_BIRTHDATE = {status: 500, message: "Atenção data de nascimento ou cpf está incorreta."}
 
 /***************************************   CONSTANTES DE SUCESSO  ************************************************************************************************/
 const CREATED_REGISTER = {status: 201, message: "Registro criado com sucesso."}
@@ -17,5 +18,6 @@ export {
     ERRO_REQUIRED_DATA_CLIENTE,
     ERRO_REGISTER_USER,
     CREATED_REGISTER,
-    ERRO_REGISTER_EMAIL
+    ERRO_REGISTER_EMAIL,
+    ERRO_CPF_BIRTHDATE
 }
