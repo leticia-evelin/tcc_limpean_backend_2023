@@ -3,12 +3,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.registerCliente = void 0;
 const config_1 = require("../modulo/config");
 const login = require('../model/dbLogin');
+function validateEmail(email) {
+    let regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+}
 const registerCliente = async function (body) {
     if (!body.email || !body.password ||
         !body.nameUser || !body.photoUser ||
         !body.phone || !body.birthDate || !body.gender ||
         !body.cpf || !body.ddd || body.ddd.length != 2) {
         return config_1.ERRO_REQUIRED_DATA_CLIENTE;
+    }
+    else if (!validateEmail(body.email)) {
+        return config_1.ERRO_REGISTER_EMAIL;
     }
     else {
         let status = await login.registerUser(body);

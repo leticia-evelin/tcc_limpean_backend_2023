@@ -1,11 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CREATED_REGISTER = exports.ERRO_REGISTER_USER = exports.ERRO_REQUIRED_DATA_CLIENTE = exports.ERROR_INVALID_CONTENT_TYPE = void 0;
+exports.ERRO_REGISTER_EMAIL = exports.CREATED_REGISTER = exports.ERRO_REGISTER_USER = exports.ERRO_REQUIRED_DATA_CLIENTE = exports.ERROR_INVALID_CONTENT_TYPE = void 0;
 const ERROR_INVALID_CONTENT_TYPE = { status: 415, message: 'O tipo de mídia (Content-Type) da solicitação não é compatível com o servidor. Esperado: application/json' };
 exports.ERROR_INVALID_CONTENT_TYPE = ERROR_INVALID_CONTENT_TYPE;
 const ERRO_REQUIRED_DATA_CLIENTE = { status: 400, message: 'Nome, CPF, data de nascimento, telefone , DDD, email e senha são campos obrigatorios.' };
 exports.ERRO_REQUIRED_DATA_CLIENTE = ERRO_REQUIRED_DATA_CLIENTE;
 const ERRO_REGISTER_USER = { status: 500, message: "A inserção falhou verifique os dados e tente novamente." };
 exports.ERRO_REGISTER_USER = ERRO_REGISTER_USER;
+const ERRO_REGISTER_EMAIL = { status: 500, message: "Atenção email no formato inválido. Ele deve ter esse formato: exemplo@gmail.com" };
+exports.ERRO_REGISTER_EMAIL = ERRO_REGISTER_EMAIL;
 const CREATED_REGISTER = { status: 201, message: "Registro criado com sucesso." };
 exports.CREATED_REGISTER = CREATED_REGISTER;
