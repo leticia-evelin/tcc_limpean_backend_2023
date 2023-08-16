@@ -1,5 +1,10 @@
-import {ERRO_REQUIRED_DATA_CLIENTE, ERRO_REGISTER_USER, CREATED_REGISTER} from "../modulo/config"
+import {ERRO_REQUIRED_DATA_CLIENTE, ERRO_REGISTER_USER, CREATED_REGISTER, ERRO_REGISTER_EMAIL} from "../modulo/config"
 const login = require('../model/dbLogin');
+
+function validateEmail(email:string) {
+    let regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+}
 
 interface RegisterCliente {
     email: string,
@@ -9,7 +14,7 @@ interface RegisterCliente {
     phone: string,
     ddd: string,
     birthDate: Date,
-    gender: string,
+    gender: number,
     cpf: string
 }
 
@@ -27,6 +32,8 @@ const registerCliente = async function (body: RegisterCliente) {
         !body.cpf || !body.ddd || body.ddd.length !=  2
     ) {
         return ERRO_REQUIRED_DATA_CLIENTE
+    }else if (!validateEmail(body.email)){
+        return ERRO_REGISTER_EMAIL
     } else {
 
         let status = await login.registerUser(body)

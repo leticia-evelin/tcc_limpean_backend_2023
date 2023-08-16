@@ -10,7 +10,7 @@ interface DataBody {
     phone: string,
     ddd: string,
     birthDate: Date,
-    gender: string,
+    gender: number,
     cpf: string
 }
 
