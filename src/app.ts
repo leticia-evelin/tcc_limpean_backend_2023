@@ -32,6 +32,10 @@
  *  Para rodar node ./dist/app.js
  * 
  *  Para mudar o banco local e deixar online: npx prisma migrate dev
+ * 
+ * Para mudar o orin do git: git remote set-url origin git://repository.url
+ * 
+ * 
  */
 
 const express = require('express')
