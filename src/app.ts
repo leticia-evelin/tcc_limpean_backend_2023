@@ -31,7 +31,7 @@
  * 
  *  Para rodar node ./dist/app.js
  * 
- * Para mudar o banco : npx prisma migrate dev
+ *  Para mudar o banco local e deixar online: npx prisma migrate dev
  */
 
 const express = require('express')
