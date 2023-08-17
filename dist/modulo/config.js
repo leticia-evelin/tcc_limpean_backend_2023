@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ERRO_REGISTER_EMAIL = exports.CREATED_REGISTER = exports.ERRO_REGISTER_USER = exports.ERRO_REQUIRED_DATA_CLIENTE = exports.ERROR_INVALID_CONTENT_TYPE = void 0;
+exports.ERRO_CPF_BIRTHDATE = exports.ERRO_REGISTER_EMAIL = exports.CREATED_REGISTER = exports.ERRO_REGISTER_USER = exports.ERRO_REQUIRED_DATA_CLIENTE = exports.ERROR_INVALID_CONTENT_TYPE = void 0;
 const ERROR_INVALID_CONTENT_TYPE = { status: 415, message: 'O tipo de mídia (Content-Type) da solicitação não é compatível com o servidor. Esperado: application/json' };
 exports.ERROR_INVALID_CONTENT_TYPE = ERROR_INVALID_CONTENT_TYPE;
 const ERRO_REQUIRED_DATA_CLIENTE = { status: 400, message: 'Nome, CPF, data de nascimento, telefone , DDD, email e senha são campos obrigatorios.' };
@@ -9,5 +9,7 @@ const ERRO_REGISTER_USER = { status: 500, message: "A inserção falhou verifiqu
 exports.ERRO_REGISTER_USER = ERRO_REGISTER_USER;
 const ERRO_REGISTER_EMAIL = { status: 500, message: "Atenção email no formato inválido. Ele deve ter esse formato: exemplo@gmail.com" };
 exports.ERRO_REGISTER_EMAIL = ERRO_REGISTER_EMAIL;
+const ERRO_CPF_BIRTHDATE = { status: 500, message: "Atenção data de nascimento ou cpf está incorreta." };
+exports.ERRO_CPF_BIRTHDATE = ERRO_CPF_BIRTHDATE;
 const CREATED_REGISTER = { status: 201, message: "Registro criado com sucesso." };
 exports.CREATED_REGISTER = CREATED_REGISTER;

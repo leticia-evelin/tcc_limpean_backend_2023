@@ -5,6 +5,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const registerUser = async function (dataBody) {
     let statusRegister = false;
+    console.log(dataBody);
     try {
         const duplicateCheckEmail = `SELECT tbl_contratante.email
         FROM tbl_contratante
@@ -16,7 +17,6 @@ const registerUser = async function (dataBody) {
         where tbl_dados_pessoais_contratante.cpf = '${dataBody.cpf}';
         `;
         const statusCPF = await prisma.$queryRawUnsafe(duplicateCheckCPF);
-        console.log(statusCPF);
         if (statusEmail.length === 0 && statusCPF.length === 0) {
             const sqlContratante = `
                 INSERT INTO tbl_contratante (email, senha)

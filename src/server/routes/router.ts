@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from "express";
 import bodyParser from 'body-parser';
-import * as controllerLogin from "../../controller/contollerLogin"
+import * as controllerLogin from "../../controller/controllerCliente/contollerLogin"
 import {ERROR_INVALID_CONTENT_TYPE} from "../../modulo/config"
 //import * as jwt from 'jsonwebtoken'
 

@@ -9,7 +9,7 @@ interface DataBody {
     photoUser: string,
     phone: string,
     ddd: string,
-    birthDate: Date,
+    birthDate: string,
     gender: number,
     cpf: string
 }
@@ -22,6 +22,9 @@ interface DataBody {
 const registerUser = async function (dataBody: DataBody) {
 
     let statusRegister = false
+
+    console.log(dataBody);
+    
 
     //Script SQL para cadastrar o usuario no banco
     try {
@@ -39,7 +42,6 @@ const registerUser = async function (dataBody: DataBody) {
         where tbl_dados_pessoais_contratante.cpf = '${dataBody.cpf}';
         `
         const statusCPF = await prisma.$queryRawUnsafe(duplicateCheckCPF)
-        console.log(statusCPF)
         
         if(statusEmail.length === 0 && statusCPF.length === 0){
             const sqlContratante = `
@@ -64,10 +66,9 @@ const registerUser = async function (dataBody: DataBody) {
 
         await prisma.$executeRawUnsafe(sqlTelefone);
 
-        statusRegister = true;
+        statusRegister = true
 
         }
-
         return statusRegister
     } catch (error) {
         return false;
@@ -88,5 +89,4 @@ const registerUser = async function (dataBody: DataBody) {
 
 export {
     registerUser
-    //verifyAccountUser
-};
+}
