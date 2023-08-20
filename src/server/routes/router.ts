@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from "express"
 import bodyParser from 'body-parser'
-import * as controllerLogin from "../../controller/controllerCliente/contollerLogin"
+import * as controllerCliente from "../../controller/controllerCliente/contollerRegister"
 import * as message from "../../modulo/config"
 //import * as jwt from 'jsonwebtoken'
 
@@ -17,7 +17,7 @@ router.post('/v1/cadastro/cliente', jsonParser, async function (request: Request
 
         let dataBody = request.body
 
-        let status = await controllerLogin.registerCliente(dataBody)
+        let status = await controllerCliente.registerCliente(dataBody)
     
         response.status(status.status)
         response.json(status)
@@ -30,7 +30,24 @@ router.post('/v1/cadastro/cliente', jsonParser, async function (request: Request
 
 
 //EndPoint responsavel por atualizar o cadastro do cliente
+router.delete('/v1/cadastro/cliente', jsonParser, async function (request: Request, response: Response) {
+    
+    let contentType = request.headers['content-type']
 
+    if (contentType === 'application/json') {
+
+        let dataBody = request.body
+
+        let status = await controllerCliente.deleteRegisterCliente(dataBody)
+    
+        response.status(status.status)
+        response.json(status)
+        
+        
+    } else {
+        return response.send(message.ERROR_INVALID_CONTENT_TYPE)
+    }
+})
 
 
 //Função para verifica token

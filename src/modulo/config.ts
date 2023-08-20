@@ -11,9 +11,11 @@ const ERRO_REGISTER_USER = {status: 500, message: "A inserção falhou verifique
 const ERRO_REGISTER_EMAIL = {status: 500, message: "Atenção email no formato inválido. Ele deve ter esse formato: exemplo@gmail.com"}
 const ERRO_CPF_BIRTHDATE = {status: 500, message: "Atenção data de nascimento ou cpf está incorreta."}
 const ERRO_NUMBER_PHONE = {status: 500, message: "Atenção o número de telefone esta errado. verique e tente novamente. exemplo: (11) 1111-11111"}
+const ERRO_DELETE_USER = {status: 500, message: "Erro ao tentar deletar conta de usuario, verifique os dados e tente novamente."}
 
 /***************************************   CONSTANTES DE SUCESSO  ************************************************************************************************/
 const CREATED_REGISTER = {status: 201, message: "Registro criado com sucesso."}
+const DELETE_CLIENTE = {status: 200, message: "Registro deletado com sucesso."}
 
 export {
     ERROR_INVALID_CONTENT_TYPE,
@@ -23,5 +25,7 @@ export {
     CREATED_REGISTER,
     ERRO_REGISTER_EMAIL,
     ERRO_CPF_BIRTHDATE,
-    ERRO_NUMBER_PHONE
+    ERRO_NUMBER_PHONE,
+    ERRO_DELETE_USER,
+    DELETE_CLIENTE
 }

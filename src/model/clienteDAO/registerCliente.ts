@@ -2,7 +2,8 @@ const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
-interface DataBody {
+interface Cliente {
+    id: number,
     email: string,
     password: string,
     nameUser: string,
@@ -14,17 +15,9 @@ interface DataBody {
     cpf: string
 }
 
-// interface User {
-//     id: number;
-//     nome: string;
-// }
-
-const registerUser = async function (dataBody: DataBody) {
+const registerUser = async function (dataBody: Cliente) {
 
     let statusRegister = false
-
-    console.log(dataBody);
-    
 
     //Script SQL para cadastrar o usuario no banco
     try {
@@ -32,41 +25,41 @@ const registerUser = async function (dataBody: DataBody) {
         // Verifica se o email ou o cpf ja foram cadastrados
         const duplicateCheckEmail = `SELECT tbl_contratante.email
         FROM tbl_contratante
-        where tbl_contratante.email = '${dataBody.email}';
+        where tbl_contratante.email = '${dataBody.email.toLowerCase()}';
         `
         const statusEmail = await prisma.$queryRawUnsafe(duplicateCheckEmail)
-        
+
         // Verifica se o cpf ja foi cadastrado
         const duplicateCheckCPF = `SELECT tbl_dados_pessoais_contratante.cpf
         FROM tbl_dados_pessoais_contratante
         where tbl_dados_pessoais_contratante.cpf = '${dataBody.cpf}';
         `
         const statusCPF = await prisma.$queryRawUnsafe(duplicateCheckCPF)
-        
-        if(statusEmail.length === 0 && statusCPF.length === 0){
+
+        if (statusEmail.length === 0 && statusCPF.length === 0) {
             const sqlContratante = `
                 INSERT INTO tbl_contratante (email, senha)
-                VALUES ('${dataBody.email}', '${dataBody.password}');
+                VALUES ('${dataBody.email.toLowerCase()}', '${dataBody.password}');
             `;
 
-        const sqlDadosPessoais = `
+            const sqlDadosPessoais = `
                 INSERT INTO tbl_dados_pessoais_contratante (nome, cpf, data_nascimento, foto_perfil, id_contratante, id_genero)
                 VALUES ('${dataBody.nameUser}', '${dataBody.cpf}', '${dataBody.birthDate}', '${dataBody.photoUser}', LAST_INSERT_ID(), ${dataBody.gender});
             `;
 
-        const sqlTelefone = `
+            const sqlTelefone = `
                 INSERT INTO tbl_telefone (numero_telefone, ddd, id_dados_pessoais_contratante)
                 VALUES ('${dataBody.phone}', '${dataBody.ddd}', LAST_INSERT_ID());
             `;
 
 
-        await prisma.$executeRawUnsafe(sqlContratante);
+            await prisma.$executeRawUnsafe(sqlContratante);
 
-        await prisma.$executeRawUnsafe(sqlDadosPessoais);
+            await prisma.$executeRawUnsafe(sqlDadosPessoais);
 
-        await prisma.$executeRawUnsafe(sqlTelefone);
+            await prisma.$executeRawUnsafe(sqlTelefone);
 
-        statusRegister = true
+            statusRegister = true
 
         }
         return statusRegister
@@ -74,6 +67,26 @@ const registerUser = async function (dataBody: DataBody) {
         return false;
     }
 }
+
+const deleteRegisterCliente = async function (dataBody: Cliente) {
+
+   let statusRegister = false
+
+    let deleteCliente = `delete from tbl_contratante where id = ${dataBody.id} and email = '${dataBody.email}'`
+    let status = await prisma.$executeRawUnsafe(deleteCliente)
+
+    if(status){
+        statusRegister = true
+    }
+
+    return statusRegister
+}
+
+
+// interface User {
+//     id: number;
+//     nome: string;
+// }
 
 // const verifyAccountUser = async function (dataBody: DataBody): Promise<User | false> {
 //     let sql = `SELECT id, nome FROM tbl_cadastro_doador WHERE email ='${dataBody.email}' AND senha ='${dataBody.password}'`
@@ -88,5 +101,6 @@ const registerUser = async function (dataBody: DataBody) {
 // };
 
 export {
-    registerUser
+    registerUser,
+    deleteRegisterCliente
 }
