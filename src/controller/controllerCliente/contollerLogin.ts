@@ -17,7 +17,7 @@ interface RegisterCliente {
 
 const registerCliente = async function (body: RegisterCliente) { 
         
-    let statusRegisterCliente = {}
+    let statusRegisterCliente 
 
     if (
         !body.email    || !body.password           || body.password.length < 6 ||
@@ -38,9 +38,8 @@ const registerCliente = async function (body: RegisterCliente) {
 
             if(status){
     
-                statusRegisterCliente = message.CREATED_REGISTER 
+                statusRegisterCliente = message.CREATED_REGISTER
             }else{
-    
                 statusRegisterCliente = message.ERRO_REGISTER_USER
             }
         

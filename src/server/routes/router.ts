@@ -1,12 +1,37 @@
 import { Router, Request, Response, NextFunction } from "express"
 import bodyParser from 'body-parser'
 import * as controllerLogin from "../../controller/controllerCliente/contollerLogin"
-import {ERROR_INVALID_CONTENT_TYPE} from "../../modulo/config"
+import * as message from "../../modulo/config"
 //import * as jwt from 'jsonwebtoken'
 
 const jsonParser = bodyParser.json()
 
 const router = Router()
+
+//EndPoint responsavel por cadastrar o cliente
+router.post('/v1/cadastro/cliente', jsonParser, async function (request: Request, response: Response) {
+    
+    let contentType = request.headers['content-type']
+
+    if (contentType === 'application/json') {
+
+        let dataBody = request.body
+
+        let status = await controllerLogin.registerCliente(dataBody)
+    
+        response.status(status.status)
+        response.json(status)
+        
+        
+    } else {
+        return response.send(message.ERROR_INVALID_CONTENT_TYPE)
+    }
+})
+
+
+//EndPoint responsavel por atualizar o cadastro do cliente
+
+
 
 //Função para verifica token
 // const verifyJWT = async function(request: Request, response: Response, next: NextFunction) {
@@ -27,29 +52,6 @@ const router = Router()
 //         return response.json("{'erro': 'Seu token é inválido'}")
 //     }
 // };
-
-router.post('/v1/cadastro/cliente', jsonParser, async function (request: Request, response: Response) {
-    
-    let contentType = request.headers['content-type']
-
-    if (contentType === 'application/json') {
-
-        let dataBody = request.body
-
-        let status = await controllerLogin.registerCliente(dataBody)
-
-        if(status){
-            response.status(200)
-            response.json(status)
-        }else{
-            response.status(ERROR_INVALID_CONTENT_TYPE.status)
-            response.json(ERROR_INVALID_CONTENT_TYPE)
-        }
-        
-    } else {
-        return response.send(ERROR_INVALID_CONTENT_TYPE)
-    }
-})
 
 // router.post('/v1/authenticator-login/cliente', jsonParser, async function (request, response) {
 
