@@ -1,7 +1,7 @@
 import express from 'express'
-import { router } from './routes/router';
+import { router } from './routes/router'
 
-const server = express();
+const server = express()
 server.use(router)
 
 export { server }

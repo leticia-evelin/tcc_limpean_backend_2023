@@ -5,7 +5,7 @@
  **************************************************/
 
 const ERROR_INVALID_CONTENT_TYPE = { status: 415, message: 'O tipo de mídia (Content-Type) da solicitação não é compatível com o servidor. Esperado: application/json'}
-const ERRO_REQUIRED_DATA_CLIENTE = {status: 400, message: 'Nome, CPF, data de nascimento, telefone , DDD, email e senha são campos obrigatorios.'}
+const ERRO_REQUIRED_DATA_CLIENTE = {status: 400, message: 'Nome, CPF, data de nascimento, ddd , telefone, gênero, email e senha são campos obrigatorios. A senha deve ter no mínimo 6 caracteres. E o nome 2 caracteres.'}
 const ERRO_REGISTER_USER = {status: 500, message: "A inserção falhou verifique os dados e tente novamente."}
 const ERRO_REGISTER_EMAIL = {status: 500, message: "Atenção email no formato inválido. Ele deve ter esse formato: exemplo@gmail.com"}
 const ERRO_CPF_BIRTHDATE = {status: 500, message: "Atenção data de nascimento ou cpf está incorreta."}

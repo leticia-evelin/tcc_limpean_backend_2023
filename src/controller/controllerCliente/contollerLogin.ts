@@ -20,28 +20,28 @@ const registerCliente = async function (body: RegisterCliente) {
     let statusRegisterCliente = {}
 
     if (
-        !body.email || !body.password ||
-        !body.nameUser || !body.photoUser ||
-        !body.phone || !body.birthDate || !body.gender ||
-        !body.cpf || !body.ddd
+        !body.email    || !body.password           || body.password.length < 6 ||
+        !body.nameUser || body.nameUser.length < 2 || !body.photoUser          ||
+        !body.phone    || !body.birthDate          || !body.gender             ||
+        !body.cpf      || !body.ddd
     ) {
-        statusRegisterCliente =  message.ERRO_REQUIRED_DATA_CLIENTE //ERRO_REQUIRED_DATA_CLIENTE
+        statusRegisterCliente =  message.ERRO_REQUIRED_DATA_CLIENTE 
     }else if(body.ddd.length != 2 || !validate.validatePhoneWithDDD(body.ddd, body.phone)){
         statusRegisterCliente = message.ERRO_NUMBER_PHONE
     }else if (!validate.validateEmail(body.email)){
-        statusRegisterCliente = message.ERRO_REGISTER_EMAIL //ERRO_REGISTER_EMAIL
+        statusRegisterCliente = message.ERRO_REGISTER_EMAIL 
     }else if(!validate.validateCPF(body.cpf, body.birthDate)){
-        statusRegisterCliente = message.ERRO_CPF_BIRTHDATE //ERRO_CPF_BIRTHDATE
+        statusRegisterCliente = message.ERRO_CPF_BIRTHDATE 
     } else {
 
             let status = await cliente.registerUser(body)
 
             if(status){
     
-                statusRegisterCliente = message.CREATED_REGISTER //CREATED_REGISTER
+                statusRegisterCliente = message.CREATED_REGISTER 
             }else{
     
-                statusRegisterCliente = message.ERRO_REGISTER_USER//ERRO_REGISTER_USER
+                statusRegisterCliente = message.ERRO_REGISTER_USER
             }
         
     }
