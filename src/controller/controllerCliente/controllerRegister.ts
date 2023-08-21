@@ -16,12 +16,13 @@ interface Cliente {
     gender: number,
     cpf: string,
     address: {
-    state: string,       // Estado
-    city: string,        // Cidade
-    cep: string,         // CEP
-    publicPlace: string, // Logradouro
-    district: string,    // Bairro
-    houseNumber: string  // Numero da casa
+        state: string,       // Estado
+        city: string,        // Cidade
+        cep: string,         // CEP
+        publicPlace: string, // Logradouro
+        district: string,    // Bairro
+        road: string,        // Rua
+        houseNumber: string  // Numero da casa
     },
     dataResidence: {
         numberRooms: number,
@@ -50,7 +51,9 @@ const registerCliente = async function (body: Cliente) {
         statusRegisterCliente = message.ERRO_REGISTER_EMAIL
     } else if (!validate.validateCPF(body.cpf, body.birthDate)) {
         statusRegisterCliente = message.ERRO_CPF_BIRTHDATE
-    } else {
+    } else if (!validate.validadeAddress(body.address)){
+        statusRegisterCliente = message.ERRO_ADDRESS
+    }else {
 
         let status = await cliente.registerUser(body)
 
@@ -58,7 +61,7 @@ const registerCliente = async function (body: Cliente) {
 
             statusRegisterCliente = message.CREATED_REGISTER
         } else {
-            
+
             statusRegisterCliente = message.ERRO_REGISTER_USER
         }
 

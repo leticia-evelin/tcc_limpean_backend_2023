@@ -105,9 +105,39 @@ function validateCPF(cpf: string, dataNascimento: string) {
 //     console.log("CPF e data de nascimento válidos.");
 // }
 
+interface Address{
+    state: string,       // Estado
+    city: string,        // Cidade
+    cep: string,         // CEP
+    publicPlace: string, // Logradouro
+    district: string,    // Bairro
+    road: string,        // Rua
+    houseNumber: string  // Numero da casa
+}
+
+function validadeAddress(address: Address){
+    
+    let statusAddress = true
+
+    if(
+           !address.state       || address.state === ""       ||
+           !address.city        || address.city === ""        ||
+           !address.cep         || address.cep === ""         ||
+           !address.publicPlace || address.publicPlace === "" ||
+           !address.district    || address.district === ""    ||
+           !address.road        || address.road === ""        ||
+           !address.houseNumber || address.houseNumber === "" 
+    ){
+        statusAddress = false
+    }
+
+    return statusAddress
+}
+
 
 export {
     validateEmail,
     validateCPF,
-    validatePhoneWithDDD
+    validatePhoneWithDDD,
+    validadeAddress
 }
