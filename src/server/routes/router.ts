@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from "express"
 import bodyParser from 'body-parser'
-import * as controllerCliente from "../../controller/controllerCliente/contollerRegister"
+import * as controllerCliente from "../../controller/controllerCliente/controllerRegister"
 import * as message from "../../modulo/config"
 //import * as jwt from 'jsonwebtoken'
 
