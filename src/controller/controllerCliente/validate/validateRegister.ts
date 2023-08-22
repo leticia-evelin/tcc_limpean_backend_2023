@@ -107,25 +107,30 @@ function validateCPF(cpf: string, dataNascimento: string) {
 
 interface Address{
     state: string,               // Estado
+    stateAcronym: string,       // Sigla estado
     city: string,                // Cidade
     cep: string,                 // CEP
     publicPlace: string | null,  // Logradouro
     district: string,            // Bairro
+    complement: string | null,  // Complemento
     road: string,                // Rua
     houseNumber: string          // Numero da casa
 }
 
-function validadeAddress(address: Address){    
-    
+function validadeAddress(address: Address){        
+
     let statusAddress = true
 
     if(
-           !address.state       || address.state === ""       ||
-           !address.city        || address.city === ""        ||
-           !address.cep         || address.cep === ""         || 
-           !address.district    || address.district === ""    ||
-           !address.road        || address.road === ""        ||
-           !address.houseNumber || address.houseNumber === "" || (address.publicPlace !== null && typeof address.publicPlace !== 'string')
+           !address.state        || address.state === ""             ||
+           !address.stateAcronym || address.stateAcronym.length != 2 ||
+           !address.city         || address.city === ""              ||
+           !address.cep          || address.cep === ""               || 
+           !address.district     || address.district === ""          ||
+           !address.road         || address.road === ""              ||
+           !address.houseNumber  || address.houseNumber === ""       ||
+           (address.publicPlace !== null && typeof address.publicPlace !== 'string') ||
+           (address.complement !== null && typeof address.complement !== 'string')
     ){
         statusAddress = false
     }

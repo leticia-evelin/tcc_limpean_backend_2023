@@ -2,8 +2,6 @@ import * as message from "../../modulo/config"
 import * as validate from "./validate/validateRegister"
 import * as cliente from "../../model/clienteDAO/registerCliente"
 
-//Controle de registro é possivel registrar, verificar ,atualizar e deletar um cliente
-
 interface Cliente {
     id: number,
     email: string,
@@ -16,30 +14,29 @@ interface Cliente {
     idGender: number,
     cpf: string,
     biography: string | null,
-    address: {
-        state: string,              // Estado
-        stateSigla: string,         // Estado sigla
-        city: string,               // Cidade
-        cep: string,                // CEP
-        publicPlace: string | null, // Logradouro
-        district: string,           // Bairro
-        road: string,               // Rua
-        houseNumber: string          // Numero da casa
-    },
     dataResidence: {
         numberRooms: number,
         haveChildren: boolean,
         haveAnimal: boolean,
         typeResidence: string,
-        extraInformation: string
+        extraInformation: string | null,
+        address: {
+            state: string,              // Estado
+            stateAcronym: string,       // Sigla estado
+            city: string,               // Cidade
+            cep: string,                // CEP
+            publicPlace: string | null, // Logradouro
+            complement: string | null,  // Complemento
+            district: string,           // Bairro
+            road: string,               // Rua
+            houseNumber: string         // Numero da casa
+        }
     }
 }
 
 const registerCliente = async function (body: Cliente) {
-
+    
     let statusRegisterCliente
-
-    console.log(body)
     
     if (
         !body.email || !body.password || body.password.length < 6 ||
@@ -54,7 +51,7 @@ const registerCliente = async function (body: Cliente) {
         statusRegisterCliente = message.ERRO_REGISTER_EMAIL
     } else if (!validate.validateCPF(body.cpf, body.birthDate)) {
         statusRegisterCliente = message.ERRO_CPF_BIRTHDATE
-    } else if (!validate.validadeAddress(body.address)){
+    } else if (!validate.validadeAddress(body.dataResidence.address)){
         statusRegisterCliente = message.ERRO_ADDRESS
     }else {
 
