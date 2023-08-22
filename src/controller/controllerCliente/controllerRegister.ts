@@ -13,16 +13,18 @@ interface Cliente {
     phone: string,
     ddd: string,
     birthDate: string,
-    gender: number,
+    idGender: number,
     cpf: string,
+    biography: string | null,
     address: {
-        state: string,       // Estado
-        city: string,        // Cidade
-        cep: string,         // CEP
-        publicPlace: string, // Logradouro
-        district: string,    // Bairro
-        road: string,        // Rua
-        houseNumber: string  // Numero da casa
+        state: string,              // Estado
+        stateSigla: string,         // Estado sigla
+        city: string,               // Cidade
+        cep: string,                // CEP
+        publicPlace: string | null, // Logradouro
+        district: string,           // Bairro
+        road: string,               // Rua
+        houseNumber: string          // Numero da casa
     },
     dataResidence: {
         numberRooms: number,
@@ -31,18 +33,19 @@ interface Cliente {
         typeResidence: string,
         extraInformation: string
     }
-    
 }
 
 const registerCliente = async function (body: Cliente) {
 
     let statusRegisterCliente
 
+    console.log(body)
+    
     if (
         !body.email || !body.password || body.password.length < 6 ||
         !body.nameUser || body.nameUser.length < 2 || !body.photoUser ||
-        !body.phone || !body.birthDate || !body.gender ||
-        !body.cpf || !body.ddd 
+        !body.phone || !body.birthDate || !body.idGender ||
+        !body.cpf || !body.ddd || (body.biography !== null && typeof body.biography !== 'string')
     ) {
         statusRegisterCliente = message.ERRO_REQUIRED_DATA_CLIENTE
     } else if (body.ddd.length != 2 || !validate.validatePhoneWithDDD(body.ddd, body.phone)) {

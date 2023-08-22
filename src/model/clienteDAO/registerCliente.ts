@@ -11,11 +11,29 @@ interface Cliente {
     phone: string,
     ddd: string,
     birthDate: string,
-    gender: number,
-    cpf: string
+    idGender: number,
+    cpf: string,
+    biography: string | null,
+    address: {
+        state: string,              // Estado
+        city: string,               // Cidade
+        cep: string,                // CEP
+        publicPlace: string | null, // Logradouro
+        district: string,           // Bairro
+        road: string,               // Rua
+        houseNumber: string         // Numero da casa
+    },
+    dataResidence: {
+        numberRooms: number,
+        haveChildren: boolean,
+        haveAnimal: boolean,
+        typeResidence: string,
+        extraInformation: string
+    }
+    
 }
 
-const registerUser = async function (dataBody: Cliente) {
+const registerUser = async function (dataBody: Cliente) {    
 
     let statusRegister = false
 
@@ -44,7 +62,7 @@ const registerUser = async function (dataBody: Cliente) {
 
             const sqlDadosPessoais = `
                 INSERT INTO tbl_dados_pessoais_contratante (nome, cpf, data_nascimento, foto_perfil, id_contratante, id_genero)
-                VALUES ('${dataBody.nameUser}', '${dataBody.cpf}', '${dataBody.birthDate}', '${dataBody.photoUser}', LAST_INSERT_ID(), ${dataBody.gender});
+                VALUES ('${dataBody.nameUser}', '${dataBody.cpf}', '${dataBody.birthDate}', '${dataBody.photoUser}', LAST_INSERT_ID(), ${dataBody.idGender});
             `;
 
             const sqlTelefone = `
@@ -66,6 +84,7 @@ const registerUser = async function (dataBody: Cliente) {
     } catch (error) {
         return false;
     }
+
 }
 
 const deleteRegisterCliente = async function (dataBody: Cliente) {
