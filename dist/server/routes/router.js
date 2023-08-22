@@ -29,8 +29,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.router = void 0;
 const express_1 = require("express");
 const body_parser_1 = __importDefault(require("body-parser"));
-const controllerLogin = __importStar(require("../../controller/contollerLogin"));
-const config_1 = require("../../modulo/config");
+const controllerCliente = __importStar(require("../../controller/controllerCliente/controllerRegister"));
+const message = __importStar(require("../../modulo/config"));
 const jsonParser = body_parser_1.default.json();
 const router = (0, express_1.Router)();
 exports.router = router;
@@ -38,17 +38,23 @@ router.post('/v1/cadastro/cliente', jsonParser, async function (request, respons
     let contentType = request.headers['content-type'];
     if (contentType === 'application/json') {
         let dataBody = request.body;
-        let status = await controllerLogin.registerCliente(dataBody);
-        if (status) {
-            response.status(200);
-            response.json(status);
-        }
-        else {
-            response.status(config_1.ERROR_INVALID_CONTENT_TYPE.status);
-            response.json(config_1.ERROR_INVALID_CONTENT_TYPE);
-        }
+        let status = await controllerCliente.registerCliente(dataBody);
+        response.status(status.status);
+        response.json(status);
     }
     else {
-        return response.send(config_1.ERROR_INVALID_CONTENT_TYPE);
+        return response.send(message.ERROR_INVALID_CONTENT_TYPE);
+    }
+});
+router.delete('/v1/cadastro/cliente', jsonParser, async function (request, response) {
+    let contentType = request.headers['content-type'];
+    if (contentType === 'application/json') {
+        let dataBody = request.body;
+        let status = await controllerCliente.deleteRegisterCliente(dataBody);
+        response.status(status.status);
+        response.json(status);
+    }
+    else {
+        return response.send(message.ERROR_INVALID_CONTENT_TYPE);
     }
 });

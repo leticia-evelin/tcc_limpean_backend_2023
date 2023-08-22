@@ -1,9 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ERRO_CPF_BIRTHDATE = exports.ERRO_REGISTER_EMAIL = exports.CREATED_REGISTER = exports.ERRO_REGISTER_USER = exports.ERRO_REQUIRED_DATA_CLIENTE = exports.ERROR_INVALID_CONTENT_TYPE = void 0;
+exports.DELETE_CLIENTE = exports.ERRO_DELETE_USER = exports.ERRO_ADDRESS = exports.ERRO_NUMBER_PHONE = exports.ERRO_CPF_BIRTHDATE = exports.ERRO_REGISTER_EMAIL = exports.CREATED_REGISTER = exports.ERRO_REGISTER_USER = exports.ERRO_REQUIRED_DATA_CLIENTE = exports.ERRO_INTERNAL_SERVER = exports.ERROR_INVALID_CONTENT_TYPE = void 0;
 const ERROR_INVALID_CONTENT_TYPE = { status: 415, message: 'O tipo de mídia (Content-Type) da solicitação não é compatível com o servidor. Esperado: application/json' };
 exports.ERROR_INVALID_CONTENT_TYPE = ERROR_INVALID_CONTENT_TYPE;
-const ERRO_REQUIRED_DATA_CLIENTE = { status: 400, message: 'Nome, CPF, data de nascimento, telefone , DDD, email e senha são campos obrigatorios.' };
+const ERRO_INTERNAL_SERVER = { status: 500, message: 'Erro interno no servidor, tente novamente mais tarde.' };
+exports.ERRO_INTERNAL_SERVER = ERRO_INTERNAL_SERVER;
+const ERRO_REQUIRED_DATA_CLIENTE = { status: 400, message: 'Nome, CPF, data de nascimento, ddd , telefone, gênero, email e senha são campos obrigatorios. A senha deve ter no mínimo 6 caracteres. E o nome 2 caracteres.' };
 exports.ERRO_REQUIRED_DATA_CLIENTE = ERRO_REQUIRED_DATA_CLIENTE;
 const ERRO_REGISTER_USER = { status: 500, message: "A inserção falhou verifique os dados e tente novamente." };
 exports.ERRO_REGISTER_USER = ERRO_REGISTER_USER;
@@ -11,5 +13,13 @@ const ERRO_REGISTER_EMAIL = { status: 500, message: "Atenção email no formato 
 exports.ERRO_REGISTER_EMAIL = ERRO_REGISTER_EMAIL;
 const ERRO_CPF_BIRTHDATE = { status: 500, message: "Atenção data de nascimento ou cpf está incorreta." };
 exports.ERRO_CPF_BIRTHDATE = ERRO_CPF_BIRTHDATE;
+const ERRO_NUMBER_PHONE = { status: 500, message: "Atenção o número de telefone esta errado. verique e tente novamente. exemplo: (11) 1111-11111" };
+exports.ERRO_NUMBER_PHONE = ERRO_NUMBER_PHONE;
+const ERRO_ADDRESS = { status: 500, message: "Atenção, verifique os dados referentes ao endereço e tente novamente" };
+exports.ERRO_ADDRESS = ERRO_ADDRESS;
+const ERRO_DELETE_USER = { status: 500, message: "Erro ao tentar deletar conta de usuario, verifique os dados e tente novamente." };
+exports.ERRO_DELETE_USER = ERRO_DELETE_USER;
 const CREATED_REGISTER = { status: 201, message: "Registro criado com sucesso." };
 exports.CREATED_REGISTER = CREATED_REGISTER;
+const DELETE_CLIENTE = { status: 200, message: "Registro deletado com sucesso." };
+exports.DELETE_CLIENTE = DELETE_CLIENTE;
