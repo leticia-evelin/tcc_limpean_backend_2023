@@ -29,11 +29,11 @@ const validate = __importStar(require("./validate/validateRegister"));
 const cliente = __importStar(require("../../model/clienteDAO/registerCliente"));
 const registerCliente = async function (body) {
     let statusRegisterCliente;
-    if (!body.email || !body.password || body.password.length < 6 ||
-        !body.nameUser || body.nameUser.length < 2 || !body.photoUser ||
-        !body.phone || !body.birthDate || !body.idGender ||
-        !body.cpf || !body.ddd || (body.biography !== null && typeof body.biography !== 'string')) {
+    if (!validate.validateTypesJson(body)) {
         statusRegisterCliente = message.ERRO_REQUIRED_DATA_CLIENTE;
+    }
+    else if (body.password.length > 6 || body.nameUser === "" || body.photoUser === "") {
+        statusRegisterCliente = message.ERRO_NAME_PHOTO_PASSWORD;
     }
     else if (body.ddd.length != 2 || !validate.validatePhoneWithDDD(body.ddd, body.phone)) {
         statusRegisterCliente = message.ERRO_NUMBER_PHONE;
@@ -41,8 +41,14 @@ const registerCliente = async function (body) {
     else if (!validate.validateEmail(body.email)) {
         statusRegisterCliente = message.ERRO_REGISTER_EMAIL;
     }
-    else if (!validate.validateCPF(body.cpf, body.birthDate)) {
-        statusRegisterCliente = message.ERRO_CPF_BIRTHDATE;
+    else if (!validate.validateDateBirth(body.birthDate)) {
+        statusRegisterCliente = message.ERRO_REQUIRE_BIRTH_DATE;
+    }
+    else if (!validate.validateCPF(body.cpf)) {
+        statusRegisterCliente = message.ERRO_REQUIRE_CPF;
+    }
+    else if (!validate.validadeDataResidence(body.dataResidence)) {
+        statusRegisterCliente = message.ERRO_REQUIRED_DATA_HOUSE_CLIENTE;
     }
     else if (!validate.validadeAddress(body.dataResidence.address)) {
         statusRegisterCliente = message.ERRO_ADDRESS;

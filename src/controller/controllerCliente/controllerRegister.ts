@@ -22,12 +22,12 @@ interface Cliente {
         extraInformation: string | null,
         address: {
             state: string,               // Estado
-            stateAcronym: string,       // Sigla estado
+            stateAcronym: string,        // Sigla estado
             city: string,                // Cidade
             cep: string,                 // CEP
             publicPlace: string | null,  // Logradouro
             district: string,            // Bairro
-            complement: string | null,  // Complemento
+            complement: string | null,   // Complemento
             road: string,                // Rua
             houseNumber: number          // Numero da casa
         }
@@ -39,19 +39,22 @@ const registerCliente = async function (body: Cliente) {
     let statusRegisterCliente
     
     if (
-        !body.email || !body.password || body.password.length < 6 ||
-        !body.nameUser || body.nameUser.length < 2 || !body.photoUser ||
-        !body.phone || !body.birthDate || !body.idGender ||
-        !body.cpf || !body.ddd || (body.biography !== null && typeof body.biography !== 'string')
+        !validate.validateTypesJson(body)
     ) {
         statusRegisterCliente = message.ERRO_REQUIRED_DATA_CLIENTE
+    } else if (body.password.length > 6 || body.nameUser === "" || body.photoUser === ""){
+        statusRegisterCliente = message.ERRO_NAME_PHOTO_PASSWORD
     } else if (body.ddd.length != 2 || !validate.validatePhoneWithDDD(body.ddd, body.phone)) {
         statusRegisterCliente = message.ERRO_NUMBER_PHONE
     } else if (!validate.validateEmail(body.email)) {
         statusRegisterCliente = message.ERRO_REGISTER_EMAIL
-    } else if (!validate.validateCPF(body.cpf, body.birthDate)) {
-        statusRegisterCliente = message.ERRO_CPF_BIRTHDATE
-    } else if (!validate.validadeAddress(body.dataResidence.address)){
+    } else if (!validate.validateDateBirth(body.birthDate)){
+        statusRegisterCliente = message.ERRO_REQUIRE_BIRTH_DATE
+    } else if (!validate.validateCPF(body.cpf)) {
+        statusRegisterCliente = message.ERRO_REQUIRE_CPF
+    } else if(!validate.validadeDataResidence(body.dataResidence)) {
+        statusRegisterCliente = message.ERRO_REQUIRED_DATA_HOUSE_CLIENTE
+    }else if (!validate.validadeAddress(body.dataResidence.address)){
         statusRegisterCliente = message.ERRO_ADDRESS
     }else {
 
@@ -64,7 +67,6 @@ const registerCliente = async function (body: Cliente) {
 
             statusRegisterCliente = message.ERRO_REGISTER_USER
         }
-
     }
 
     return statusRegisterCliente
@@ -90,8 +92,6 @@ const deleteRegisterCliente = async function (body: Cliente) {
 
     return statusDeleteCliente
 }
-
-
 
 // interface AuthenticatorUser {
 //     email: string,

@@ -1,6 +1,56 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validadeAddress = exports.validatePhoneWithDDD = exports.validateCPF = exports.validateEmail = void 0;
+exports.validadeDataResidence = exports.validateTypesJson = exports.validadeAddress = exports.validatePhoneWithDDD = exports.validateDateBirth = exports.validateCPF = exports.validateEmail = void 0;
+function validateTypesJson(json) {
+    try {
+        const cliente = json;
+        if (typeof cliente.email !== 'string' ||
+            typeof cliente.password !== 'string' ||
+            typeof cliente.nameUser !== 'string' ||
+            typeof cliente.photoUser !== 'string' ||
+            typeof cliente.phone !== 'string' ||
+            typeof cliente.ddd !== 'string' ||
+            typeof cliente.birthDate !== 'string' ||
+            typeof cliente.idGender !== 'number' ||
+            typeof cliente.cpf !== 'string' ||
+            typeof cliente.biography !== 'string' &&
+                cliente.biography !== null ||
+            typeof cliente.dataResidence !== 'object' ||
+            typeof cliente.dataResidence.numberRooms !== 'number' ||
+            typeof cliente.dataResidence.haveChildren !== 'boolean' ||
+            typeof cliente.dataResidence.haveAnimal !== 'boolean' ||
+            typeof cliente.dataResidence.typeResidence !== 'string' ||
+            typeof cliente.dataResidence.extraInformation !== 'string' &&
+                cliente.dataResidence.extraInformation !== null ||
+            typeof cliente.dataResidence.address !== 'object' ||
+            typeof cliente.dataResidence.address.state !== 'string' ||
+            typeof cliente.dataResidence.address.stateAcronym !== 'string' ||
+            typeof cliente.dataResidence.address.city !== 'string' ||
+            typeof cliente.dataResidence.address.cep !== 'string' ||
+            typeof cliente.dataResidence.address.publicPlace !== 'string' &&
+                cliente.dataResidence.address.publicPlace !== null ||
+            typeof cliente.dataResidence.address.district !== 'string' ||
+            typeof cliente.dataResidence.address.complement !== 'string' &&
+                cliente.dataResidence.address.complement !== null ||
+            typeof cliente.dataResidence.address.road !== 'string' ||
+            typeof cliente.dataResidence.address.houseNumber !== 'number') {
+            return false;
+        }
+        return true;
+    }
+    catch (error) {
+        return false;
+    }
+}
+exports.validateTypesJson = validateTypesJson;
+function validadeDataResidence(dataResidence) {
+    let status = true;
+    if (dataResidence.typeResidence === "" || dataResidence.numberRooms <= 0) {
+        status = false;
+    }
+    return status;
+}
+exports.validadeDataResidence = validadeDataResidence;
 function validatePhoneWithDDD(ddd, phone) {
     let numberPhone = `${ddd} ${phone}`;
     let telefone = numberPhone.replace(/\D/g, '');
@@ -32,13 +82,18 @@ function validateEmail(email) {
     return regex.test(email);
 }
 exports.validateEmail = validateEmail;
-function validateCPF(cpf, dataNascimento) {
-    cpf = cpf.replace(/\D/g, '');
-    if (cpf.length !== 11) {
-        return false;
-    }
+function validateDateBirth(dataNascimento) {
+    let status = true;
     const dataNascRegex = /^\d{4}-\d{2}-\d{2}$/;
     if (!dataNascimento.match(dataNascRegex)) {
+        return false;
+    }
+    return status;
+}
+exports.validateDateBirth = validateDateBirth;
+function validateCPF(cpf) {
+    cpf = cpf.replace(/\D/g, '');
+    if (cpf.length !== 11) {
         return false;
     }
     if (/^(\d)\1+$/.test(cpf)) {
@@ -70,7 +125,7 @@ function validadeAddress(address) {
         !address.cep || address.cep === "" ||
         !address.district || address.district === "" ||
         !address.road || address.road === "" ||
-        !address.houseNumber || address.houseNumber === "" ||
+        typeof address.houseNumber !== "number" ||
         (address.publicPlace !== null && typeof address.publicPlace !== 'string') ||
         (address.complement !== null && typeof address.complement !== 'string')) {
         statusAddress = false;

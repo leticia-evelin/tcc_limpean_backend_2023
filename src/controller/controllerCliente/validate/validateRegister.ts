@@ -1,4 +1,100 @@
 
+interface Cliente {
+    id: number,
+    email: string,
+    password: string,
+    nameUser: string,
+    photoUser: string,
+    phone: string,
+    ddd: string,
+    birthDate: string,
+    idGender: number,
+    cpf: string,
+    biography: string | null,
+    dataResidence: {
+        numberRooms: number,
+        haveChildren: boolean,
+        haveAnimal: boolean,
+        typeResidence: string,
+        extraInformation: string | null,
+        address: {
+            state: string,               // Estado
+            stateAcronym: string,        // Sigla estado
+            city: string,                // Cidade
+            cep: string,                 // CEP
+            publicPlace: string | null,  // Logradouro
+            district: string,            // Bairro
+            complement: string | null,   // Complemento
+            road: string,                // Rua
+            houseNumber: number          // Numero da casa
+        }
+    }
+}
+
+function validateTypesJson(json: any): boolean {
+    try {
+        const cliente: Cliente = json;
+
+        // Validar se todas as propriedades estão presentes no JSON
+        if (
+            typeof cliente.email !== 'string' ||
+            typeof cliente.password !== 'string' ||
+            typeof cliente.nameUser !== 'string' ||
+            typeof cliente.photoUser !== 'string' ||
+            typeof cliente.phone !== 'string' ||
+            typeof cliente.ddd !== 'string' ||
+            typeof cliente.birthDate !== 'string' ||
+            typeof cliente.idGender !== 'number' ||
+            typeof cliente.cpf !== 'string' ||
+            typeof cliente.biography !== 'string' &&
+            cliente.biography !== null ||
+            typeof cliente.dataResidence !== 'object' ||
+            typeof cliente.dataResidence.numberRooms !== 'number' ||
+            typeof cliente.dataResidence.haveChildren !== 'boolean' ||
+            typeof cliente.dataResidence.haveAnimal !== 'boolean' ||
+            typeof cliente.dataResidence.typeResidence !== 'string' ||
+            typeof cliente.dataResidence.extraInformation !== 'string' &&
+            cliente.dataResidence.extraInformation !== null ||
+            typeof cliente.dataResidence.address !== 'object' ||
+            typeof cliente.dataResidence.address.state !== 'string' ||
+            typeof cliente.dataResidence.address.stateAcronym !== 'string' ||
+            typeof cliente.dataResidence.address.city !== 'string' ||
+            typeof cliente.dataResidence.address.cep !== 'string' ||
+            typeof cliente.dataResidence.address.publicPlace !== 'string' &&
+            cliente.dataResidence.address.publicPlace !== null ||
+            typeof cliente.dataResidence.address.district !== 'string' ||
+            typeof cliente.dataResidence.address.complement !== 'string' &&
+            cliente.dataResidence.address.complement !== null ||
+            typeof cliente.dataResidence.address.road !== 'string' ||
+            typeof cliente.dataResidence.address.houseNumber !== 'number'
+        ) {
+            return false;
+        }
+
+        return true;
+    } catch (error) {
+        return false;
+    }
+}
+
+interface DataResidence{
+    numberRooms: number,               // Estado
+    haveChildren: boolean,       // Sigla estado
+    haveAnimal: boolean,                // Cidade
+    typeResidence: string,                 // CEP
+    extraInformation: string | null,  // Logradouro
+}
+
+function validadeDataResidence(dataResidence: DataResidence): boolean{
+
+    let status = true
+    if(
+        dataResidence.typeResidence === "" || dataResidence.numberRooms <= 0 ){
+        status = false
+    }
+    return status
+ }
+
 function validatePhoneWithDDD(ddd:string , phone: string) {
 
     let numberPhone = `${ddd} ${phone}`    
@@ -45,28 +141,29 @@ function validatePhoneWithDDD(ddd:string , phone: string) {
     return true;
 }
 
-//console.log(validatePhoneWithDDD("11" , "9590-01631"));
-
-
 function validateEmail(email:string) {
     let regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
 }
 
+function validateDateBirth(dataNascimento: string){
 
-function validateCPF(cpf: string, dataNascimento: string) {
+    let status = true
+    // Verifica se a data de nascimento é válida
+    const dataNascRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!dataNascimento.match(dataNascRegex)) {
+        return false;
+    }
+    return status
+}
+
+function validateCPF(cpf: string) {
     
     // Remove caracteres não numéricos do CPF
     cpf = cpf.replace(/\D/g, '');
 
     // Verifica se o CPF possui 11 dígitos
     if (cpf.length !== 11) {
-        return false;
-    }
-
-    // Verifica se a data de nascimento é válida
-    const dataNascRegex = /^\d{4}-\d{2}-\d{2}$/;
-    if (!dataNascimento.match(dataNascRegex)) {
         return false;
     }
 
@@ -96,14 +193,6 @@ function validateCPF(cpf: string, dataNascimento: string) {
 
     return true;
 }
-
-// const result = validateCPF("514.716.158-98", "2002-06-24");
-
-// if (!result) {
-//     console.log("Atenção data de nascimento ou cpf está incorreta.");
-// } else {
-//     console.log("CPF e data de nascimento válidos.");
-// }
 
 interface Address{
     state: string,               // Estado
@@ -138,10 +227,12 @@ function validadeAddress(address: Address){
     return statusAddress
 }
 
-
 export {
     validateEmail,
     validateCPF,
+    validateDateBirth,
     validatePhoneWithDDD,
-    validadeAddress
+    validadeAddress,
+    validateTypesJson,
+    validadeDataResidence
 }
