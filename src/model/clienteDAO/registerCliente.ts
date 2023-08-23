@@ -63,8 +63,8 @@ const registerUser = async function (dataBody: Cliente) {
             `;
 
             const sqlDadosPessoais = `
-                INSERT INTO tbl_dados_pessoais_contratante (nome, cpf, data_nascimento, foto_perfil, id_contratante, id_genero)
-                VALUES ('${dataBody.nameUser}', '${dataBody.cpf}', '${dataBody.birthDate}', '${dataBody.photoUser}', LAST_INSERT_ID(), ${dataBody.idGender});
+                INSERT INTO tbl_dados_pessoais_contratante (nome, cpf, data_nascimento, biografia, foto_perfil, id_contratante, id_genero)
+                VALUES ('${dataBody.nameUser}', '${dataBody.cpf}', '${dataBody.birthDate}', '${dataBody.biography}', '${dataBody.photoUser}', LAST_INSERT_ID(), ${dataBody.idGender});
             `;
 
             const sqlPhone = `
