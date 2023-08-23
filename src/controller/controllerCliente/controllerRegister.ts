@@ -21,15 +21,15 @@ interface Cliente {
         typeResidence: string,
         extraInformation: string | null,
         address: {
-            state: string,              // Estado
+            state: string,               // Estado
             stateAcronym: string,       // Sigla estado
-            city: string,               // Cidade
-            cep: string,                // CEP
-            publicPlace: string | null, // Logradouro
+            city: string,                // Cidade
+            cep: string,                 // CEP
+            publicPlace: string | null,  // Logradouro
+            district: string,            // Bairro
             complement: string | null,  // Complemento
-            district: string,           // Bairro
-            road: string,               // Rua
-            houseNumber: string         // Numero da casa
+            road: string,                // Rua
+            houseNumber: number          // Numero da casa
         }
     }
 }
