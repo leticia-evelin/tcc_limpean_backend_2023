@@ -1,6 +1,6 @@
 import * as message from "../../../modulo/config"
 import * as validate from "./validate/validateRegister"
-import * as cliente from "../../../model/clienteDAO/registerCliente"
+import * as db from "../../../model/clienteDAO/registerCliente"
 
 interface Cliente {
     id: number,
@@ -57,7 +57,7 @@ const registerCliente = async function (body: Cliente) {
         statusRegisterCliente = message.ERRO_ADDRESS
     }else {
 
-        let status = await cliente.registerUser(body)
+        let status = await db.registerUser(body)
 
         if (status) {
 
@@ -71,68 +71,28 @@ const registerCliente = async function (body: Cliente) {
     return statusRegisterCliente
 }
 
-const deleteRegisterCliente = async function (body: Cliente) {
-    let statusDeleteCliente
+// const deleteRegisterCliente = async function (body: Cliente) {
+//     let statusDeleteCliente
 
-    if (typeof body.id != "number" || !validate.validateEmail(body.email)) {
-        statusDeleteCliente = message.ERRO_DELETE_USER
-    } else {
-
-        let status = await cliente.deleteRegisterCliente(body)
-
-        if (status) {
-
-            statusDeleteCliente = message.DELETE_CLIENTE
-        } else {
-            statusDeleteCliente = message.ERRO_DELETE_USER
-        }
-
-    }
-
-    return statusDeleteCliente
-}
-
-// interface AuthenticatorUser {
-//     email: string,
-//     password: string
-// }
-
-// const autenticarUser = async function (dataBody: AuthenticatorUser) {
-
-//     if (
-//         dataBody.email == '' || dataBody.email == null ||
-//         dataBody.password == '' || dataBody.password == null
-//     ) {
-//         return false
+//     if (typeof body.id != "number" || !validate.validateEmail(body.email)) {
+//         statusDeleteCliente = message.ERRO_DELETE_USER
 //     } else {
-//         try {
-//             // Import do arquivo de funções
-//             const jwt = require('../middleware/controllerJWT');
 
-//             const dataUser = await login.verifyAccountUser(dataBody);
+//         let status = await cliente.deleteRegisterCliente(body)
 
-//             if (dataUser) {
-//                 const token = await jwt.createJWT(dataUser[0]);
-//                 let statusJson = {
-//                     id: dataUser[0].id,
-//                     name: dataUser[0].nome,
-//                     token: token
-//                 }
-//                 console.log(statusJson)
-//                 return statusJson;
-//             } else {
-//                 return false;
-//             }
-//         } catch (error) {
-//             console.error('Erro durante autenticação:', error);
-//             return false;
+//         if (status) {
+
+//             statusDeleteCliente = message.DELETE_CLIENTE
+//         } else {
+//             statusDeleteCliente = message.ERRO_DELETE_USER
 //         }
+
 //     }
 
+//     return statusDeleteCliente
 // }
 
+
 export {
-    registerCliente,
-    deleteRegisterCliente
-    //autenticarUser
+    registerCliente
 }

@@ -9,15 +9,14 @@ const SECRETE = 'a1b2c3';
 const EXPIRES = 60;
 
 interface Payload {
-    nome: string,
-    id: string
-
+    id: number, 
+    email: string
 }
 
 const createJWT = (payload: Payload): string => {
 
     const token = jwt.sign({ 
-        name: payload.nome,
+        name: payload.email,
         id: payload.id
      }, SECRETE, { expiresIn: EXPIRES });
     return token;

@@ -129,25 +129,28 @@ const deleteRegisterCliente = async function (dataBody: Cliente) {
     return statusRegister
 }
 
+interface Payload {
+    id: number, 
+    email: string
+}
 
-// interface User {
-//     id: number;
-//     nome: string;
-// }
+const verifyAccountUser = async function (dataBody: Cliente): Promise<Payload | false> {
+    let sql = `SELECT id, email FROM tbl_contratante WHERE email ='${dataBody.email}' AND senha ='${dataBody.password}'`
 
-// const verifyAccountUser = async function (dataBody: DataBody): Promise<User | false> {
-//     let sql = `SELECT id, nome FROM tbl_cadastro_doador WHERE email ='${dataBody.email}' AND senha ='${dataBody.password}'`
+    let result = await prisma.$queryRawUnsafe(sql)
 
-//     let result = await prisma.$queryRawUnsafe(sql)
+    console.log(result);
+    
 
-//     if(result.lenght === 0){
-//         return false
-//     }else{
-//         return result
-//     }
-// };
+    if(result.lenght === 0){
+        return false
+    }else{
+        return result[0]
+    }
+}
 
 export {
     registerUser,
-    deleteRegisterCliente
+    deleteRegisterCliente,
+    verifyAccountUser
 }
