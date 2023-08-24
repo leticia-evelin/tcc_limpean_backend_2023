@@ -1,6 +1,6 @@
-import * as message from "../../modulo/config"
+import * as message from "../../../modulo/config"
 import * as validate from "./validate/validateRegister"
-import * as cliente from "../../model/clienteDAO/registerCliente"
+import * as cliente from "../../../model/clienteDAO/registerCliente"
 
 interface Cliente {
     id: number,
