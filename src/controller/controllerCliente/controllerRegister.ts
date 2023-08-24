@@ -19,17 +19,16 @@ interface Cliente {
         haveChildren: boolean,
         haveAnimal: boolean,
         typeResidence: string,
-        extraInformation: string | null,
+        extraInformation: string | null
         address: {
-            state: string,               // Estado
-            stateAcronym: string,        // Sigla estado
-            city: string,                // Cidade
-            cep: string,                 // CEP
-            publicPlace: string | null,  // Logradouro
-            district: string,            // Bairro
-            complement: string | null,   // Complemento
-            road: string,                // Rua
-            houseNumber: number          // Numero da casa
+            state: string,              // Estado
+            stateAcronym: string,       // Sigla estado
+            city: string,               // Cidade
+            cep: string,                // CEP
+            publicPlace: string | null, // Logradouro
+            complement: string | null,  // Complemento
+            district: string,           // Bairro
+            houseNumber: number         // Numero da casa
         }
     }
 }
@@ -42,7 +41,7 @@ const registerCliente = async function (body: Cliente) {
         !validate.validateTypesJson(body)
     ) {
         statusRegisterCliente = message.ERRO_REQUIRED_DATA_CLIENTE
-    } else if (body.password.length > 6 || body.nameUser === "" || body.photoUser === ""){
+    } else if (body.password.length < 6 || body.nameUser === "" || body.photoUser === ""){
         statusRegisterCliente = message.ERRO_NAME_PHOTO_PASSWORD
     } else if (body.ddd.length != 2 || !validate.validatePhoneWithDDD(body.ddd, body.phone)) {
         statusRegisterCliente = message.ERRO_NUMBER_PHONE

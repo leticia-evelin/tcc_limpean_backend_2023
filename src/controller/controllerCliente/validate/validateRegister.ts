@@ -23,9 +23,8 @@ interface Cliente {
             city: string,                // Cidade
             cep: string,                 // CEP
             publicPlace: string | null,  // Logradouro
-            district: string,            // Bairro
             complement: string | null,   // Complemento
-            road: string,                // Rua
+            district: string,            // Bairro
             houseNumber: number          // Numero da casa
         }
     }
@@ -65,7 +64,6 @@ function validateTypesJson(json: any): boolean {
             typeof cliente.dataResidence.address.district !== 'string' ||
             typeof cliente.dataResidence.address.complement !== 'string' &&
             cliente.dataResidence.address.complement !== null ||
-            typeof cliente.dataResidence.address.road !== 'string' ||
             typeof cliente.dataResidence.address.houseNumber !== 'number'
         ) {
             return false;
@@ -196,13 +194,12 @@ function validateCPF(cpf: string) {
 
 interface Address{
     state: string,               // Estado
-    stateAcronym: string,       // Sigla estado
+    stateAcronym: string,        // Sigla estado
     city: string,                // Cidade
     cep: string,                 // CEP
     publicPlace: string | null,  // Logradouro
     district: string,            // Bairro
-    complement: string | null,  // Complemento
-    road: string,                // Rua
+    complement: string | null,   // Complemento
     houseNumber: number          // Numero da casa
 }
 
@@ -216,7 +213,6 @@ function validadeAddress(address: Address){
            !address.city         || address.city === ""              ||
            !address.cep          || address.cep === ""               || 
            !address.district     || address.district === ""          ||
-           !address.road         || address.road === ""              ||
            typeof address.houseNumber !== "number"                   ||
            (address.publicPlace !== null && typeof address.publicPlace !== 'string') ||
            (address.complement !== null && typeof address.complement !== 'string')

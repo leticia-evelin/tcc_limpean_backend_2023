@@ -26,9 +26,8 @@ interface Cliente {
             city: string,               // Cidade
             cep: string,                // CEP
             publicPlace: string | null, // Logradouro
-            district: string,           // Bairro
             complement: string | null,  // Complemento
-            road: string,               // Rua
+            district: string,           // Bairro
             houseNumber: number         // Numero da casa
         }
     }
