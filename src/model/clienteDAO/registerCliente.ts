@@ -25,7 +25,7 @@ interface Cliente {
             stateAcronym: string,       // Sigla estado
             city: string,               // Cidade
             cep: string,                // CEP
-            publicPlace: string | null, // Logradouro
+            publicPlace: string,        // Logradouro
             complement: string | null,  // Complemento
             district: string,           // Bairro
             houseNumber: number         // Numero da casa

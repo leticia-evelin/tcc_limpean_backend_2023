@@ -197,7 +197,7 @@ interface Address{
     stateAcronym: string,        // Sigla estado
     city: string,                // Cidade
     cep: string,                 // CEP
-    publicPlace: string | null,  // Logradouro
+    publicPlace: string,         // Logradouro
     district: string,            // Bairro
     complement: string | null,   // Complemento
     houseNumber: number          // Numero da casa
@@ -214,7 +214,8 @@ function validadeAddress(address: Address){
            !address.cep          || address.cep === ""               || 
            !address.district     || address.district === ""          ||
            typeof address.houseNumber !== "number"                   ||
-           (address.publicPlace !== null && typeof address.publicPlace !== 'string') ||
+           typeof address.publicPlace !== "string"                   || 
+           address.publicPlace === ""                                ||
            (address.complement !== null && typeof address.complement !== 'string')
     ){
         statusAddress = false
