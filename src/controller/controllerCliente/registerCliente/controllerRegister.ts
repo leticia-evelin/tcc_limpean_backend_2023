@@ -3,7 +3,6 @@ import * as validate from "./validate/validateRegister"
 import * as db from "../../../model/clienteDAO/registerCliente"
 
 interface Cliente {
-    id: number,
     email: string,
     password: string,
     nameUser: string,
@@ -14,48 +13,38 @@ interface Cliente {
     idGender: number,
     cpf: string,
     biography: string | null,
-    dataResidence: {
-        numberRooms: number,
-        haveChildren: boolean,
-        haveAnimal: boolean,
-        typeResidence: string,
-        extraInformation: string | null
-        address: {
-            state: string,              // Estado
-            stateAcronym: string,       // Sigla estado
-            city: string,               // Cidade
-            cep: string,                // CEP
-            publicPlace: string,        // Logradouro
-            complement: string | null,  // Complemento
-            district: string,           // Bairro
-            houseNumber: number         // Numero da casa
-        }
+    address: {
+        state: number,              // Estado
+        city: string,               // Cidade
+        cep: string,                // CEP
+        publicPlace: string,        // Logradouro
+        complement: string | null,  // Complemento
+        district: string,           // Bairro
+        houseNumber: string         // Numero da casa
     }
 }
 
 const registerCliente = async function (body: Cliente) {
-    
+
     let statusRegisterCliente
-    
+
     if (
         !validate.validateTypesJson(body)
     ) {
         statusRegisterCliente = message.ERRO_REQUIRED_DATA_CLIENTE
-    } else if (body.password.length < 6 || body.nameUser === "" || body.photoUser === ""){
+    } else if (body.password.length < 6 || body.nameUser === "" || body.photoUser === "") {
         statusRegisterCliente = message.ERRO_NAME_PHOTO_PASSWORD
     } else if (body.ddd.length != 2 || !validate.validatePhoneWithDDD(body.ddd, body.phone)) {
         statusRegisterCliente = message.ERRO_NUMBER_PHONE
     } else if (!validate.validateEmail(body.email)) {
         statusRegisterCliente = message.ERRO_REGISTER_EMAIL
-    } else if (!validate.validateDateBirth(body.birthDate)){
+    } else if (!validate.validateDateBirth(body.birthDate)) {
         statusRegisterCliente = message.ERRO_REQUIRE_BIRTH_DATE
     } else if (!validate.validateCPF(body.cpf)) {
         statusRegisterCliente = message.ERRO_REQUIRE_CPF
-    } else if(!validate.validadeDataResidence(body.dataResidence)) {
-        statusRegisterCliente = message.ERRO_REQUIRED_DATA_HOUSE_CLIENTE
-    }else if (!validate.validadeAddress(body.dataResidence.address)){
+    } else if (!validate.validadeAddress(body.address)) {
         statusRegisterCliente = message.ERRO_ADDRESS
-    }else {
+    } else {
 
         let status = await db.registerUser(body)
 

@@ -1,6 +1,5 @@
 
 interface Cliente {
-    id: number,
     email: string,
     password: string,
     nameUser: string,
@@ -11,28 +10,23 @@ interface Cliente {
     idGender: number,
     cpf: string,
     biography: string | null,
-    dataResidence: {
-        numberRooms: number,
-        haveChildren: boolean,
-        haveAnimal: boolean,
-        typeResidence: string,
-        extraInformation: string | null,
-        address: {
-            state: string,               // Estado
-            stateAcronym: string,        // Sigla estado
-            city: string,                // Cidade
-            cep: string,                 // CEP
-            publicPlace: string | null,  // Logradouro
-            complement: string | null,   // Complemento
-            district: string,            // Bairro
-            houseNumber: number          // Numero da casa
-        }
+    address: {
+        state: number,              // Estado
+        city: string,               // Cidade
+        cep: string,                // CEP
+        publicPlace: string,        // Logradouro
+        complement: string | null,  // Complemento
+        district: string,           // Bairro
+        houseNumber: string         // Numero da casa
     }
 }
 
 function validateTypesJson(json: any): boolean {
     try {
         const cliente: Cliente = json;
+
+        console.log(json);
+                
 
         // Validar se todas as propriedades estão presentes no JSON
         if (
@@ -45,26 +39,18 @@ function validateTypesJson(json: any): boolean {
             typeof cliente.birthDate !== 'string' ||
             typeof cliente.idGender !== 'number' ||
             typeof cliente.cpf !== 'string' ||
-            typeof cliente.biography !== 'string' &&
-            cliente.biography !== null ||
-            typeof cliente.dataResidence !== 'object' ||
-            typeof cliente.dataResidence.numberRooms !== 'number' ||
-            typeof cliente.dataResidence.haveChildren !== 'boolean' ||
-            typeof cliente.dataResidence.haveAnimal !== 'boolean' ||
-            typeof cliente.dataResidence.typeResidence !== 'string' ||
-            typeof cliente.dataResidence.extraInformation !== 'string' &&
-            cliente.dataResidence.extraInformation !== null ||
-            typeof cliente.dataResidence.address !== 'object' ||
-            typeof cliente.dataResidence.address.state !== 'string' ||
-            typeof cliente.dataResidence.address.stateAcronym !== 'string' ||
-            typeof cliente.dataResidence.address.city !== 'string' ||
-            typeof cliente.dataResidence.address.cep !== 'string' ||
-            typeof cliente.dataResidence.address.publicPlace !== 'string' &&
-            cliente.dataResidence.address.publicPlace !== null ||
-            typeof cliente.dataResidence.address.district !== 'string' ||
-            typeof cliente.dataResidence.address.complement !== 'string' &&
-            cliente.dataResidence.address.complement !== null ||
-            typeof cliente.dataResidence.address.houseNumber !== 'number'
+            (typeof cliente.biography !== 'string' &&
+            cliente.biography !== null) ||
+            typeof cliente.address !== 'object' ||
+            typeof cliente.address.state !== 'number' ||
+            typeof cliente.address.city !== 'string' ||
+            typeof cliente.address.cep !== 'string' ||
+            (typeof cliente.address.publicPlace !== 'string' &&
+            cliente.address.publicPlace !== null) ||
+            typeof cliente.address.district !== 'string' ||
+            (typeof cliente.address.complement !== 'string' &&
+            cliente.address.complement !== null) ||
+            typeof cliente.address.houseNumber !== 'string'
         ) {
             return false;
         }
@@ -193,14 +179,13 @@ function validateCPF(cpf: string) {
 }
 
 interface Address{
-    state: string,               // Estado
-    stateAcronym: string,        // Sigla estado
+    state: number,               // Estado
     city: string,                // Cidade
     cep: string,                 // CEP
     publicPlace: string,         // Logradouro
     district: string,            // Bairro
     complement: string | null,   // Complemento
-    houseNumber: number          // Numero da casa
+    houseNumber: string          // Numero da casa
 }
 
 function validadeAddress(address: Address){        
@@ -208,15 +193,14 @@ function validadeAddress(address: Address){
     let statusAddress = true
 
     if(
-           !address.state        || address.state === ""             ||
-           !address.stateAcronym || address.stateAcronym.length != 2 ||
+           typeof address.state !== "number"|| address.state <= 0    ||
            !address.city         || address.city === ""              ||
            !address.cep          || address.cep === ""               || 
            !address.district     || address.district === ""          ||
-           typeof address.houseNumber !== "number"                   ||
+           typeof address.houseNumber !== "string"                   ||
            typeof address.publicPlace !== "string"                   || 
            address.publicPlace === ""                                ||
-           (address.complement !== null && typeof address.complement !== 'string')
+           (address.complement !== null && typeof address.complement !== "string")
     ){
         statusAddress = false
     }
