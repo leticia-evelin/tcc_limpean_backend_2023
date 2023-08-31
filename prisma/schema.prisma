@@ -89,8 +89,21 @@ model tbl_cliente {
   senha                String    @db.VarChar(30)
   id_genero            Int
   residencia           tbl_residencia[]
+  telefone             tbl_telefone_cliente[]
 
   FK_Genero_Cliente    tbl_genero @relation(fields: [id_genero], references: [id])
+
+  @@unique([id])
+}
+
+model tbl_telefone_cliente {
+  id                Int @id @default(autoincrement())
+  numero_telefone   String @db.VarChar(15)
+  ddd               String @db.VarChar(2)
+  id_cliente        Int
+
+  FK_Cliente_Telefone   tbl_cliente @relation(fields: [id_cliente], references: [id])
+
 
   @@unique([id])
 }
