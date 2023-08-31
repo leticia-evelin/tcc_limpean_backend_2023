@@ -10,8 +10,35 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model tbl_teste {
+
+// Tabelas referentes a endereço
+model tbl_estado {
   id Int @id @default(autoincrement())
-  email String @unique
-  name String
+  nome String @db.VarChar(30)
+  sigla String @db.VarChar(2)
+  cidade tbl_cidade[]
+
+  @@unique([id])
+}
+
+model tbl_cidade {
+  id Int @id @default(autoincrement())
+  nome String @db.VarChar(45)
+  id_estado Int
+  endereco tbl_endereco[]
+
+  estado tbl_estado @relation(fields: [id_estado], references: [id])
+
+  @@unique([id])
+}
+
+model tbl_endereco {
+  id Int @id @default(autoincrement())
+  logradouro String @db.VarChar(45)
+  bairro String @db.VarChar(45)
+  cep String @db.VarChar(10)
+  numero_residencia String @db.VarChar(10)
+  complemento String? @db.VarChar(100)
+  id_cidade Int
+  cidade tbl_cidade @relation(fields: [id_cidade], references: [id])
 }

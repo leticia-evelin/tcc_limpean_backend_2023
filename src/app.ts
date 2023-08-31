@@ -36,6 +36,8 @@
  * Para mudar o orin do git: git remote set-url origin git://repository.url
  * Para saber o repositorio: git remote -v
  * 
+ * Extensão para o Prisma: Prisma
+ * 
  */
 
 const express = require('express')
