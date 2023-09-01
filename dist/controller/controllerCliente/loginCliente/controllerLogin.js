@@ -17,13 +17,18 @@ var __copyProps = (to, from, except, desc) => {
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// src/middleware/controllerJWT.ts
-var controllerJWT_exports = {};
-__export(controllerJWT_exports, {
-  createJWT: () => createJWT,
-  validate: () => validate
+// src/controller/controllerCliente/loginCliente/controllerLogin.ts
+var controllerLogin_exports = {};
+__export(controllerLogin_exports, {
+  autenticarUser: () => autenticarUser
 });
-module.exports = __toCommonJS(controllerJWT_exports);
+module.exports = __toCommonJS(controllerLogin_exports);
+
+// src/model/clienteDAO/registerCliente.ts
+var { PrismaClient } = require("@prisma/client");
+var prisma = new PrismaClient();
+
+// src/middleware/controllerJWT.ts
 var jwt = require("jsonwebtoken");
 var SECRETE = "a1b2c3";
 var EXPIRES = 60;
@@ -34,19 +39,33 @@ var createJWT = (payload) => {
   }, SECRETE, { expiresIn: EXPIRES });
   return token;
 };
-var validate = (token) => {
-  return new Promise((resolve, reject) => {
-    jwt.verify(token, SECRETE, (err, decoded) => {
-      if (err) {
-        resolve(false);
+
+// src/controller/controllerCliente/loginCliente/controllerLogin.ts
+var autenticarUser = async function(body) {
+  if (body.email === "" || body.email == null || body.password === "" || body.password == null) {
+    return false;
+  } else {
+    try {
+      const dataUser = await (void 0)(body);
+      if (dataUser) {
+        const token = await createJWT(dataUser);
+        let statusJson = {
+          id: dataUser.id,
+          email: dataUser.email,
+          token
+        };
+        console.log(statusJson);
+        return statusJson;
       } else {
-        resolve(true);
+        return false;
       }
-    });
-  });
+    } catch (error) {
+      console.error("Erro durante autentica\xE7\xE3o:", error);
+      return false;
+    }
+  }
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  createJWT,
-  validate
+  autenticarUser
 });

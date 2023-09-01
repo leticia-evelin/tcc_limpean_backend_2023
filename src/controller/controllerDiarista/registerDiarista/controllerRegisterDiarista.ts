@@ -13,6 +13,7 @@ interface Diarista {
     idGender: number,
     cpf: string,
     biography: string | null,
+    averagePrice: string,
     address: {
         state: number,              // Estado
         city: string,               // Cidade
@@ -44,7 +45,9 @@ const registerDiarista = async function (body: Diarista) {
         statusRegisterDiarista = message.ERRO_REQUIRE_CPF
     } else if (!validate.validadeAddress(body.address)) {
         statusRegisterDiarista = message.ERRO_ADDRESS
-    } else {
+    } else if(body.averagePrice === ""){
+        statusRegisterDiarista = message.ERRO_REQUIRED_DATA_CLIENTE
+    }  else {
 
         let status = await db.registerUser(body)
 

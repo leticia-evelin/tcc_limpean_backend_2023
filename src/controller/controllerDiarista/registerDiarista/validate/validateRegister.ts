@@ -10,6 +10,7 @@ interface Diarista {
     idGender: number,
     cpf: string,
     biography: string | null,
+    averagePrice: string,
     address: {
         state: number,              
         city: string,               
@@ -41,6 +42,7 @@ function validateTypesJson(json: any): boolean {
             typeof diarista.cpf !== 'string' ||
             (typeof diarista.biography !== 'string' &&
             diarista.biography !== null) ||
+            typeof diarista.averagePrice !== 'string' ||
             typeof diarista.address !== 'object' ||
             typeof diarista.address.state !== 'number' ||
             typeof diarista.address.city !== 'string' ||

@@ -13,6 +13,7 @@ interface Diarista {
     idGender: number,
     cpf: string,
     biography: string | null,
+    averagePrice: string,    //média do preço
     address: {
         state: number,             
         city: string,              
@@ -64,6 +65,7 @@ const registerUser = async function (dataBody: Diarista) {
                     cpf: dataBody.cpf,
                     data_nascimento: new Date(dataBody.birthDate),
                     biografia: dataBody.biography,
+                    media_valor: dataBody.averagePrice,
                     foto_perfil: dataBody.photoUser,
                     email: dataBody.email.toLowerCase(),
                     senha: dataBody.password,
