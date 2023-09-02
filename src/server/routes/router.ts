@@ -107,10 +107,8 @@ router.post('/v1/cadastro/diarista', jsonParser, async function (request: Reques
 
         let status = await registerDiarista(dataBody)
     
-        console.log(status)
         response.status(status.status)
         response.json(status)
-        
         
     } else {
         return response.send(message.ERROR_INVALID_CONTENT_TYPE)

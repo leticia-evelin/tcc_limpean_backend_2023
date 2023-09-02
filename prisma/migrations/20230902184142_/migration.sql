@@ -42,13 +42,13 @@ CREATE TABLE `tbl_tipo_residencia` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `tbl_residencia` (
+CREATE TABLE `tbl_residencia_cliente` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `id_cliente` INTEGER NOT NULL,
     `id_endereco` INTEGER NOT NULL,
     `id_tipo_residencia` INTEGER NOT NULL,
 
-    UNIQUE INDEX `tbl_residencia_id_key`(`id`),
+    UNIQUE INDEX `tbl_residencia_cliente_id_key`(`id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -127,13 +127,13 @@ ALTER TABLE `tbl_cidade` ADD CONSTRAINT `tbl_cidade_id_estado_fkey` FOREIGN KEY 
 ALTER TABLE `tbl_endereco` ADD CONSTRAINT `tbl_endereco_id_cidade_fkey` FOREIGN KEY (`id_cidade`) REFERENCES `tbl_cidade`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `tbl_residencia` ADD CONSTRAINT `tbl_residencia_id_cliente_fkey` FOREIGN KEY (`id_cliente`) REFERENCES `tbl_cliente`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `tbl_residencia_cliente` ADD CONSTRAINT `tbl_residencia_cliente_id_cliente_fkey` FOREIGN KEY (`id_cliente`) REFERENCES `tbl_cliente`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `tbl_residencia` ADD CONSTRAINT `tbl_residencia_id_endereco_fkey` FOREIGN KEY (`id_endereco`) REFERENCES `tbl_endereco`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `tbl_residencia_cliente` ADD CONSTRAINT `tbl_residencia_cliente_id_endereco_fkey` FOREIGN KEY (`id_endereco`) REFERENCES `tbl_endereco`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `tbl_residencia` ADD CONSTRAINT `tbl_residencia_id_tipo_residencia_fkey` FOREIGN KEY (`id_tipo_residencia`) REFERENCES `tbl_tipo_residencia`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `tbl_residencia_cliente` ADD CONSTRAINT `tbl_residencia_cliente_id_tipo_residencia_fkey` FOREIGN KEY (`id_tipo_residencia`) REFERENCES `tbl_tipo_residencia`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `tbl_cliente` ADD CONSTRAINT `tbl_cliente_id_genero_fkey` FOREIGN KEY (`id_genero`) REFERENCES `tbl_genero`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

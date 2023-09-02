@@ -1,4 +1,4 @@
-import * as db from "../../../model/clienteDAO/registerCliente"
+import * as db from "../../../model/clienteDAO/loginCliente"
 import * as jwt from "../../../middleware/controllerJWT"
 
 interface Cliente {
@@ -42,7 +42,7 @@ const autenticarUser = async function (body: Cliente) {
     } else {
         try {
 
-            const dataUser = await db.verifyAccountUser(body);
+            const dataUser = await db.loginCliente(body);
 
             if (dataUser) {
                 const token = await jwt.createJWT(dataUser);
