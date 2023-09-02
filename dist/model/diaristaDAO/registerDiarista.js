@@ -17,17 +17,17 @@ var __copyProps = (to, from, except, desc) => {
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// src/model/clienteDAO/registerCliente.ts
-var registerCliente_exports = {};
-__export(registerCliente_exports, {
+// src/model/diaristaDAO/registerDiarista.ts
+var registerDiarista_exports = {};
+__export(registerDiarista_exports, {
   registerUser: () => registerUser
 });
-module.exports = __toCommonJS(registerCliente_exports);
+module.exports = __toCommonJS(registerDiarista_exports);
 var { PrismaClient } = require("@prisma/client");
 var prisma = new PrismaClient();
 var registerUser = async function(dataBody) {
   try {
-    const verifyClient = await prisma.tbl_cliente.findFirst({
+    const verifyDiarist = await prisma.tbl_diarista.findFirst({
       where: {
         OR: [
           { email: dataBody.email.toLowerCase() },
@@ -35,7 +35,7 @@ var registerUser = async function(dataBody) {
         ]
       }
     });
-    if (!verifyClient) {
+    if (!verifyDiarist) {
       const tbl_cidade = await prisma.tbl_cidade.create({
         data: {
           nome: dataBody.address.city,
@@ -52,28 +52,18 @@ var registerUser = async function(dataBody) {
           id_cidade: tbl_cidade.id
         }
       });
-      const tbl_tipo_residencia = await prisma.tbl_tipo_residencia.create({
-        data: {
-          nome: "Casa"
-        }
-      });
-      const tbl_cliente = await prisma.tbl_cliente.create({
+      const tbl_diarista = await prisma.tbl_diarista.create({
         data: {
           nome: dataBody.nameUser,
           cpf: dataBody.cpf,
           data_nascimento: new Date(dataBody.birthDate),
           biografia: dataBody.biography,
+          media_valor: dataBody.averagePrice,
           foto_perfil: dataBody.photoUser,
           email: dataBody.email.toLowerCase(),
           senha: dataBody.password,
-          id_genero: dataBody.idGender
-        }
-      });
-      const residencia = await prisma.tbl_residencia.create({
-        data: {
-          id_cliente: tbl_cliente.id,
-          id_endereco: tbl_endereco.id,
-          id_tipo_residencia: tbl_tipo_residencia.id
+          id_genero: dataBody.idGender,
+          id_endereco: tbl_endereco.id
         }
       });
     } else {

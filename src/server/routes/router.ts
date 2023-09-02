@@ -1,6 +1,7 @@
 import { Router, Request, Response, NextFunction } from "express"
 import bodyParser from 'body-parser'
 import {registerCliente} from "../../controller/controllerCliente/registerCliente/controllerRegister"
+import {registerDiarista} from "../../controller/controllerDiarista/registerDiarista/controllerRegisterDiarista"
 import {autenticarUser} from "../../controller/controllerCliente/loginCliente/controllerLogin"
 import * as message from "../../modulo/config"
 import * as jwt from 'jsonwebtoken'
@@ -19,7 +20,7 @@ router.post('/v1/cadastro/cliente', jsonParser, async function (request: Request
         let dataBody = request.body
 
         let status = await registerCliente(dataBody)
-    
+     
         response.status(status.status)
         response.json(status)
         
@@ -90,6 +91,32 @@ router.post('/v1/login/cliente', jsonParser, async function (request, response) 
         }
     }
 })
+
+
+
+//*********************DIARISTA*********************//
+
+//EndPoint responsavel por cadastrar o diarista
+router.post('/v1/cadastro/diarista', jsonParser, async function (request: Request, response: Response) {
+    
+    let contentType = request.headers['content-type']
+
+    if (contentType === 'application/json') {
+
+        let dataBody = request.body
+
+        let status = await registerDiarista(dataBody)
+    
+        console.log(status)
+        response.status(status.status)
+        response.json(status)
+        
+        
+    } else {
+        return response.send(message.ERROR_INVALID_CONTENT_TYPE)
+    }
+})
+
 
 // router.get('/v1/form-dados', verifyJWT, jsonParser, async function (request, response) {
 //     console.log("Acesso")
