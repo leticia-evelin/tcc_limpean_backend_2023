@@ -8,6 +8,7 @@ const ERROR_INVALID_CONTENT_TYPE = { status: 415, message: 'O tipo de mídia (Co
 const ERRO_INTERNAL_SERVER = {status: 500, message: 'Erro interno no servidor, tente novamente mais tarde.'}  
 const ERRO_NAME_PHOTO_PASSWORD = {status: 500, message: "Atenção o nome, senha e foto são campos obrigatorios. Verifique e tente novamente."}
 const ERRO_REQUIRED_DATA_CLIENTE = {status: 400, message: 'Atenção, verifique a documentação para enviar a requisição com o formato e tipos corretos.'}
+const ERRO_REQUIRED_DATA_DIARISTA = {status: 400, message: 'Atenção, verifique a documentação para enviar a requisição com o formato e tipos corretos.'}
 const ERRO_REQUIRED_DATA_HOUSE_CLIENTE = {status: 400, message: 'Atenção, preencha os dados referentes a casa e tente novamnete. No mínimo 1 comodo.'}
 const ERRO_REGISTER_USER = {status: 500, message: "A inserção falhou verifique os dados e tente novamente."}
 const ERRO_REGISTER_EMAIL = {status: 500, message: "Atenção email no formato inválido. Ele deve ter esse formato: exemplo@gmail.com"}
@@ -26,6 +27,7 @@ export {
     ERRO_INTERNAL_SERVER,
     ERRO_NAME_PHOTO_PASSWORD,
     ERRO_REQUIRED_DATA_CLIENTE,
+    ERRO_REQUIRED_DATA_DIARISTA,
     ERRO_REGISTER_USER,
     CREATED_REGISTER,
     ERRO_REGISTER_EMAIL,
