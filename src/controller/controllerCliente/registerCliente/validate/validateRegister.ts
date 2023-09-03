@@ -23,10 +23,7 @@ interface Cliente {
 
 function validateTypesJson(json: any): boolean {
     try {
-        const cliente: Cliente = json;
-
-        console.log(json);
-                
+        const cliente: Cliente = json;                
 
         // Validar se todas as propriedades estão presentes no JSON
         if (

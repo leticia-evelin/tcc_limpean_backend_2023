@@ -95,8 +95,6 @@ const registerUser = async function (dataBody: Cliente) {
 
 }
 
-
-
 export {
     registerUser
 }
