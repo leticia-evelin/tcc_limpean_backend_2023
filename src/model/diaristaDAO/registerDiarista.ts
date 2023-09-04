@@ -1,5 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 
+
 const prisma = new PrismaClient();
 
 interface Diarista {
@@ -27,6 +28,8 @@ interface Diarista {
 
 const registerUser = async function (dataBody: Diarista) {
 
+    let transaction;
+
     try {
 
         const verifyDiarist = await prisma.tbl_diarista.findFirst({
@@ -40,38 +43,42 @@ const registerUser = async function (dataBody: Diarista) {
         
 
         if (!verifyDiarist) {
-            const tbl_cidade = await prisma.tbl_cidade.create({
-                data: {
-                    nome: dataBody.address.city,
-                    id_estado: dataBody.address.state
-                }
-            });
 
-            const tbl_endereco = await prisma.tbl_endereco.create({
-                data: {
-                    logradouro: dataBody.address.publicPlace,
-                    bairro: dataBody.address.district,
-                    cep: dataBody.address.cep,
-                    numero_residencia: dataBody.address.houseNumber,
-                    complemento: dataBody.address.complement,
-                    id_cidade: tbl_cidade.id
-                }
-            });
+            transaction = await prisma.$transaction(async (prisma) => {
 
+                const tbl_cidade = await prisma.tbl_cidade.create({
+                    data: {
+                        nome: dataBody.address.city,
+                        id_estado: dataBody.address.state
+                    }
+                });
 
-            const tbl_diarista = await prisma.tbl_diarista.create({
-                data: {
-                    nome: dataBody.nameUser,
-                    cpf: dataBody.cpf,
-                    data_nascimento: new Date(dataBody.birthDate),
-                    biografia: dataBody.biography,
-                    media_valor: dataBody.averagePrice,
-                    foto_perfil: dataBody.photoUser,
-                    email: dataBody.email.toLowerCase(),
-                    senha: dataBody.password,
-                    id_genero: dataBody.idGender,
-                    id_endereco: tbl_endereco.id
-                }
+                const tbl_endereco = await prisma.tbl_endereco.create({
+                    data: {
+                        logradouro: dataBody.address.publicPlace,
+                        bairro: dataBody.address.district,
+                        cep: dataBody.address.cep,
+                        numero_residencia: dataBody.address.houseNumber,
+                        complemento: dataBody.address.complement,
+                        id_cidade: tbl_cidade.id
+                    }
+                });
+
+                const tbl_diarista = await prisma.tbl_diarista.create({
+                    data: {
+                        nome: dataBody.nameUser,
+                        cpf: dataBody.cpf,
+                        data_nascimento: new Date(dataBody.birthDate),
+                        biografia: dataBody.biography,
+                        media_valor: dataBody.averagePrice,
+                        foto_perfil: dataBody.photoUser,
+                        email: dataBody.email.toLowerCase(),
+                        senha: dataBody.password,
+                        id_genero: dataBody.idGender,
+                        id_endereco: tbl_endereco.id
+                    }
+                });
+
             });
 
         }else{

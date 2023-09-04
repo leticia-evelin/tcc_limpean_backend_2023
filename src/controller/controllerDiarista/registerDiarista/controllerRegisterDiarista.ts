@@ -46,7 +46,7 @@ const registerDiarista = async function (body: Diarista) {
     } else if (!validate.validadeAddress(body.address)) {
         statusRegisterDiarista = message.ERRO_ADDRESS
     } else if(body.averagePrice === ""){
-        statusRegisterDiarista = message.ERRO_REQUIRED_DATA_CLIENTE
+        statusRegisterDiarista = message.ERRO_REQUIRED_DATA_DIARISTA
     }  else {
 
         let status = await db.registerUser(body)
