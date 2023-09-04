@@ -6,7 +6,7 @@
 
 const jwt = require('jsonwebtoken');
 const SECRETE = 'a1b2c3';
-const EXPIRES = 60;
+const EXPIRES = "24h";
 
 interface Payload {
     id: number, 

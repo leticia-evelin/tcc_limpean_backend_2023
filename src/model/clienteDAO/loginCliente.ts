@@ -14,17 +14,26 @@ interface Payload {
 }
 
 const loginCliente = async function (dataBody: Login): Promise<Payload | false> {
-    let sql = `SELECT id, email FROM tbl_contratante WHERE email ='${dataBody.email}' AND senha ='${dataBody.password}'`
+    try {
+        const verifyClient = await prisma.tbl_cliente.findFirst({
+            where: {
+                email: dataBody.email.toLowerCase(),
+                senha: dataBody.password 
+            }
+        })
 
-    let result = await prisma.$queryRawUnsafe(sql)
-
-    console.log(result);
-    
-
-    if(result.lenght === 0){
-        return false
-    }else{
-        return result[0]
+        if (verifyClient) {
+            return {
+                id: verifyClient.id,
+                email: verifyClient.email,
+            }
+        } else {
+            return false
+        }
+    } catch (error) {
+        return false;
+    } finally {
+        await prisma.$disconnect();
     }
 }
 

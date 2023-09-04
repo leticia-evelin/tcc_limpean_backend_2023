@@ -51,7 +51,7 @@ model tbl_endereco {
 
 model tbl_tipo_residencia {
   id         Int             @id @default(autoincrement())
-  nome       String          @db.VarChar(45)
+  nome       String          @db.VarChar(45) @unique             
   residencia tbl_residencia_cliente[]
 
   @@unique([id])
@@ -135,7 +135,6 @@ model tbl_telefone_diarista {
   id_diarista       Int
 
   FK_Diarista_Telefone   tbl_diarista @relation(fields: [id_diarista], references: [id])
-
 
   @@unique([id])
 }

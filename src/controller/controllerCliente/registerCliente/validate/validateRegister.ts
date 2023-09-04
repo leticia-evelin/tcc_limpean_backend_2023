@@ -176,6 +176,7 @@ function validateCPF(cpf: string) {
 }
 
 interface Address{
+    typeHouse: number,           // Tipo de casa
     state: number,               // Estado
     city: string,                // Cidade
     cep: string,                 // CEP
@@ -190,6 +191,7 @@ function validadeAddress(address: Address){
     let statusAddress = true
 
     if(
+           typeof address.typeHouse !==  "number" || 
            typeof address.state !== "number"|| address.state <= 0    ||
            !address.city         || address.city === ""              ||
            !address.cep          || address.cep === ""               || 

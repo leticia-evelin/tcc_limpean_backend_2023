@@ -15,6 +15,7 @@ interface Cliente {
     cpf: string,
     biography: string | null,
     address: {
+        typeHouse: number,          // Tipo de casa
         state: number,              // Estado
         city: string,               // Cidade
         cep: string,                // CEP
@@ -37,8 +38,7 @@ const registerUser = async function (dataBody: Cliente) {
                     { cpf: dataBody.cpf }
                 ]
             }
-        });
-
+        })
 
         if (!verifyClient) {
 
@@ -58,12 +58,6 @@ const registerUser = async function (dataBody: Cliente) {
                         numero_residencia: dataBody.address.houseNumber,
                         complemento: dataBody.address.complement,
                         id_cidade: tbl_cidade.id
-                    }
-                });
-
-                const tbl_tipo_residencia = await prisma.tbl_tipo_residencia.create({
-                    data: {
-                        nome: 'Casa'
                     }
                 });
 
@@ -92,7 +86,7 @@ const registerUser = async function (dataBody: Cliente) {
                     data: {
                         id_cliente: tbl_cliente.id,
                         id_endereco: tbl_endereco.id,
-                        id_tipo_residencia: tbl_tipo_residencia.id
+                        id_tipo_residencia: dataBody.address.typeHouse
                     }
                 });
 

@@ -37,6 +37,7 @@ CREATE TABLE `tbl_tipo_residencia` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `nome` VARCHAR(45) NOT NULL,
 
+    UNIQUE INDEX `tbl_tipo_residencia_nome_key`(`nome`),
     UNIQUE INDEX `tbl_tipo_residencia_id_key`(`id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

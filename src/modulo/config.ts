@@ -5,6 +5,7 @@
  **************************************************/
 
 const ERROR_INVALID_CONTENT_TYPE = { status: 415, message: 'O tipo de mídia (Content-Type) da solicitação não é compatível com o servidor. Esperado: application/json'}
+const ERRO_INVALID_USER = {status: 400, message: "Email ou Senha inválidos."}
 const ERRO_INTERNAL_SERVER = {status: 500, message: 'Erro interno no servidor, tente novamente mais tarde.'}  
 const ERRO_NAME_PHOTO_PASSWORD = {status: 500, message: "Atenção o nome, senha e foto são campos obrigatorios. OBS: A senha deve ter no mínimo 6 caracteres .Verifique e tente novamente."}
 const ERRO_REQUIRED_DATA_CLIENTE = {status: 400, message: 'Atenção, verifique a documentação para enviar a requisição com o formato e tipos corretos.'}
@@ -17,12 +18,16 @@ const ERRO_NUMBER_PHONE = {status: 500, message: "Atenção o número de telefon
 const ERRO_ADDRESS = {status: 500, message: "Atenção, verifique os dados referentes ao endereço e tente novamente"}
 const ERRO_DELETE_USER = {status: 500, message: "Erro ao tentar deletar conta de usuario, verifique os dados e tente novamente."}
 
+const ERRO_REQUIRED_TOKEN = {status: 401, message: "Token não fornecido."}
+const ERRO_INVALID_TOKEN = {status: 401, message: "Token inválido."}
+
 /***************************************   CONSTANTES DE SUCESSO  ************************************************************************************************/
 const CREATED_REGISTER = {status: 201, message: "Registro criado com sucesso."}
 const DELETE_CLIENTE = {status: 200, message: "Registro deletado com sucesso."}
 
 export {
     ERROR_INVALID_CONTENT_TYPE,
+    ERRO_INVALID_USER,
     ERRO_INTERNAL_SERVER,
     ERRO_NAME_PHOTO_PASSWORD,
     ERRO_REQUIRED_DATA_CLIENTE,
@@ -35,5 +40,7 @@ export {
     ERRO_ADDRESS,
     ERRO_DELETE_USER,
     DELETE_CLIENTE,
-    ERRO_REQUIRED_DATA_HOUSE_CLIENTE
+    ERRO_REQUIRED_DATA_HOUSE_CLIENTE,
+    ERRO_REQUIRED_TOKEN,
+    ERRO_INVALID_TOKEN
 }

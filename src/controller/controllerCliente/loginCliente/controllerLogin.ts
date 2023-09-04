@@ -1,5 +1,6 @@
 import * as db from "../../../model/clienteDAO/loginCliente"
 import * as jwt from "../../../middleware/controllerJWT"
+import * as message from "../../../modulo/config"
 
 interface Cliente {
     id: number,
@@ -51,14 +52,12 @@ const autenticarUser = async function (body: Cliente) {
                     email: dataUser.email,
                     token: token
                 }
-                console.log(statusJson)
                 return statusJson;
             } else {
-                return false;
+                return message.ERRO_INVALID_USER;
             }
         } catch (error) {
-            console.error('Erro durante autenticação:', error);
-            return false;
+            return message.ERRO_INTERNAL_SERVER;
         }
     }
 }

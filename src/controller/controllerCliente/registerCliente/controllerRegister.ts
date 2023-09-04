@@ -14,6 +14,7 @@ interface Cliente {
     cpf: string,
     biography: string | null,
     address: {
+        typeHouse: number,          // Tipo de casa
         state: number,              // Estado
         city: string,               // Cidade
         cep: string,                // CEP
