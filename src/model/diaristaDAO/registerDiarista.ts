@@ -1,5 +1,4 @@
-const { PrismaClient } = require("@prisma/client");
-
+import { PrismaClient } from "@prisma/client"
 
 const prisma = new PrismaClient();
 
@@ -78,6 +77,15 @@ const registerUser = async function (dataBody: Diarista) {
                         id_endereco: tbl_endereco.id
                     }
                 });
+
+
+                const tbl_telefone_cliente = await prisma.tbl_telefone_cliente.create({
+                    data: {
+                        numero_telefone: dataBody.phone,
+                        ddd: dataBody.ddd,
+                        id_cliente: tbl_diarista.id
+                    }
+                })
 
             });
 

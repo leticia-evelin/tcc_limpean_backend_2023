@@ -1,7 +1,6 @@
-import { PrismaClient } from "@prisma/client";
-import e from "express";
+import { PrismaClient } from "@prisma/client"
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient()
 
 interface Cliente {
     email: string,
@@ -48,7 +47,7 @@ const registerUser = async function (dataBody: Cliente) {
                         nome: dataBody.address.city,
                         id_estado: dataBody.address.state
                     }
-                });
+                })
 
                 const tbl_endereco = await prisma.tbl_endereco.create({
                     data: {
@@ -59,7 +58,7 @@ const registerUser = async function (dataBody: Cliente) {
                         complemento: dataBody.address.complement,
                         id_cidade: tbl_cidade.id
                     }
-                });
+                })
 
                 const tbl_cliente = await prisma.tbl_cliente.create({
                     data: {
@@ -72,7 +71,7 @@ const registerUser = async function (dataBody: Cliente) {
                         senha: dataBody.password,
                         id_genero: dataBody.idGender
                     }
-                });
+                })
 
                 const tbl_telefone_cliente = await prisma.tbl_telefone_cliente.create({
                     data: {
@@ -88,7 +87,7 @@ const registerUser = async function (dataBody: Cliente) {
                         id_endereco: tbl_endereco.id,
                         id_tipo_residencia: dataBody.address.typeHouse
                     }
-                });
+                })
 
             })
         } else {
@@ -98,7 +97,7 @@ const registerUser = async function (dataBody: Cliente) {
     } catch (error) {
         return false
     } finally {
-        await prisma.$disconnect();
+        await prisma.$disconnect()
     }
 }
 

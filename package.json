@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "dev": "ts-node-dev --transpile-only src/app.ts",
+    "seed": "ts-node-dev --transpile-only src/seed.ts", 
     "build": "tsup src"
   },
   "engines": {

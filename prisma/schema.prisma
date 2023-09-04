@@ -72,7 +72,7 @@ model tbl_residencia_cliente {
 
 model tbl_genero {
     id                   Int    @id @default(autoincrement())
-    nome                 String @db.VarChar(30)
+    nome                 String @db.VarChar(30) @unique
     cliente              tbl_cliente[]
     diarista             tbl_diarista[]
 

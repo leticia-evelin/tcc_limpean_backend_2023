@@ -13,11 +13,6 @@
  *  npm add -D @types/cors
  *  tsc --init
  *
- *  npm run dev
- *
- *  "scripts": {
- *  "dev": "ts-node-dev --transpile-only src/index.ts"
- *  },
  * 
  *  Para converte em js: npm i tsup -D 
  *  Configura o package.json
@@ -37,6 +32,12 @@
  * Para saber o repositorio: git remote -v
  * 
  * Extensão para o shema.prisma: Prisma
+ * 
+ * 
+ * *****************************************************************
+ *  npm run dev -> Para rodar o código app.ts
+ *  npm run seed -> Para rodar todos os scripts de insert do banco
+ * *****************************************************************
  * 
  */
 
