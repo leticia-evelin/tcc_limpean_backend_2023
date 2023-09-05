@@ -77,7 +77,7 @@ const verifyJWT = async function(request: Request, response: Response, next: Nex
 }
 
 //Endpoint responsavel por realizar a validação do login cliente e do diarista
-router.post('/v1/login/cliente', jsonParser, async function (request, response) {
+router.post('/v1/limpean/login', jsonParser, async function (request, response) {
 
     let contentType = request.headers['content-type']
 
