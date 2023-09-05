@@ -1,13 +1,13 @@
-import * as db from "../../../model/clienteDAO/loginCliente"
+import * as db from "../../../model/diaristaDAO/loginDiarista"
 import * as jwt from "../../../middleware/controllerJWT"
 import * as message from "../../../modulo/config"
 
-interface LoginClient {
+interface LoginDiarist {
     email: string,
     password: string
 }
 
-const loginClient = async function (body: LoginClient) {
+const loginDiarist = async function (body: LoginDiarist) {
 
     if (
         body.email === ""    || body.email == null    ||
@@ -17,7 +17,7 @@ const loginClient = async function (body: LoginClient) {
     } else {
         try {
 
-            const dataUser = await db.loginCliente(body);
+            const dataUser = await db.loginDiarista(body);            
             
             if (dataUser) {
                 const token = jwt.createJWT(dataUser);
@@ -37,5 +37,5 @@ const loginClient = async function (body: LoginClient) {
 }
 
 export {
-    loginClient
+    loginDiarist
 }

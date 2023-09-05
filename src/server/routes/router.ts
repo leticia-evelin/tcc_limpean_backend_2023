@@ -2,7 +2,7 @@ import { Router, Request, Response, NextFunction } from "express"
 import bodyParser from 'body-parser'
 import {registerCliente} from "../../controller/controllerCliente/registerCliente/controllerRegister"
 import {registerDiarista} from "../../controller/controllerDiarista/registerDiarista/controllerRegisterDiarista"
-import {autenticarUser} from "../../controller/controllerCliente/loginCliente/controllerLogin"
+import { typeUser } from "../../controller/controllerUser/login/loginTypeUser"
 import * as message from "../../modulo/config"
 import * as jwt from 'jsonwebtoken'
 
@@ -76,6 +76,7 @@ const verifyJWT = async function(request: Request, response: Response, next: Nex
     }
 }
 
+//Endpoint responsavel por realizar a validação do login cliente e do diarista
 router.post('/v1/login/cliente', jsonParser, async function (request, response) {
 
     let contentType = request.headers['content-type']
@@ -84,7 +85,7 @@ router.post('/v1/login/cliente', jsonParser, async function (request, response) 
         
         let dataBody = request.body
         
-        let status = await autenticarUser(dataBody)
+        let status = await typeUser(dataBody)
 
         response.status(200)
         response.json(status)
@@ -114,9 +115,6 @@ router.post('/v1/cadastro/diarista', jsonParser, async function (request: Reques
         return response.send(message.ERROR_INVALID_CONTENT_TYPE)
     }
 })
-
-
-
 
 
 //EndPoint de teste, para verificar autenticidade do token

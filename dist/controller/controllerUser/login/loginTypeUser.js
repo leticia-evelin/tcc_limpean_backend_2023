@@ -23,34 +23,24 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loginClient = void 0;
-const db = __importStar(require("../../../model/clienteDAO/loginCliente"));
-const jwt = __importStar(require("../../../middleware/controllerJWT"));
+exports.typeUser = void 0;
 const message = __importStar(require("../../../modulo/config"));
-const loginClient = async function (body) {
-    if (body.email === "" || body.email == null ||
-        body.password === "" || body.password == null) {
-        return false;
+const controllerLogin_1 = require("../../controllerDiarista/loginDiarista/controllerLogin");
+const controllerLogin_2 = require("../../controllerCliente/loginCliente/controllerLogin");
+const typeUser = async function (login) {
+    let statusLogin;
+    console.log(login);
+    if (typeof login.typeUser !== "string" || (login.typeUser.toLowerCase() !== "diarist" && login.typeUser.toLowerCase() !== "client")) {
+        return message.ERRO_INVALID_TYPE_USER;
     }
     else {
-        try {
-            const dataUser = await db.loginCliente(body);
-            if (dataUser) {
-                const token = jwt.createJWT(dataUser);
-                let statusJson = {
-                    id: dataUser.id,
-                    email: dataUser.email,
-                    token: token
-                };
-                return statusJson;
-            }
-            else {
-                return message.ERRO_INVALID_USER;
-            }
+        if (login.typeUser.toLowerCase() === "diarist") {
+            statusLogin = await (0, controllerLogin_1.loginDiarist)(login);
         }
-        catch (error) {
-            return message.ERRO_INTERNAL_SERVER;
+        else if (login.typeUser.toLowerCase() === "cliente") {
+            statusLogin = await (0, controllerLogin_2.loginClient)(login);
         }
     }
+    return statusLogin;
 };
-exports.loginClient = loginClient;
+exports.typeUser = typeUser;

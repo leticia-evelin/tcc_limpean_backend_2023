@@ -23,18 +23,18 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loginClient = void 0;
-const db = __importStar(require("../../../model/clienteDAO/loginCliente"));
+exports.loginDiarist = void 0;
+const db = __importStar(require("../../../model/diaristaDAO/loginDiarista"));
 const jwt = __importStar(require("../../../middleware/controllerJWT"));
 const message = __importStar(require("../../../modulo/config"));
-const loginClient = async function (body) {
+const loginDiarist = async function (body) {
     if (body.email === "" || body.email == null ||
         body.password === "" || body.password == null) {
         return false;
     }
     else {
         try {
-            const dataUser = await db.loginCliente(body);
+            const dataUser = await db.loginDiarista(body);
             if (dataUser) {
                 const token = jwt.createJWT(dataUser);
                 let statusJson = {
@@ -53,4 +53,4 @@ const loginClient = async function (body) {
         }
     }
 };
-exports.loginClient = loginClient;
+exports.loginDiarist = loginDiarist;
