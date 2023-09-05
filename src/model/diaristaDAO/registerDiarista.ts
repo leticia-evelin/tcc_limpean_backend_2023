@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client"
 const prisma = new PrismaClient();
 
 interface Diarista {
+    typeUser: string,
     email: string,
     password: string,
     nameUser: string,

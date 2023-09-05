@@ -3,6 +3,7 @@ import * as validate from "./validate/validateRegister"
 import * as db from "../../../model/clienteDAO/registerCliente"
 
 interface Cliente {
+    typeUser: string,
     email: string,
     password: string,
     nameUser: string,

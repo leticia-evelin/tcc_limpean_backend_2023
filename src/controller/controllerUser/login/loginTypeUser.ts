@@ -8,7 +8,7 @@ interface Login {
     password: string
 }
 
-const typeUser = async function (login:Login) {
+const loginTypeUser = async function (login:Login) {
 
     let statusLogin    
 
@@ -26,5 +26,5 @@ const typeUser = async function (login:Login) {
 }
 
 export {
-    typeUser
+    loginTypeUser
 }

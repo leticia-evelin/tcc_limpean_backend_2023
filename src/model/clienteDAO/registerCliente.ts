@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client"
 const prisma = new PrismaClient()
 
 interface Cliente {
+    typeUser: string,
     email: string,
     password: string,
     nameUser: string,
