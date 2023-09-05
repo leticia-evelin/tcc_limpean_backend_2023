@@ -35,7 +35,8 @@
  * 
  * 
  * *****************************************************************
- *  npm run dev -> Para rodar o código app.ts
+ *  npx prisma migrate dev -> Para instalar as tabelas do banco
+ *  npm run dev -> Para rodar o código com os endpoints
  *  npm run seed -> Para rodar todos os scripts de insert do banco
  * *****************************************************************
  * 
