@@ -73,7 +73,7 @@ const registerUser = async function (dataBody: Cliente) {
                     }
                 })
 
-                const tbl_telefone_cliente = await prisma.tbl_telefone_cliente.create({
+                await prisma.tbl_telefone_cliente.create({
                     data: {
                         numero_telefone: dataBody.phone,
                         ddd: dataBody.ddd,
@@ -81,7 +81,7 @@ const registerUser = async function (dataBody: Cliente) {
                     }
                 })
 
-                const residencia = await prisma.tbl_residencia_cliente.create({
+                await prisma.tbl_residencia_cliente.create({
                     data: {
                         id_cliente: tbl_cliente.id,
                         id_endereco: tbl_endereco.id,
