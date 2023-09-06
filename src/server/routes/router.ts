@@ -1,7 +1,8 @@
 import { Router, Request, Response, NextFunction } from "express"
 import bodyParser from 'body-parser'
-import {loginTypeUser} from "../../controller/controllerUser/login/loginTypeUser"
+import { loginTypeUser } from "../../controller/controllerUser/login/loginTypeUser"
 import { registerTypeUser } from "../../controller/controllerUser/register/registerTypeUser"
+import { dataDiarist } from "../../controller/controllerDiarista/dataDiarist/controllerDataDiarist"
 import * as message from "../../modulo/config"
 import * as jwt from 'jsonwebtoken'
 
@@ -75,7 +76,7 @@ router.post('/v1/limpean/login', jsonParser, async function (request, response) 
 //Função para verifica token
 const verifyJWT = async function(request: Request, response: Response, next: NextFunction) {
     //Pra uso no Postman
-    const token = request.headers['x-api-key'];
+    const token = request.headers['x-api-key'];    
 
     //Para uso Front-end 
     //const token = request.headers['x-access-token'];
@@ -83,6 +84,7 @@ const verifyJWT = async function(request: Request, response: Response, next: Nex
     const SECRETE = '3oFEe4PtHxJeXsa7hY8WBFtCt1AJ4GwgqF6WARF1NG0mUnc89W';
 
     if (!token) {
+        
         return response.status(401).json(message.ERRO_REQUIRED_TOKEN);
     }
 
@@ -91,9 +93,21 @@ const verifyJWT = async function(request: Request, response: Response, next: Nex
         const decoded = jwt.verify(Array.isArray(token) ? token[0] : token, SECRETE);
         next();
     } catch (error) {
+        
         return response.status(401).json(message.ERRO_INVALID_TOKEN)
     }
 }
+
+//EndPoint para listar todos os diaristas
+router.get('/v1/limpean/diarist/:token', verifyJWT, async function (request, response) {
+
+    const token = request.params.token
+    const statusDataDiarist = await dataDiarist(token)
+
+    response.status(statusDataDiarist.status)
+    response.json(statusDataDiarist)
+    
+})
 
 //EndPoint de teste, para verificar autenticidade do token
 router.get('/v1/form-dados', verifyJWT, jsonParser, async function (request, response) {
