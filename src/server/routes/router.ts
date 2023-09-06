@@ -80,7 +80,7 @@ const verifyJWT = async function(request: Request, response: Response, next: Nex
     //Para uso Front-end 
     //const token = request.headers['x-access-token'];
     
-    const SECRETE = 'a1b2c3';
+    const SECRETE = '3oFEe4PtHxJeXsa7hY8WBFtCt1AJ4GwgqF6WARF1NG0mUnc89W';
 
     if (!token) {
         return response.status(401).json(message.ERRO_REQUIRED_TOKEN);
