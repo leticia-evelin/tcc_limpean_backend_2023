@@ -92,6 +92,7 @@ model tbl_cliente {
   id_genero            Int
   residencia           tbl_residencia_cliente[]
   telefone             tbl_telefone_cliente[]
+  statusCliente        tbl_status_conta_cliente[]
 
   FK_Genero_Cliente    tbl_genero @relation(fields: [id_genero], references: [id])
 
@@ -123,6 +124,7 @@ model tbl_diarista{
   id_endereco          Int
   id_genero            Int
   telefone             tbl_telefone_diarista[]
+  statusContaDiarista  tbl_status_conta_diarista[]
 
   FK_Endereco_Diarista tbl_endereco @relation(fields: [id_endereco], references: [id])
   FK_Genero_Diarista   tbl_genero   @relation(fields: [id_genero], references: [id])
@@ -139,3 +141,36 @@ model tbl_telefone_diarista {
   @@unique([id])
 }
 
+model tbl_status_conta {
+  id            Int @id @default(autoincrement())
+  status        Boolean 
+  statusContaDiarista           tbl_status_conta_diarista[]
+  statusContaCliente            tbl_status_conta_cliente[]
+
+  @@unique([id])
+
+}
+
+model tbl_status_conta_diarista {
+  id              Int @id @default(autoincrement())
+  data_status     DateTime @db.Date
+  id_diarista     Int
+  id_status_conta Int
+
+  FK_Diarista_StatusContaDiarista tbl_diarista @relation(fields: [id_diarista], references: [id])
+  FK_StatusConta_StatusContaDiarista tbl_status_conta @relation(fields: [id_status_conta], references: [id])
+
+  @@unique([id])
+}
+
+model tbl_status_conta_cliente {
+  id              Int @id @default(autoincrement())
+  data_status     DateTime @db.Date
+  id_cliente     Int
+  id_status_conta Int
+
+  FK_Cliente_StatusContaCliente tbl_cliente @relation(fields: [id_cliente], references: [id])
+  FK_StatusConta_StatusContaCliente tbl_status_conta @relation(fields: [id_status_conta], references: [id])
+
+  @@unique([id])
+}
