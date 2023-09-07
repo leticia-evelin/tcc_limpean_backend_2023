@@ -2,9 +2,9 @@ import { PrismaClient } from "@prisma/client"
 
 const prisma = new PrismaClient()
 
-const getAllDiarist = async function () {
+const getDiaristById = async function (id: number) {
     
-    const vw_dados_diarista = `SELECT * FROM vw_dados_diarista;`
+    const vw_dados_diarista = `SELECT * FROM vw_dados_diarista WHERE id_diarista = ${id}`
 
     const result = await prisma.$queryRawUnsafe(vw_dados_diarista)
 
@@ -17,5 +17,5 @@ const getAllDiarist = async function () {
 }
 
 export {
-    getAllDiarist
+    getDiaristById
 }

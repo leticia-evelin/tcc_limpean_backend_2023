@@ -2,7 +2,8 @@ import { Router, Request, Response, NextFunction } from "express"
 import bodyParser from 'body-parser'
 import { loginTypeUser } from "../../controller/controllerUser/login/loginTypeUser"
 import { registerTypeUser } from "../../controller/controllerUser/register/registerTypeUser"
-import { dataDiarist } from "../../controller/controllerDiarista/dataDiarist/controllerDataDiarist"
+import { dataDiaristById } from "../../controller/controllerDiarista/dataDiarist/controllerDataDiaristById"
+import { dataAllDiarist } from "../../controller/controllerDiarista/dataDiarist/controllerDataAllDiarist"
 import * as message from "../../modulo/config"
 import * as jwt from 'jsonwebtoken'
 
@@ -99,10 +100,20 @@ const verifyJWT = async function(request: Request, response: Response, next: Nex
 }
 
 //EndPoint para listar todos os diaristas
+router.get('/v1/limpean/diarist', async function (request, response) {
+
+    const statusDataDiarist = await dataAllDiarist()
+
+    response.status(statusDataDiarist.status)
+    response.json(statusDataDiarist)
+    
+})
+
+//EndPoint para listar o diarista com base no id
 router.get('/v1/limpean/diarist/:token', verifyJWT, async function (request, response) {
 
     const token = request.params.token
-    const statusDataDiarist = await dataDiarist(token)
+    const statusDataDiarist = await dataDiaristById(token)
 
     response.status(statusDataDiarist.status)
     response.json(statusDataDiarist)
