@@ -18,7 +18,7 @@ const loginDiarist = async function (body: LoginDiarist) {
         try {
 
             const dataUser = await db.loginDiarista(body)
-            if (dataUser === 401){
+            if (typeof dataUser === "number"){
                 return message.ERRO_INVALID_LOGIN_USER
             }else if(dataUser && typeof dataUser !== "number") {
                 const token = jwt.createJWT(dataUser)

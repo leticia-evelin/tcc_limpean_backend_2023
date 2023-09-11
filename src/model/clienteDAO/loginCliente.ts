@@ -13,21 +13,33 @@ interface Payload {
     email: string
 }
 
-const loginCliente = async function (dataBody: Login): Promise<Payload | false> {
+const loginCliente = async function (dataBody: Login): Promise<Payload | false | number> {
     try {
-        const verifyClient = await prisma.tbl_cliente.findFirst({
+        const loginClient = await prisma.tbl_cliente.findFirst({
             where: {
                 email: dataBody.email.toLowerCase(),
                 senha: dataBody.password 
             }
         })
 
-        if (verifyClient) {
+        if (loginClient) {
+            const statusContaClient = await prisma.tbl_status_conta_diarista.findFirst({
+                where: {
+                    id_diarista: loginClient.id,
+                    id_status_conta: 1
+                }
+        })
+        
+        if (statusContaClient) {
             return {
-                id: verifyClient.id,
-                email: verifyClient.email,
+                id: loginClient.id,
+                email: loginClient.email,
             }
-        } else {
+        } else{
+            return 401
+        }
+        
+        }else{
             return false
         }
     } catch (error) {

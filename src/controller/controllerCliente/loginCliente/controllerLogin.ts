@@ -17,10 +17,11 @@ const loginClient = async function (body: LoginClient) {
     } else {
         try {
             
-            const dataUser = await db.loginCliente(body)            
-            
-            if (dataUser) {
-                const token = jwt.createJWT(dataUser);
+            const dataUser = await db.loginCliente(body)  
+            if(typeof dataUser === "number"){
+                return message.ERRO_INVALID_LOGIN_USER
+            }else if(dataUser && typeof dataUser !== "number") {
+                const token = jwt.createJWT(dataUser)
                 let statusJson = {
                     status: 200,
                     id: dataUser.id,

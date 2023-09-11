@@ -28,8 +28,9 @@
  * 
  *  Para mudar o banco local e deixar online: npx prisma migrate dev
  * 
- * Para adicionar uma nova origem: git remote add pessoal https://github.com/GustavoHenriqueProjects/tcc_limpean_backend_2023.git
- * Para mudar o origin do git: git remote set-url origin git://repository.url
+ * git remote add 'URL'
+ * Para mandar o commit para o meu repositorio pessoal: git push -u pessoal main
+ * Para mandar o commit para o repositório da organização: git push -u origin main
  * 
  * Para saber o repositorio: git remote -v
  * 
@@ -63,9 +64,5 @@ const corsOptions = {
 app.use(cors(corsOptions))
   
 app.use(server)
-
-// test
-// teste 2222
-
 
 app.listen(port, () => console.log('Servidor Aguardando requisições na porta 8080'))
