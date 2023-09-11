@@ -1,9 +1,9 @@
-import { loginTypeUser } from "../../controller/controllerUser/login/loginTypeUser"
+//import { loginClient } from "../../controller/controllerCliente/loginCliente/controllerLogin"
+//import { loginDiarist } from "../../controller/controllerDiarista/loginDiarista/controllerLogin"
 
 import { Router, Request, Response, NextFunction } from "express"
 import bodyParser from 'body-parser'
-import { loginClient } from "../../controller/controllerCliente/loginCliente/controllerLogin"
-import { loginDiarist } from "../../controller/controllerDiarista/loginDiarista/controllerLogin"
+import { loginTypeUser } from "../../controller/controllerUser/login/loginTypeUser"
 import { registerTypeUser } from "../../controller/controllerUser/register/registerTypeUser"
 import { dataDiaristById } from "../../controller/controllerDiarista/dataDiarist/controllerDataDiaristById"
 import { dataAllDiarist } from "../../controller/controllerDiarista/dataDiarist/controllerDataAllDiarist"
@@ -58,7 +58,7 @@ router.post('/v1/limpean/cadastro', jsonParser, async function (request: Request
     }
 })
 
-/*****************************************Login Cliente e Diarista ***********************************/
+/***************************************** Login Cliente e Diarista ***********************************/
 router.post('/v1/limpean/login', jsonParser, async function (request, response) {
 
     let contentType = request.headers['content-type']
@@ -67,11 +67,11 @@ router.post('/v1/limpean/login', jsonParser, async function (request, response) 
         
         let dataBody = request.body
         
-        let status = await loginTypeUser(dataBody)
+        let statusLogin = await loginTypeUser(dataBody)
 
-        if(status){
-            response.status(status.status)
-            response.json(status)
+        if(statusLogin){
+            response.status(statusLogin.status)
+            response.json(statusLogin)
         }else{
             response.send(message.ERRO_INTERNAL_SERVER)
         }
@@ -152,6 +152,11 @@ router.get('/v1/limpean/diarist', async function (request, response) {
     response.status(statusDataDiarist.status)
     response.json(statusDataDiarist)
     
+})
+
+router.delete('/v1/limpean/diarist/:token', async function (request, response){
+
+    const token = request.params.token
 })
 
 //EndPoint para listar o diarista com base no id
