@@ -8,6 +8,7 @@ import { registerTypeUser } from "../../controller/controllerUser/register/regis
 import { dataDiaristById } from "../../controller/controllerDiarista/dataDiarist/controllerDataDiaristById"
 import { dataAllDiarist } from "../../controller/controllerDiarista/dataDiarist/controllerDataAllDiarist"
 import * as message from "../../modulo/config"
+import * as jwt  from "jsonwebtoken"
 
 const jsonParser = bodyParser.json()
 
@@ -28,9 +29,12 @@ const verifyJWT = async function(request: Request, response: Response, next: Nex
     }
 
     try {
+
+        jwt.verify(Array.isArray(token) ? token[0] : token, SECRETE)
+
         next();
     } catch (error) {
-        
+                
         return response.status(401).json(message.ERRO_INVALID_TOKEN)
     }
 }
