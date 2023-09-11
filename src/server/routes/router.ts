@@ -1,6 +1,9 @@
+//import { loginTypeUser } from "../../controller/controllerUser/login/loginTypeUser"
+
 import { Router, Request, Response, NextFunction } from "express"
 import bodyParser from 'body-parser'
-import { loginTypeUser } from "../../controller/controllerUser/login/loginTypeUser"
+import { loginClient } from "../../controller/controllerCliente/loginCliente/controllerLogin"
+import { loginDiarist } from "../../controller/controllerDiarista/loginDiarista/controllerLogin"
 import { registerTypeUser } from "../../controller/controllerUser/register/registerTypeUser"
 import { dataDiaristById } from "../../controller/controllerDiarista/dataDiarist/controllerDataDiaristById"
 import { dataAllDiarist } from "../../controller/controllerDiarista/dataDiarist/controllerDataAllDiarist"
@@ -10,69 +13,6 @@ import * as jwt from 'jsonwebtoken'
 const jsonParser = bodyParser.json()
 
 const router = Router()
-
-
-//EndPoint responsavel por cadastrar o cliente e o diarista
-router.post('/v1/limpean/cadastro', jsonParser, async function (request: Request, response: Response) {
-    
-    let contentType = request.headers['content-type']
-
-    if (contentType === 'application/json') {
-
-        let dataBody = request.body
-
-        let status = await registerTypeUser(dataBody)
-     
-        if(status){
-            response.status(status.status)
-            response.json(status)
-        }
-        else {
-            response.send(message.ERRO_REGISTER_USER)
-        }
-    } else {
-        return response.send(message.ERROR_INVALID_CONTENT_TYPE)
-    }
-})
-
-//Endpoint responsavel por realizar a validação do login cliente e do diarista
-router.post('/v1/limpean/login', jsonParser, async function (request, response) {
-
-    let contentType = request.headers['content-type']
-
-    if(contentType === 'application/json'){
-        
-        let dataBody = request.body
-        
-        let status = await loginTypeUser(dataBody)
-
-        response.status(200)
-        response.json(status)
-        
-    }
-})
-
-
-//EndPoint responsavel por deletar o cadastro do cliente
-// router.delete('/v1/cadastro/cliente', jsonParser, async function (request: Request, response: Response) {
-    
-//     let contentType = request.headers['content-type']
-
-//     if (contentType === 'application/json') {
-
-//         let dataBody = request.body
-
-//         let status = await controllerCliente.deleteRegisterCliente(dataBody)
-    
-//         response.status(status.status)
-//         response.json(status)
-        
-        
-//     } else {
-//         return response.send(message.ERROR_INVALID_CONTENT_TYPE)
-//     }
-// })
-
 
 //Função para verifica token
 const verifyJWT = async function(request: Request, response: Response, next: NextFunction) {
@@ -98,6 +38,95 @@ const verifyJWT = async function(request: Request, response: Response, next: Nex
         return response.status(401).json(message.ERRO_INVALID_TOKEN)
     }
 }
+
+/***************************************** Cadastro Cliente e Diarista *********************************/
+router.post('/v1/limpean/cadastro', jsonParser, async function (request: Request, response: Response) {
+    
+    let contentType = request.headers['content-type']
+
+    if (contentType === 'application/json') {
+
+        let dataBody = request.body
+
+        let status = await registerTypeUser(dataBody)
+     
+        if(status){
+            response.status(status.status)
+            response.json(status)
+        }
+        else {
+            response.send(message.ERRO_REGISTER_USER)
+        }
+    } else {
+        return response.send(message.ERROR_INVALID_CONTENT_TYPE)
+    }
+})
+
+//****************************************Cliente*****************************************************
+
+//Endpoint responsavel por realizar a validação do login client
+router.post('/v1/limpean/client/login', jsonParser, async function (request, response) {
+
+    let contentType = request.headers['content-type']
+
+    if(contentType === 'application/json'){
+        
+        let dataBody = request.body
+        
+        let status = await loginClient(dataBody)
+
+        if(status){
+            response.status(status.status)
+            response.json(status)
+        }else{
+            response.send(message.ERRO_INTERNAL_SERVER)
+        }
+    }
+})
+
+/******************** Diarist ****************************************************************/
+
+//Endpoint responsavel por realizar a validação do diarista
+router.post('/v1/limpean/diarist/login', jsonParser, async function (request, response) {
+
+    let contentType = request.headers['content-type']
+
+    if(contentType === 'application/json'){
+        
+        let dataBody = request.body
+        
+        let status = await loginDiarist(dataBody)
+
+        if(status){
+            response.status(status.status)
+            response.json(status)
+        }
+        else{
+            response.send(message.ERRO_INTERNAL_SERVER)
+        }
+    }
+})
+
+
+//EndPoint responsavel por deletar o cadastro do cliente
+// router.delete('/v1/cadastro/cliente', jsonParser, async function (request: Request, response: Response) {
+    
+//     let contentType = request.headers['content-type']
+
+//     if (contentType === 'application/json') {
+
+//         let dataBody = request.body
+
+//         let status = await controllerCliente.deleteRegisterCliente(dataBody)
+    
+//         response.status(status.status)
+//         response.json(status)
+        
+        
+//     } else {
+//         return response.send(message.ERROR_INVALID_CONTENT_TYPE)
+//     }
+// })
 
 //EndPoint para listar todos os diaristas
 router.get('/v1/limpean/diarist', async function (request, response) {
