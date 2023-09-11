@@ -3,7 +3,6 @@ import { PrismaClient } from "@prisma/client"
 const prisma = new PrismaClient()
 
 interface Login {
-
     email: string,
     password: string
 }
@@ -13,26 +12,36 @@ interface Payload {
     email: string
 }
 
-const loginDiarista = async function (dataBody: Login): Promise<Payload | false> {
+const loginDiarista = async function (dataBody: Login): Promise<Payload | false | number> {
     try {
-        const verifyDiarist = await prisma.tbl_diarista.findFirst({
+        const loginDiarist = await prisma.tbl_diarista.findFirst({
             where: {
                 email: dataBody.email.toLowerCase(),
                 senha: dataBody.password 
             }
         })
 
-        console.log(verifyDiarist);
+        if (loginDiarist) {
+            const statusContaDiarist = await prisma.tbl_status_conta_diarista.findFirst({
+                where: {
+                    id_diarista: loginDiarist.id,
+                    id_status_conta: 1
+                }
+        })
         
-        
-        if (verifyDiarist) {
+        if (statusContaDiarist) {
             return {
-                id: verifyDiarist.id,
-                email: verifyDiarist.email,
+                id: loginDiarist.id,
+                email: loginDiarist.email,
             }
-        } else {
+        } else{
+            return 401
+        }
+        
+        }else{
             return false
         }
+                
     } catch (error) {
         return false;
     } finally {

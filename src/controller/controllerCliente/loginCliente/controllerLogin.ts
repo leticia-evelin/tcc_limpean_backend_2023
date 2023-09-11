@@ -17,7 +17,7 @@ const loginClient = async function (body: LoginClient) {
     } else {
         try {
             
-            const dataUser = await db.loginCliente(body);
+            const dataUser = await db.loginCliente(body)            
             
             if (dataUser) {
                 const token = jwt.createJWT(dataUser);
@@ -28,9 +28,7 @@ const loginClient = async function (body: LoginClient) {
                     token: token
                 }                
                 return statusJson;
-            } else {
-                console.log("test");
-                
+            } else {                
                 return message.ERRO_INVALID_USER;
             }
         } catch (error) {

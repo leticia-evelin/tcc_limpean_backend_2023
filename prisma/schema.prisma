@@ -150,7 +150,7 @@ model tbl_telefone_diarista {
 
 model tbl_status_conta {
   id            Int @id @default(autoincrement())
-  status        Boolean 
+  status        String @db.VarChar(5) 
   statusContaDiarista           tbl_status_conta_diarista[]
   statusContaCliente            tbl_status_conta_cliente[]
 

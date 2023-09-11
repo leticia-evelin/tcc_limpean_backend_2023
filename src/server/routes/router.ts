@@ -14,7 +14,6 @@ const jsonParser = bodyParser.json()
 
 const router = Router()
 
-//Função para verifica token
 const verifyJWT = async function(request: Request, response: Response, next: NextFunction) {
     //Pra uso no Postman
     const token = request.headers['x-api-key'];    
@@ -30,8 +29,6 @@ const verifyJWT = async function(request: Request, response: Response, next: Nex
     }
 
     try {
-        //Discriptografa token 
-        const decoded = jwt.verify(Array.isArray(token) ? token[0] : token, SECRETE);
         next();
     } catch (error) {
         
