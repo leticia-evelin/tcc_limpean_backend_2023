@@ -62,6 +62,7 @@ model tbl_residencia_cliente {
   id_cliente           Int
   id_endereco          Int
   id_tipo_residencia   Int
+  servico              tbl_servico[]
 
   FK_Cliente_Residencia         tbl_cliente          @relation(fields: [id_cliente], references: [id])
   FK_Endereco_Residencia        tbl_endereco         @relation(fields: [id_endereco], references: [id])
@@ -125,9 +126,12 @@ model tbl_diarista{
   id_genero            Int
   telefone             tbl_telefone_diarista[]
   statusContaDiarista  tbl_status_conta_diarista[]
+  diaristaServico      tbl_diarista_servico[]
 
   FK_Endereco_Diarista tbl_endereco @relation(fields: [id_endereco], references: [id])
   FK_Genero_Diarista   tbl_genero   @relation(fields: [id_genero], references: [id])
+
+  @@unique([id])
 }
 
 model tbl_telefone_diarista {
@@ -166,11 +170,179 @@ model tbl_status_conta_diarista {
 model tbl_status_conta_cliente {
   id              Int @id @default(autoincrement())
   data_status     DateTime @db.Date
-  id_cliente     Int
+  id_cliente      Int
   id_status_conta Int
 
   FK_Cliente_StatusContaCliente tbl_cliente @relation(fields: [id_cliente], references: [id])
   FK_StatusConta_StatusContaCliente tbl_status_conta @relation(fields: [id_status_conta], references: [id])
+
+  @@unique([id])
+}
+
+model tbl_servico {
+  id                    Int @id @default(autoincrement())
+  data                  DateTime @db.Date
+  hora                  DateTime @db.Time()
+  servico_agendado      Boolean
+  info_adicionais       String? @db.Text
+  id_residencia_cliente Int
+  id_tipo_limpeza       Int
+  id_checklist          Int
+  codigo                tbl_codigo[]
+  diaristaServico       tbl_diarista_servico[]   
+  transacao             tbl_transacao[]
+  servicoComodo         tbl_servico_comodo[]
+  servicoComValor       tbl_servico_com_valor[]
+  statusServico         tbl_status_servico[]
+  formulario            tbl_formulario[]
+
+  FK_ResidenciaCliente_Servico  tbl_residencia_cliente @relation(fields: [id_residencia_cliente], references: [id])
+  FK_TipoLimpeza_Servico        tbl_tipo_limpeza @relation(fields: [id_tipo_limpeza], references: [id])
+  FK_Checklist_Servico          tbl_checklist @relation(fields: [id_checklist], references: [id])
+
+  @@unique([id])
+}
+
+model tbl_codigo{
+  id               Int @id @default(autoincrement())
+  numeracao        String @db.Text
+  id_servico       Int
+
+  FK_Servico_Codigo tbl_servico @relation(fields: [id_servico], references: [id])
+
+  @@unique([id])
+}
+
+model tbl_diarista_servico{
+  id               Int @id @default(autoincrement())
+  id_servico       Int
+  id_diarista      Int
+
+  FK_Servico_DiaristaServico tbl_servico @relation(fields: [id_servico], references: [id])
+  FK_Diarista_DiaristaServico tbl_diarista @relation(fields: [id_diarista], references: [id])
+
+  @@unique([id])
+}
+
+model tbl_transacao {
+  id               Int @id @default(autoincrement())
+  valor            String @db.Varchar(45)
+  tipo             String @db.Varchar(45) 
+  comprovante      String @db.Text
+  id_servico       Int
+  id_tipo_trasacao Int
+
+  FK_Servico_Transacao       tbl_servico @relation(fields: [id_servico], references: [id])
+  FK_TipoTransacao_Transacao tbl_tipo_transacao @relation(fields: [id_tipo_trasacao], references: [id])
+
+  @@unique([id])
+}
+
+model tbl_tipo_transacao {
+ id         Int @id @default(autoincrement())
+ nome       String @db.VarChar(45)
+ transacao  tbl_transacao[]
+
+ @@unique([id])
+}
+
+model tbl_servico_comodo{
+  id             Int @id @default(autoincrement())
+  quantidade     Int
+  id_servico     Int   
+  id_comodo      Int
+
+  FK_Servico_ServicoComodo  tbl_servico @relation(fields: [id_servico], references: [id])
+  FK_Comodo_ServicoComodo   tbl_comodo @relation(fields: [id_comodo], references: [id])
+
+  @@unique([id])
+}
+
+model tbl_comodo {
+  id             Int @id @default(autoincrement())
+  nome           String @db.VarChar(45)
+  servicoComodo  tbl_servico_comodo[]
+
+ @@unique([id])
+}
+
+model tbl_servico_com_valor {
+ id         Int @id @default(autoincrement())
+ valor      String @db.Varchar(45)
+ id_servico Int
+
+ FK_Servico_ServicoComValor tbl_servico @relation(fields: [id_servico], references: [id])
+
+ @@unique([id])
+}
+
+model tbl_status_servico {
+  id         Int @id @default(autoincrement())
+  data_hora  DateTime @db.DateTime()
+  id_servico Int
+  id_status  Int
+
+  FK_Servico_StatusServico tbl_servico @relation(fields: [id_servico], references: [id])
+  FK_Status_StatusServico tbl_status @relation(fields: [id_status], references: [id])
+
+  @@unique([id])
+}
+
+model tbl_status {
+  id       Int @id @default(autoincrement())
+  nome     String @db.VarChar(45)
+  sigla    String? @db.Varchar(45)
+  statusServico tbl_status_servico[]
+
+  @@unique([id])
+}
+
+model tbl_formulario {
+  id           Int @id @default(autoincrement())
+  check        Boolean
+  id_servico   Int
+  id_perguntas Int
+
+  FK_Servico_Formulario tbl_servico @relation(fields: [id_servico], references: [id])
+  FK_Perguntas_Formulario tbl_perguntas @relation(fields: [id_perguntas], references: [id])
+
+  @@unique([id])
+
+}
+
+model tbl_perguntas {
+  id         Int @id @default(autoincrement())
+  nome       String @db.VarChar(100)
+  assunto    String? @db.Varchar(20)
+  formulario tbl_formulario[]
+
+  @@unique([id])
+}
+
+model tbl_tipo_limpeza {
+  id      Int @id @default(autoincrement())
+  nome    String @db.VarChar(45)
+  servico tbl_servico[]
+
+  @@unique([id])
+}
+
+model tbl_checklist {
+  id         Int @id @default(autoincrement())
+  nome_lista String @db.VarChar(45)
+  id_item    Int
+  servico    tbl_servico[]
+
+  FK_Item_Checklist tbl_item @relation(fields: [id_item], references: [id])
+
+  @@unique([id])
+
+}
+
+model tbl_item {
+  id         Int @id @default(autoincrement())
+  nome_item  String @db.VarChar(45)
+  checklist  tbl_checklist[]
 
   @@unique([id])
 }

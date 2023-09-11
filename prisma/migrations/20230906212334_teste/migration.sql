@@ -122,6 +122,37 @@ CREATE TABLE `tbl_telefone_diarista` (
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+-- CreateTable
+CREATE TABLE `tbl_status_conta` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `status` BOOLEAN NOT NULL,
+
+    UNIQUE INDEX `tbl_status_conta_id_key`(`id`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `tbl_status_conta_diarista` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `data_status` DATE NOT NULL,
+    `id_diarista` INTEGER NOT NULL,
+    `id_status_conta` INTEGER NOT NULL,
+
+    UNIQUE INDEX `tbl_status_conta_diarista_id_key`(`id`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `tbl_status_conta_cliente` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `data_status` DATE NOT NULL,
+    `id_cliente` INTEGER NOT NULL,
+    `id_status_conta` INTEGER NOT NULL,
+
+    UNIQUE INDEX `tbl_status_conta_cliente_id_key`(`id`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 -- AddForeignKey
 ALTER TABLE `tbl_cidade` ADD CONSTRAINT `tbl_cidade_id_estado_fkey` FOREIGN KEY (`id_estado`) REFERENCES `tbl_estado`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
@@ -151,3 +182,15 @@ ALTER TABLE `tbl_diarista` ADD CONSTRAINT `tbl_diarista_id_genero_fkey` FOREIGN 
 
 -- AddForeignKey
 ALTER TABLE `tbl_telefone_diarista` ADD CONSTRAINT `tbl_telefone_diarista_id_diarista_fkey` FOREIGN KEY (`id_diarista`) REFERENCES `tbl_diarista`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `tbl_status_conta_diarista` ADD CONSTRAINT `tbl_status_conta_diarista_id_diarista_fkey` FOREIGN KEY (`id_diarista`) REFERENCES `tbl_diarista`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `tbl_status_conta_diarista` ADD CONSTRAINT `tbl_status_conta_diarista_id_status_conta_fkey` FOREIGN KEY (`id_status_conta`) REFERENCES `tbl_status_conta`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `tbl_status_conta_cliente` ADD CONSTRAINT `tbl_status_conta_cliente_id_cliente_fkey` FOREIGN KEY (`id_cliente`) REFERENCES `tbl_cliente`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `tbl_status_conta_cliente` ADD CONSTRAINT `tbl_status_conta_cliente_id_status_conta_fkey` FOREIGN KEY (`id_status_conta`) REFERENCES `tbl_status_conta`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
