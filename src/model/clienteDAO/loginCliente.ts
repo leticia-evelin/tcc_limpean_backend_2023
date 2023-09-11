@@ -23,13 +23,14 @@ const loginCliente = async function (dataBody: Login): Promise<Payload | false |
         })
 
         if (loginClient) {
-            const statusContaClient = await prisma.tbl_status_conta_diarista.findFirst({
+            const statusContaClient = await prisma.tbl_status_conta_cliente.findFirst({
                 where: {
-                    id_diarista: loginClient.id,
+                    id_cliente: loginClient.id,
                     id_status_conta: 1
                 }
         })
         
+                
         if (statusContaClient) {
             return {
                 id: loginClient.id,
