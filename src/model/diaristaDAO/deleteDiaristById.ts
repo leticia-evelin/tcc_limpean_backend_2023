@@ -15,7 +15,7 @@ const deleteDiarist = async function (id: number, email: string) {
         })
 
         if(verifyDiarist) {
-            let transaction = await prisma.$transaction(async (prisma) =>{
+          
                 await prisma.tbl_status_conta_diarista.update({
                     where: {
                         id: verifyDiarist.id
@@ -25,7 +25,6 @@ const deleteDiarist = async function (id: number, email: string) {
                         id_status_conta: 2
                     }
                 })
-            })
 
             return true
         }else{
