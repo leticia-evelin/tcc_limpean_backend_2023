@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client"
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient()
 
 interface Diarista {
     typeUser: string,
@@ -39,7 +39,7 @@ const registerUser = async function (dataBody: Diarista) {
                     { cpf: dataBody.cpf }
                   ]
             }
-        });
+        })
         
 
         if (!verifyDiarist) {

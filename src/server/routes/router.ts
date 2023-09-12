@@ -7,6 +7,7 @@ import { loginTypeUser } from "../../controller/controllerUser/login/loginTypeUs
 import { registerTypeUser } from "../../controller/controllerUser/register/registerTypeUser"
 import { dataDiaristById } from "../../controller/controllerDiarista/dataDiarist/controllerDataDiaristById"
 import { dataAllDiarist } from "../../controller/controllerDiarista/dataDiarist/controllerDataAllDiarist"
+import { deleteRegisterDiarist } from "../../controller/controllerDiarista/deleteRegisterDiarist/controllerDeleteRegisterDiarist"
 import * as message from "../../modulo/config"
 import * as jwt  from "jsonwebtoken"
 
@@ -128,26 +129,6 @@ router.post('/v1/limpean/login', jsonParser, async function (request, response) 
 // })
 
 
-//EndPoint responsavel por deletar o cadastro do cliente
-// router.delete('/v1/cadastro/cliente', jsonParser, async function (request: Request, response: Response) {
-    
-//     let contentType = request.headers['content-type']
-
-//     if (contentType === 'application/json') {
-
-//         let dataBody = request.body
-
-//         let status = await controllerCliente.deleteRegisterCliente(dataBody)
-    
-//         response.status(status.status)
-//         response.json(status)
-        
-        
-//     } else {
-//         return response.send(message.ERROR_INVALID_CONTENT_TYPE)
-//     }
-// })
-
 //EndPoint para listar todos os diaristas
 router.get('/v1/limpean/diarist', async function (request, response) {
 
@@ -158,9 +139,14 @@ router.get('/v1/limpean/diarist', async function (request, response) {
     
 })
 
-router.delete('/v1/limpean/diarist/:token', async function (request, response){
+router.delete('/v1/limpean/diarist/:token', verifyJWT, async function (request, response){
 
     const token = request.params.token
+    const statusDiarist = await deleteRegisterDiarist(token)
+
+    response.status(statusDiarist.status)
+    response.json(statusDiarist)
+
 })
 
 //EndPoint para listar o diarista com base no id
