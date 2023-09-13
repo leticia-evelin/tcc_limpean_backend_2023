@@ -14,6 +14,8 @@ const deleteDiarist = async function (id: number, email: string) {
             }
         })
 
+        console.log(verifyDiarist);
+        
         if(verifyDiarist) {
           
                 await prisma.tbl_status_conta_diarista.update({

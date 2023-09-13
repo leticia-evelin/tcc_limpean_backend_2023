@@ -12,7 +12,11 @@ const dataAllDiarist = async function () {
             diarists: diarist
         }
 
-        return diaristJson
+        if(diarist){
+            return diaristJson
+        }else{
+            return message.ERRO_INTERNAL_SERVER
+        }
         
     } catch (error) {
         
