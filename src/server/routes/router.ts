@@ -8,6 +8,7 @@ import { registerTypeUser } from "../../controller/controllerUser/register/regis
 import { dataDiaristById } from "../../controller/controllerDiarista/dataDiarist/controllerDataDiaristById"
 import { dataAllDiarist } from "../../controller/controllerDiarista/dataDiarist/controllerDataAllDiarist"
 import { deleteRegisterDiarist } from "../../controller/controllerDiarista/deleteRegisterDiarist/controllerDeleteRegisterDiarist"
+import { deleteRegisterClient } from "../../controller/controllerCliente/deleteRegisterClient/controllerDeleteRegisterClient"
 import * as message from "../../modulo/config"
 import * as jwt  from "jsonwebtoken"
 
@@ -104,6 +105,17 @@ router.post('/v1/limpean/login', jsonParser, async function (request, response) 
 //         }
 //     }
 // })
+
+//EndPoint para excluir um cliente
+router.delete('/v1/limpean/client/:token', verifyJWT, async function (request, response){
+
+    const token = request.params.token
+    const statusClient = await deleteRegisterClient(token)
+   
+    response.status(statusClient.status)
+    response.json(statusClient)
+
+})
 
 /******************** Diarist ****************************************************************/
 
