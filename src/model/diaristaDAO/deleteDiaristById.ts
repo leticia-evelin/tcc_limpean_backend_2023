@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client"
 const prisma = new PrismaClient()
 
 const deleteDiarist = async function (id: number, email: string) {
-    
+
     try {
         const verifyDiarist = await prisma.tbl_diarista.findFirst({
             where: {
@@ -14,7 +14,6 @@ const deleteDiarist = async function (id: number, email: string) {
             }
         })
 
-        console.log(verifyDiarist);
         
         if(verifyDiarist) {
           
