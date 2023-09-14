@@ -7,7 +7,7 @@ const deleteDiarist = async function (id: number, email: string) {
     try {
         const verifyDiarist = await prisma.tbl_diarista.findFirst({
             where: {
-                OR: [
+                AND: [
                     { email: email.toLowerCase() },
                     { id: id }
                   ]

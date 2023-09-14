@@ -23,7 +23,7 @@ const verifyJWT = async function(request: Request, response: Response, next: Nex
     //Para uso Front-end 
     //const token = request.headers['x-access-token'];
     
-    const SECRETE = '3oFEe4PtHxJeXsa7hY8WBFtCt1AJ4GwgqF6WARF1NG0mUnc89W';
+    const SECRETE = message.REQUIRE_SECRETE;
 
     if (!token) {
         
@@ -48,9 +48,9 @@ router.post('/v1/limpean/cadastro', jsonParser, async function (request: Request
 
     if (contentType === 'application/json') {
 
-        let dataBody = request.body
+        const dataBody = request.body
 
-        let status = await registerTypeUser(dataBody)
+        const status = await registerTypeUser(dataBody)
      
         if(status){
             response.status(status.status)
@@ -67,13 +67,13 @@ router.post('/v1/limpean/cadastro', jsonParser, async function (request: Request
 /***************************************** Login Cliente e Diarista ***********************************/
 router.post('/v1/limpean/login', jsonParser, async function (request, response) {
 
-    let contentType = request.headers['content-type']
+    const contentType = request.headers['content-type']
 
     if(contentType === 'application/json'){
         
-        let dataBody = request.body
+        const dataBody = request.body
         
-        let statusLogin = await loginTypeUser(dataBody)
+        const statusLogin = await loginTypeUser(dataBody)
 
         if(statusLogin){
             response.status(statusLogin.status)
@@ -170,6 +170,14 @@ router.get('/v1/limpean/diarist/:token', verifyJWT, async function (request, res
     response.status(statusDataDiarist.status)
     response.json(statusDataDiarist)
     
+})
+
+router.put('/v1/limpean/diarist/:token', verifyJWT, async function (request, response){
+
+    const token = request.params.token
+    const dataBody = request.body
+
+
 })
 
 //EndPoint de teste, para verificar autenticidade do token

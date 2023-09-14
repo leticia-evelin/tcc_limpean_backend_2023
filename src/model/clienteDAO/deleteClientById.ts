@@ -7,7 +7,7 @@ const deleteClient = async function (id: number, email: string) {
     try {
         const verifyClient = await prisma.tbl_cliente.findFirst({
             where: {
-                OR: [
+                AND: [
                     { email: email.toLowerCase() },
                     { id: id }
                   ]
@@ -15,7 +15,7 @@ const deleteClient = async function (id: number, email: string) {
         })
        
         if(verifyClient) {
-            let transaction = await prisma.$transaction(async (prisma) =>{
+            
                 await prisma.tbl_status_conta_cliente.update({
                     where: {
                         id: verifyClient.id
@@ -25,7 +25,6 @@ const deleteClient = async function (id: number, email: string) {
                         id_status_conta: 2
                     }
                 })
-            })
            
             return true
         }else{

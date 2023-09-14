@@ -72,7 +72,7 @@ CREATE TABLE `tbl_cliente` (
     `biografia` TEXT NULL,
     `foto_perfil` TEXT NULL,
     `email` VARCHAR(255) NOT NULL,
-    `senha` VARCHAR(30) NOT NULL,
+    `senha` VARCHAR(64) NOT NULL,
     `id_genero` INTEGER NOT NULL,
 
     UNIQUE INDEX `tbl_cliente_cpf_key`(`cpf`),
@@ -101,7 +101,7 @@ CREATE TABLE `tbl_diarista` (
     `biografia` TEXT NULL,
     `foto_perfil` TEXT NULL,
     `email` VARCHAR(255) NOT NULL,
-    `senha` VARCHAR(30) NOT NULL,
+    `senha` VARCHAR(64) NOT NULL,
     `media_valor` VARCHAR(45) NOT NULL,
     `id_endereco` INTEGER NOT NULL,
     `id_genero` INTEGER NOT NULL,

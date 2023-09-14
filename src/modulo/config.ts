@@ -4,6 +4,9 @@
  * Versão: 14/08/2023
  **************************************************/
 
+const REQUIRE_SECRETE = "3oFEe4PtHxJeXsa7hY8WBFtCt1AJ4GwgqF6WARF1NG0mUnc89W"
+
+/***************************************  CONSTANTES DE ERROS ******************************************************************************************************/
 const ERROR_INVALID_CONTENT_TYPE = { status: 415, message: 'O tipo de mídia (Content-Type) da solicitação não é compatível com o servidor. Esperado: application/json'}
 const ERRO_INVALID_USER = {status: 401, message: "Email ou Senha inválidos."}
 const ERRO_INVALID_LOGIN_USER = {status: 403, message: "O login não pôde ser concluído. Sua conta está temporariamente desativada ou cancelada."}
@@ -29,6 +32,7 @@ const CREATED_REGISTER = {status: 201, message: "Registro criado com sucesso."}
 const DELETE_USER= {status: 200, message: "Registro deletado com sucesso."}
 
 export {
+    REQUIRE_SECRETE,
     ERROR_INVALID_CONTENT_TYPE,
     ERRO_INVALID_USER,
     ERRO_INVALID_LOGIN_USER,

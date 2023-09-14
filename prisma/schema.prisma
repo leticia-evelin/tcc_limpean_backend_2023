@@ -90,7 +90,7 @@ model tbl_cliente {
   biografia            String?   @db.Text
   foto_perfil          String?   @db.Text
   email                String    @db.VarChar(255) @unique
-  senha                String    @db.VarChar(30)
+  senha                String    @db.VarChar(64)
   id_genero            Int
   residencia           tbl_residencia_cliente[]
   telefone             tbl_telefone_cliente[]
@@ -122,7 +122,7 @@ model tbl_diarista{
   biografia            String?   @db.Text
   foto_perfil          String?   @db.Text
   email                String    @db.VarChar(255) @unique
-  senha                String    @db.VarChar(30)
+  senha                String    @db.VarChar(64)
   media_valor          String    @db.VarChar(45)
   id_endereco          Int
   id_genero            Int
