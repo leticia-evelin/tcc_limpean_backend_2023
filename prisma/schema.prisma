@@ -139,7 +139,7 @@ model tbl_diarista{
 
 model tbl_telefone_diarista {
   id                Int @id @default(autoincrement())
-  numero_telefone   String @db.VarChar(15)
+  numero_telefone   String @db.VarChar(15) @unique
   ddd               String @db.VarChar(2)
   id_diarista       Int
 

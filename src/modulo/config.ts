@@ -23,12 +23,14 @@ const ERRO_REQUIRE_BIRTH_DATE = {status: 422, message: "Atenção a data informa
 const ERRO_NUMBER_PHONE = {status: 422, message: "Atenção o número de telefone esta errado. verique e tente novamente. exemplo: (11) 1111-11111"}
 const ERRO_ADDRESS = {status: 422, message: "Atenção, verifique os dados referentes ao endereço e tente novamente"}
 const ERRO_DELETE_USER = {status: 500, message: "Erro ao tentar deletar conta de usuario, verifique os dados e tente novamente."}
+const ERRO_UPDATE_USER = {status:500, message: "Erro ao tentar atualizar dados do usuario, verifique a documentação e tente novamente."}
 
 const ERRO_REQUIRED_TOKEN = {status: 401, message: "Token não fornecido."}
 const ERRO_INVALID_TOKEN = {status: 401, message: "Token inválido."}
 
 /***************************************   CONSTANTES DE SUCESSO  ************************************************************************************************/
 const CREATED_REGISTER = {status: 201, message: "Registro criado com sucesso."}
+const UPDATE_USER = {status: 201, message: "Registro atualizado com sucesso"}
 const DELETE_USER= {status: 200, message: "Registro deletado com sucesso."}
 
 export {
@@ -43,12 +45,14 @@ export {
     ERRO_REQUIRED_DATA_DIARISTA,
     ERRO_REGISTER_USER,
     CREATED_REGISTER,
+    UPDATE_USER,
     ERRO_REGISTER_EMAIL,
     ERRO_REQUIRE_BIRTH_DATE,
     ERRO_REQUIRE_CPF,
     ERRO_NUMBER_PHONE,
     ERRO_ADDRESS,
     ERRO_DELETE_USER,
+    ERRO_UPDATE_USER,
     DELETE_USER,
     ERRO_REQUIRED_DATA_HOUSE_CLIENTE,
     ERRO_REQUIRED_TOKEN,

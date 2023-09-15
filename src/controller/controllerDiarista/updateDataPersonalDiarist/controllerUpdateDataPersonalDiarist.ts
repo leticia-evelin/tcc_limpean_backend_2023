@@ -1,12 +1,16 @@
 import * as message from "../../../modulo/config"
+import * as db from "../../../model/diaristaDAO/updateDateDiaristById"
+import { checkDataDiarist } from "./validate/validateDataUpdateDiarist"
 import * as jwt from "jsonwebtoken"
 
-interface UpdateDataDiarist{
+interface UpdateDataDiarist {
     name: string | null,
     biography: string | null,
-    idGrender: number | null,
-    phone: string | null,
+    idGender: number | null,
     ddd: string | null,
+    phone: string | null,
+    newDDD: string | null,
+    newPhone: string | null,
     password: string | null,
     photoUser: string | null
 }
@@ -16,23 +20,34 @@ interface TokenPayLoad {
     name: string
 }
 
-const updateDataDiarist = async function (token:string, dataDiarist: UpdateDataDiarist) {
+const updateDataDiarist = async function (token: string, dataDiarist: UpdateDataDiarist) {
     const SECRETE = message.REQUIRE_SECRETE
 
     try {
-        
+    
         const decoded = jwt.verify(Array.isArray(token) ? token[0] : token, SECRETE) as TokenPayLoad
-        const { id, name} = decoded 
+        const { id, name } = decoded
 
+        const tokenDecoded = { id, name }
         
-        // const statusDiarist = await deleteDiarist(Number(id), name)
-        // if(statusDiarist){
-        //     return message.DELETE_USER
-        // }else{
-        //     return message.ERRO_DELETE_USER
-        // }
+        if (!checkDataDiarist(dataDiarist)) {            
+            return message.ERRO_UPDATE_USER
+        } else {
+            
+            const statusDiarist = await db.updateDataDiarist(tokenDecoded, dataDiarist)
+            if (statusDiarist) {
+                return message.UPDATE_USER
+            } else {
+                return message.ERRO_UPDATE_USER
+            }
+        }
 
     } catch (error) {
-        return message.ERRO_INVALID_TOKEN
+                
+        return message.ERRO_INTERNAL_SERVER
     }
+}
+
+export {
+    updateDataDiarist
 }

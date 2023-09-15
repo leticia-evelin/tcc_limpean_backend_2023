@@ -119,6 +119,7 @@ CREATE TABLE `tbl_telefone_diarista` (
     `ddd` VARCHAR(2) NOT NULL,
     `id_diarista` INTEGER NOT NULL,
 
+    UNIQUE INDEX `tbl_telefone_diarista_numero_telefone_key`(`numero_telefone`),
     UNIQUE INDEX `tbl_telefone_diarista_id_key`(`id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

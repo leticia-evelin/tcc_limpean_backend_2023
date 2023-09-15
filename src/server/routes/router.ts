@@ -9,6 +9,7 @@ import { dataDiaristById } from "../../controller/controllerDiarista/dataDiarist
 import { dataAllDiarist } from "../../controller/controllerDiarista/dataDiarist/controllerDataAllDiarist"
 import { deleteRegisterDiarist } from "../../controller/controllerDiarista/deleteRegisterDiarist/controllerDeleteRegisterDiarist"
 import { deleteRegisterClient } from "../../controller/controllerCliente/deleteRegisterClient/controllerDeleteRegisterClient"
+import { updateDataDiarist } from "../../controller/controllerDiarista/updateDataPersonalDiarist/controllerUpdateDataPersonalDiarist"
 import * as message from "../../modulo/config"
 import * as jwt  from "jsonwebtoken"
 
@@ -172,10 +173,15 @@ router.get('/v1/limpean/diarist/:token', verifyJWT, async function (request, res
     
 })
 
-router.put('/v1/limpean/diarist/:token', verifyJWT, async function (request, response){
+router.put('/v1/limpean/diarist/:token', verifyJWT, jsonParser, async function (request, response){
 
     const token = request.params.token
     const dataBody = request.body
+
+    const statusDiarist = await updateDataDiarist(token, dataBody)
+
+    response.status(statusDiarist.status)
+    response.json(statusDiarist)
 
 
 })
