@@ -2,13 +2,13 @@ import * as message from "../../../modulo/config"
 import * as jwt from "jsonwebtoken"
 
 interface UpdateDataDiarist{
-    name: string,
-    biography: string,
-    idGrender: number,
-    phone: string,
-    ddd: string,
-    password: string,
-    photoUser: string
+    name: string | null,
+    biography: string | null,
+    idGrender: number | null,
+    phone: string | null,
+    ddd: string | null,
+    password: string | null,
+    photoUser: string | null
 }
 
 interface TokenPayLoad {
