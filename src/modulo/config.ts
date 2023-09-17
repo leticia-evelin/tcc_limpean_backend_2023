@@ -24,7 +24,8 @@ const ERRO_NUMBER_PHONE = {status: 422, message: "Atenção o número de telefon
 const ERRO_ADDRESS = {status: 422, message: "Atenção, verifique os dados referentes ao endereço e tente novamente"}
 const ERRO_DELETE_USER = {status: 500, message: "Erro ao tentar deletar conta de usuario, verifique os dados e tente novamente."}
 const ERRO_UPDATE_USER = {status:500, message: "Erro ao tentar atualizar dados do usuario, verifique a documentação e tente novamente."}
-
+const ERRO_UPDATE_PHONE_USER = {status:500, message: "Erro ao tentar atualizar os dados referentes ao número de telefone."}
+const ERRO_UPDATE_DATA_SIMPLE_DIARIST = {status: 500, message: "Erro, Não foi possivel atualizar os dados referentes a Nome, Biografia, Genero, Senha, Foto ou Preço."} 
 const ERRO_REQUIRED_TOKEN = {status: 401, message: "Token não fornecido."}
 const ERRO_INVALID_TOKEN = {status: 401, message: "Token inválido."}
 
@@ -53,6 +54,8 @@ export {
     ERRO_ADDRESS,
     ERRO_DELETE_USER,
     ERRO_UPDATE_USER,
+    ERRO_UPDATE_DATA_SIMPLE_DIARIST,
+    ERRO_UPDATE_PHONE_USER,
     DELETE_USER,
     ERRO_REQUIRED_DATA_HOUSE_CLIENTE,
     ERRO_REQUIRED_TOKEN,

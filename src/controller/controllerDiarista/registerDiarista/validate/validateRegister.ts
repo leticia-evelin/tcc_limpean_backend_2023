@@ -61,8 +61,12 @@ function validateTypesJson(json: any): boolean {
 }
 
 
-function validatePhoneWithDDD(ddd:string , phone: string) {
+function validatePhoneWithDDD(ddd: string | any , phone: string | any) {
 
+    if(typeof ddd !== "string" || typeof phone !== "string"){
+        return false
+    }
+        
     let numberPhone = `${ddd} ${phone}`    
 
     //retira todos os caracteres menos os numeros

@@ -183,7 +183,6 @@ router.put('/v1/limpean/diarist/:token', verifyJWT, jsonParser, async function (
     response.status(statusDiarist.status)
     response.json(statusDiarist)
 
-
 })
 
 //EndPoint de teste, para verificar autenticidade do token
