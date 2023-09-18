@@ -1,4 +1,5 @@
 import { validatePhoneWithDDD } from "../../registerDiarista/validate/validateRegister"
+import { verifyPhoneDiarist } from "../../../../model/diaristaDAO/updateDateDiaristById";
 
 interface UpdateDataDiarist {
     name: string | null;
@@ -24,14 +25,19 @@ interface UpdateDataDiarist {
     };
 }
 
+interface TokenPayLoad {
+    id: string,
+    name: string
+}
+
 function isURL(url: string) {
     // Expressão regular para verificar URLs
     const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
     return urlRegex.test(url);
 }
 
-const checkDataDiarist = (data: UpdateDataDiarist) => {
-    let status = true;
+const checkDataDiarist =  async function (data: UpdateDataDiarist, token: TokenPayLoad){
+    let status = true;    
 
     if (
         data.name === null && data.biography === null && data.idGender === null &&
@@ -51,13 +57,20 @@ const checkDataDiarist = (data: UpdateDataDiarist) => {
 
     if (data.phones.some(phone => typeof phone.phone === "string" || typeof phone.ddd === "string" || typeof phone.newPhone === "string" || typeof phone.newDDD === "string")) {
 
-        if (data.phones.some(phone => !validatePhoneWithDDD(phone.ddd, phone.phone))) {            
-            status = false;
+        if (data.phones.some(phone => !validatePhoneWithDDD(phone.ddd, phone.phone))) {                
+            status = false
         }
 
         if (data.phones.some(phone => !validatePhoneWithDDD(phone.newDDD, phone.newPhone))) {
+            status = false
+        }
+
+        if (data.phones.every(async phone => await( verifyPhoneDiarist(phone.ddd, phone.phone, phone.newDDD, phone.newPhone, token)))) {
+            console.log("false validation d");
+            
             status = false;
         }
+        
     }
 
     if (data.password !== null && (typeof data.password !== "string" || data.password.length < 6)) {
@@ -66,8 +79,7 @@ const checkDataDiarist = (data: UpdateDataDiarist) => {
 
     if (data.photoUser !== null && !isURL(data.photoUser)) {
         status = false;
-    }
-
+    }    
     return status
 }
 

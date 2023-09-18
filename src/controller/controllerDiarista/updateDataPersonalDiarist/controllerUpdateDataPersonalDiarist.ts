@@ -44,7 +44,9 @@ const updateDataDiarist = async function (token: string, dataDiarist: UpdateData
 
         const tokenDecoded = { id, name }
         
-        if (!checkDataDiarist(dataDiarist)) {                                    
+        let stutusCheck = await checkDataDiarist(dataDiarist, tokenDecoded)
+        
+        if(!stutusCheck){
             return message.ERRO_UPDATE_USER
         } else {
             
@@ -60,7 +62,7 @@ const updateDataDiarist = async function (token: string, dataDiarist: UpdateData
             if(dataPhone){
                 const updateNumberPhone = await db.updateDataPhone(tokenDecoded, dataPhone)
                 
-                if(!updateNumberPhone){                    
+                if(!updateNumberPhone){        
                     return message.ERRO_UPDATE_PHONE_USER
                 }
             }

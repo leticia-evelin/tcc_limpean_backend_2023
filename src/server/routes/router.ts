@@ -185,9 +185,4 @@ router.put('/v1/limpean/diarist/:token', verifyJWT, jsonParser, async function (
 
 })
 
-//EndPoint de teste, para verificar autenticidade do token
-router.get('/v1/form-dados', verifyJWT, jsonParser, async function (request, response) {
-    console.log("Acesso")
-})
-
 export { router }
