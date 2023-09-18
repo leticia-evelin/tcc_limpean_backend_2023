@@ -1,7 +1,9 @@
 import * as message from "../../../modulo/config"
 import * as db from "../../../model/diaristaDAO/updateDateDiaristById"
-import {createStructureSimpleDataPersonal} from "./createDataStructure/dataPersonalSimple"
+import { createStructureSimpleDataPersonal } from "./createDataStructure/dataPersonalSimple"
 import { createStructureSimpleDataPhone } from "./createDataStructure/dataPersonalPhone"
+import { createStructureSimpleDataAddress } from "./createDataStructure/dataPersonalAddress"
+
 import { checkDataDiarist } from "./validate/validateDataUpdateDiarist"
 import * as jwt from "jsonwebtoken"
 
@@ -46,7 +48,7 @@ const updateDataDiarist = async function (token: string, dataDiarist: UpdateData
         
         let stutusCheck = await checkDataDiarist(dataDiarist, tokenDecoded)
         
-        if(!stutusCheck){
+        if(!stutusCheck){            
             return message.ERRO_UPDATE_USER
         } else {
             
@@ -64,6 +66,15 @@ const updateDataDiarist = async function (token: string, dataDiarist: UpdateData
                 
                 if(!updateNumberPhone){        
                     return message.ERRO_UPDATE_PHONE_USER
+                }
+            }
+            
+            const dataAddress = createStructureSimpleDataAddress(dataDiarist.address)
+            if(dataAddress){
+                const updateDataAdress= await db.updateDataAddressDiarist(tokenDecoded, dataAddress)
+                
+                if(!updateDataAdress){                                                
+                    return message.ERRO_ADDRESS
                 }
             }
 

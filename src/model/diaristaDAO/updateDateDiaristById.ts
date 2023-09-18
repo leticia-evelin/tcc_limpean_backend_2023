@@ -7,8 +7,12 @@ interface TokenPayLoad {
     name: string
 }
 
+function isObjectEmpty(obj: Record<string, any>): boolean {
+    return Object.keys(obj).length === 0;
+}
 
-const verifyPhoneDiarist = async function( oldDDD: any, oldPhone: any, newDDD: any , newPhone: any,  token: TokenPayLoad){
+
+const verifyPhoneDiarist = async function(token: TokenPayLoad, oldDDD: any, oldPhone: any, newDDD: any , newPhone: any){
     try {
         const verifyDiarist = await prisma.tbl_diarista.findFirst({
             where: {
@@ -130,9 +134,75 @@ const updateDataPhone = async function (token: TokenPayLoad, data: any) {
     }
 }
 
+const updateDataAddressDiarist = async function (token: TokenPayLoad, data: any) {
+    try {
+        
+        const verifyDiarist = await prisma.tbl_diarista.findFirst({
+            where: {
+                AND: [
+                    { email: token.name.toLowerCase() },
+                    { id: Number(token.id) }
+                ]
+            },
+            include: {
+                FK_Endereco_Diarista: true,
+            }
+        })
+        
+        let tbl_endereco
+        let statusUpdated = false
+        if(verifyDiarist){
+            if (!isObjectEmpty(data.tbl_endereco)) {
+                tbl_endereco = await prisma.tbl_endereco.update({
+                    where: {
+                        id: verifyDiarist.FK_Endereco_Diarista.id,
+                    },
+                    data: data.tbl_endereco,
+                });
+                if (tbl_endereco) {
+                    statusUpdated = true;
+                }
+            }
+
+            if (!isObjectEmpty(data.tbl_cidade)) {
+
+                console.log("dfdfd");
+                
+                tbl_endereco = await prisma.tbl_endereco.findFirst({
+                    where: {
+                        id: verifyDiarist.FK_Endereco_Diarista.id,
+                    }
+                })
+
+                if (tbl_endereco) {
+                    await prisma.tbl_cidade.update({
+                        where: {
+                            id: tbl_endereco.id,
+                        },
+                        data: data.tbl_cidade,
+                    });
+
+                    statusUpdated = true;
+                }
+            
+            }
+
+            return statusUpdated
+            
+        }else{
+            return false
+        }
+    } catch (error) {
+        return false
+    } finally{
+        await prisma.$disconnect()
+    }
+}
+
 
 export {
     updateDataSimpleDiarist,
     updateDataPhone,
-    verifyPhoneDiarist
+    verifyPhoneDiarist,
+    updateDataAddressDiarist
 }
