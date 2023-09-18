@@ -35,7 +35,7 @@ const verifyPhoneDiarist = async function( oldDDD: any, oldPhone: any, newDDD: a
                         numero_telefone: newPhone
                     }
                 })                
-                if(tbl_telefone_diarista && tbl_telefone_diarista_new === null){                                                            
+                if(tbl_telefone_diarista && tbl_telefone_diarista_new === null){                                                                                
                     return true
                 }else{                                        
                     return false

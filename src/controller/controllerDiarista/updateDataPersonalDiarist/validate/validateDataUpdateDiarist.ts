@@ -65,11 +65,14 @@ const checkDataDiarist =  async function (data: UpdateDataDiarist, token: TokenP
             status = false
         }
 
-        if (data.phones.every(async phone => await( verifyPhoneDiarist(phone.ddd, phone.phone, phone.newDDD, phone.newPhone, token)))) {
-            console.log("false validation d");
-            
-            status = false;
-        }
+        for (const phone of data.phones) {
+            if (!(await verifyPhoneDiarist(phone.ddd, phone.phone, phone.newDDD, phone.newPhone, token))) {
+                status = false;
+                console.log("Entro no loop");
+                
+                break; // Para a iteração se encontrar um erro
+            }
+        }        
         
     }
 
