@@ -165,8 +165,6 @@ const updateDataAddressDiarist = async function (token: TokenPayLoad, data: any)
             }
 
             if (!isObjectEmpty(data.tbl_cidade)) {
-
-                console.log("dfdfd");
                 
                 tbl_endereco = await prisma.tbl_endereco.findFirst({
                     where: {
