@@ -10,6 +10,7 @@ import { dataAllDiarist } from "../../controller/controllerDiarista/dataDiarist/
 import { deleteRegisterDiarist } from "../../controller/controllerDiarista/deleteRegisterDiarist/controllerDeleteRegisterDiarist"
 import { deleteRegisterClient } from "../../controller/controllerCliente/deleteRegisterClient/controllerDeleteRegisterClient"
 import { updateDataDiarist } from "../../controller/controllerDiarista/updateDataPersonalDiarist/controllerUpdateDataPersonalDiarist"
+import { updateDataClient } from "../../controller/controllerCliente/updateDataPersonalClient/controllerUpdateDataPersonalClient"
 import * as message from "../../modulo/config"
 import * as jwt  from "jsonwebtoken"
 
@@ -179,7 +180,7 @@ router.get('/v1/limpean/diarist/:token', verifyJWT, async function (request, res
     
 })
 
-//EndPoint para atualizar os dados basicos de cadastro do client
+//EndPoint para atualizar os dados basicos de cadastro do diarista
 router.put('/v1/limpean/diarist/:token', verifyJWT, jsonParser, async function (request, response){
 
     const token = request.params.token
@@ -189,6 +190,19 @@ router.put('/v1/limpean/diarist/:token', verifyJWT, jsonParser, async function (
 
     response.status(statusDiarist.status)
     response.json(statusDiarist)
+
+})
+
+//EndPoint para atualizar os dados basicos de cadastro do client
+router.put('/v1/limpean/client/:token', verifyJWT, jsonParser, async function (request, response){
+
+    const token = request.params.token
+    const dataBody = request.body
+
+    const statusClient = await updateDataClient(token, dataBody)
+
+    response.status(statusClient.status)
+    response.json(statusClient)
 
 })
 
