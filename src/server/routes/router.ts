@@ -118,6 +118,12 @@ router.delete('/v1/limpean/client/:token', verifyJWT, async function (request, r
 
 })
 
+router.get('/v1/limpean/client/:token', verifyJWT, async function(request, response){
+
+    const token = request.params.token
+    
+})
+
 /******************** Diarist ****************************************************************/
 
 //Endpoint responsavel por realizar a validação do diarista
@@ -173,6 +179,7 @@ router.get('/v1/limpean/diarist/:token', verifyJWT, async function (request, res
     
 })
 
+//EndPoint para atualizar os dados basicos de cadastro do client
 router.put('/v1/limpean/diarist/:token', verifyJWT, jsonParser, async function (request, response){
 
     const token = request.params.token
