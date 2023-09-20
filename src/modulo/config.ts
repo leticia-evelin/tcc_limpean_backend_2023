@@ -26,6 +26,7 @@ const ERRO_DELETE_USER = {status: 500, message: "Erro ao tentar deletar conta de
 const ERRO_UPDATE_USER = {status:500, message: "Erro ao tentar atualizar dados do usuario, verifique a documentação e tente novamente."}
 const ERRO_UPDATE_PHONE_USER = {status:500, message: "Erro ao tentar atualizar os dados referentes ao número de telefone."}
 const ERRO_UPDATE_DATA_SIMPLE_DIARIST = {status: 500, message: "Erro, Não foi possivel atualizar os dados referentes a Nome, Biografia, Genero, Senha, Foto ou Preço."} 
+const ERRO_UPDATE_ADDRESS_CLIENT = {status: 500, message: "Erro, Não foi possivel atualizar o endereço"} 
 const ERRO_REQUIRED_TOKEN = {status: 401, message: "Token não fornecido."}
 const ERRO_INVALID_TOKEN = {status: 401, message: "Token inválido."}
 
@@ -59,5 +60,6 @@ export {
     DELETE_USER,
     ERRO_REQUIRED_DATA_HOUSE_CLIENTE,
     ERRO_REQUIRED_TOKEN,
-    ERRO_INVALID_TOKEN
+    ERRO_INVALID_TOKEN,
+    ERRO_UPDATE_ADDRESS_CLIENT
 }

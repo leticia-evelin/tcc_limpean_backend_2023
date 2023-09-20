@@ -11,6 +11,7 @@ import { deleteRegisterDiarist } from "../../controller/controllerDiarista/delet
 import { deleteRegisterClient } from "../../controller/controllerCliente/deleteRegisterClient/controllerDeleteRegisterClient"
 import { updateDataDiarist } from "../../controller/controllerDiarista/updateDataPersonalDiarist/controllerUpdateDataPersonalDiarist"
 import { updateDataClient } from "../../controller/controllerCliente/updateDataPersonalClient/controllerUpdateDataPersonalClient"
+import { updateDataAddressClient } from "../../controller/controllerCliente/updateDataPersonalClient/controllerUpdateAddressClient"
 import * as message from "../../modulo/config"
 import * as jwt  from "jsonwebtoken"
 
@@ -205,5 +206,22 @@ router.put('/v1/limpean/client/:token', verifyJWT, jsonParser, async function (r
     response.json(statusClient)
 
 })
+
+//EndPoint para atualizar um endereço específico da residencia do cliente
+
+router.put('/v1/limpean/client/:token/:residenciaId', verifyJWT, jsonParser, async function (request, response) {
+    try {
+        const token = request.params.token;
+        const residenciaId = parseInt(request.params.residenciaId, 10); // Converte para número.
+        const dataBody = request.body;
+
+        const statusAddress = await updateDataAddressClient(token, residenciaId, dataBody);
+
+        response.status(statusAddress.status);
+        response.json(statusAddress);
+    } catch (error) {
+        response.status(500).json({ message: 'Internal Server Error' });
+    }
+});
 
 export { router }

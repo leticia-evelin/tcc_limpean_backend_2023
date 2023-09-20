@@ -134,11 +134,69 @@ const updateDataPhone = async function (token: TokenPayLoad, data: any) {
     }
 }
 
+const updateDataAddressClient = async function (token: TokenPayLoad, residenciaId: number, data: any) {
+    try {
+        const verifyCliente = await prisma.tbl_cliente.findFirst({
+            where: {
+                AND: [
+                    { email: token.name.toLowerCase() },
+                    { id: Number(token.id) }
+                ]
+            },
+            include: {
+                residencia: {
+                    where: {
+                        id: residenciaId
+                    },
+                    include: {
+                        FK_Endereco_Residencia: true
+                    }
+                }
+            }
+        });
+
+        if (!verifyCliente) {
+            return false; // Cliente não encontrado
+        }
+
+        const residencia = verifyCliente.residencia[0]; // Acesse a primeira residência (você pode ajustar isso se o cliente puder ter várias residências)
+
+        if (!residencia) {
+            return false; // Residência não encontrada ou não pertence ao cliente
+        }
+
+        let statusUpdated = false;
+
+        if (!isObjectEmpty(data.tbl_endereco)) {
+            const updatedAddress = await prisma.tbl_endereco.update({
+                where: {
+                    id: residencia.FK_Endereco_Residencia.id, // Usando o ID do endereço associado à residência
+                },
+                data: data.tbl_endereco,
+            });
+
+            if (updatedAddress) {
+                statusUpdated = true;
+            }
+        }
+
+        if (statusUpdated) {
+            return true; // Atualização bem-sucedida
+        } else {
+            return false; // Falha na atualização
+        }
+    } catch (error) {
+        return false;
+    } finally {
+        await prisma.$disconnect();
+    }
+}
 
 
 
 export {
     updateDataSimpleClient,
     updateDataPhone,
-    verifyPhoneClient
+    verifyPhoneClient,
+    updateDataAddressClient
 }
