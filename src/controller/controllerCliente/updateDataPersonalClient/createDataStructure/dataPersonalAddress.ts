@@ -53,7 +53,9 @@ const createStructureSimpleDataAddress = (data: UpdateAddress) => {
             addressData.tbl_endereco.numero_residencia = data.houseNumber;
         }
 
+        console.log(addressData)
         return addressData;
+        
     }
 }
 

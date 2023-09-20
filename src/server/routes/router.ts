@@ -126,6 +126,37 @@ router.get('/v1/limpean/client/:token', verifyJWT, async function(request, respo
     
 })
 
+//EndPoint para atualizar os dados basicos de cadastro do client
+router.put('/v1/limpean/client/:token', verifyJWT, jsonParser, async function (request, response){
+
+    const token = request.params.token
+    const dataBody = request.body
+
+    const statusClient = await updateDataClient(token, dataBody)
+
+    response.status(statusClient.status)
+    response.json(statusClient)
+
+})
+
+//EndPoint para atualizar um endereço específico da residencia do cliente
+
+router.put('/v1/limpean/client/:token/:residenciaId', verifyJWT, jsonParser, async function (request, response) {
+
+        const token = request.params.token;
+        const residenciaId = parseInt(request.params.residenciaId, 10); // Converte para número.
+        const dataBody = request.body;
+
+        const statusAddress = await updateDataAddressClient(token, residenciaId, dataBody);
+
+        response.status(statusAddress.status);
+        response.json(statusAddress);
+   
+});
+
+/*********************************************************************************************/
+
+
 /******************** Diarist ****************************************************************/
 
 //Endpoint responsavel por realizar a validação do diarista
@@ -194,34 +225,5 @@ router.put('/v1/limpean/diarist/:token', verifyJWT, jsonParser, async function (
 
 })
 
-//EndPoint para atualizar os dados basicos de cadastro do client
-router.put('/v1/limpean/client/:token', verifyJWT, jsonParser, async function (request, response){
-
-    const token = request.params.token
-    const dataBody = request.body
-
-    const statusClient = await updateDataClient(token, dataBody)
-
-    response.status(statusClient.status)
-    response.json(statusClient)
-
-})
-
-//EndPoint para atualizar um endereço específico da residencia do cliente
-
-router.put('/v1/limpean/client/:token/:residenciaId', verifyJWT, jsonParser, async function (request, response) {
-    try {
-        const token = request.params.token;
-        const residenciaId = parseInt(request.params.residenciaId, 10); // Converte para número.
-        const dataBody = request.body;
-
-        const statusAddress = await updateDataAddressClient(token, residenciaId, dataBody);
-
-        response.status(statusAddress.status);
-        response.json(statusAddress);
-    } catch (error) {
-        response.status(500).json({ message: 'Internal Server Error' });
-    }
-});
 
 export { router }

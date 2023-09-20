@@ -88,7 +88,8 @@ const updateDataSimpleClient = async function (token: TokenPayLoad, data: any) {
         } else {
             return false
         }
-    } catch (error) {        
+    } catch (error) {   
+        console.log(error)     
         return false
     } finally {
         await prisma.$disconnect()
@@ -180,10 +181,25 @@ const updateDataAddressClient = async function (token: TokenPayLoad, residenciaI
             }
         }
 
+        if (!isObjectEmpty(data.tbl_cidade)) {
+            const updatedAddress = await prisma.tbl_cidade.update({
+                where: {
+                    id: residencia.FK_Endereco_Residencia.id, // Usando o ID do endereço associado à residência
+                },
+                data: data.tbl_cidade,
+            });
+
+            if (updatedAddress) {
+                statusUpdated = true;
+            }
+        }
+
+    
+
         if (statusUpdated) {
-            return true; // Atualização bem-sucedida
+            return true; 
         } else {
-            return false; // Falha na atualização
+            return false; 
         }
     } catch (error) {
         return false;
