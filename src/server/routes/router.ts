@@ -40,8 +40,7 @@ const verifyJWT = async function(request: Request, response: Response, next: Nex
         jwt.verify(Array.isArray(token) ? token[0] : token, SECRETE)
 
         next();
-    } catch (error) {
-                
+    } catch (error) {                
         return response.status(401).json(message.ERRO_INVALID_TOKEN)
     }
 }
