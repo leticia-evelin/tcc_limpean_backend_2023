@@ -7,7 +7,7 @@ interface TokenPayLoad {
     name: string
 }
 
-const getDataClient = async function (token: TokenPayLoad) {
+const getDataClient = async function (token: string) {
     const SECRETE = message.REQUIRE_SECRETE
     
     try {
@@ -15,15 +15,15 @@ const getDataClient = async function (token: TokenPayLoad) {
         const decoded = jwt.verify(Array.isArray(token) ? token[0] : token, SECRETE) as TokenPayLoad
         
         const {id, name} = decoded
-        const diarist = await getDataRegisterClientById(Number(id), name)        
+        const client = await getDataRegisterClientById(Number(id), name)        
 
-        const diaristJson = {
+        const clientJson = {
             status: 200,
-            user: diarist
+            user: client
         }
         
-        if(diarist){
-            return diaristJson
+        if(client){
+            return clientJson
         }else{
             return message.ERRO_INVALID_TOKEN
         }
@@ -32,4 +32,8 @@ const getDataClient = async function (token: TokenPayLoad) {
     } catch (error) {                        
         return message.ERRO_INTERNAL_SERVER 
     }
+}
+
+export {
+    getDataClient
 }

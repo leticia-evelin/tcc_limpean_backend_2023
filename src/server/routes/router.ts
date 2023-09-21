@@ -13,6 +13,7 @@ import { updateDataDiarist } from "../../controller/controllerDiarista/updateDat
 import { updateDataClient } from "../../controller/controllerCliente/updateDataPersonalClient/controllerUpdateDataPersonalClient"
 import { updateDataAddressClient } from "../../controller/controllerCliente/updateDataPersonalClient/controllerUpdateAddressClient"
 import { registerAddressCliente } from "../../controller/controllerCliente/registerAddresClient/controllerRegisterAddressClient"
+import { getDataClient } from "../../controller/controllerCliente/getDataClient/controllerDataClientById"
 import * as message from "../../modulo/config"
 import * as jwt  from "jsonwebtoken"
 
@@ -144,6 +145,10 @@ router.delete('/v1/limpean/client/:token', verifyJWT, async function (request, r
 router.get('/v1/limpean/client/:token', verifyJWT, async function(request, response){
 
     const token = request.params.token
+    const statusClient = await getDataClient(token)
+
+    response.status(statusClient.status)
+    response.json(statusClient)
     
 })
 
@@ -161,7 +166,6 @@ router.put('/v1/limpean/client/:token', verifyJWT, jsonParser, async function (r
 })
 
 //EndPoint para atualizar um endereço específico da residencia do cliente
-
 router.put('/v1/limpean/client/:token/:residenciaId', verifyJWT, jsonParser, async function (request, response) {
 
         const token = request.params.token;
@@ -174,6 +178,7 @@ router.put('/v1/limpean/client/:token/:residenciaId', verifyJWT, jsonParser, asy
         response.json(statusAddress);
    
 });
+
 
 /*********************************************************************************************/
 
