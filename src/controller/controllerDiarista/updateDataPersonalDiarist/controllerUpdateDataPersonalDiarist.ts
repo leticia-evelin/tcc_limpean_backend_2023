@@ -46,9 +46,9 @@ const updateDataDiarist = async function (token: string, dataDiarist: UpdateData
 
         const tokenDecoded = { id, name }
         
-        let stutusCheck = await checkDataDiarist(dataDiarist, tokenDecoded)
+        let statusCheck = await checkDataDiarist(dataDiarist, tokenDecoded)
         
-        if(!stutusCheck){            
+        if(!statusCheck){            
             return message.ERRO_UPDATE_USER
         } else {
             

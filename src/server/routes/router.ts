@@ -12,6 +12,7 @@ import { deleteRegisterClient } from "../../controller/controllerCliente/deleteR
 import { updateDataDiarist } from "../../controller/controllerDiarista/updateDataPersonalDiarist/controllerUpdateDataPersonalDiarist"
 import { updateDataClient } from "../../controller/controllerCliente/updateDataPersonalClient/controllerUpdateDataPersonalClient"
 import { updateDataAddressClient } from "../../controller/controllerCliente/updateDataPersonalClient/controllerUpdateAddressClient"
+import { registerAddressCliente } from "../../controller/controllerCliente/registerAddresClient/controllerRegisterAddressClient"
 import { getDataClient } from "../../controller/controllerCliente/getDataClient/controllerDataClientById"
 import * as message from "../../modulo/config"
 import * as jwt  from "jsonwebtoken"
@@ -87,6 +88,26 @@ router.post('/v1/limpean/login', jsonParser, async function (request, response) 
         }
     }
 })
+
+/***************************************** Cadastro Endereço do Cliente***********************************/
+router.post('/v1/limpean/cadastro/endereco/:token', verifyJWT, jsonParser, async function (request, response) {
+
+    const contentType = request.headers['content-type'];
+
+    if (contentType === 'application/json') {
+        const dataBody = request.body;
+        const token = request.params.token; 
+      
+        const statusClient = await registerAddressCliente(dataBody, token);
+
+        if (statusClient) {
+            response.status(statusClient.status);
+            response.json(statusClient);
+        } else {
+            response.send(message.ERRO_INTERNAL_SERVER);
+        }
+    }
+});
 
 //****************************************Cliente*****************************************************
 
