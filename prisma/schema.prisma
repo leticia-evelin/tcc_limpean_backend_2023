@@ -324,7 +324,7 @@ model tbl_perguntas {
 
 model tbl_tipo_limpeza {
   id      Int @id @default(autoincrement())
-  nome    String @db.VarChar(45)
+  nome    String @db.VarChar(45) @unique
   servico tbl_servico[]
 
   @@unique([id])

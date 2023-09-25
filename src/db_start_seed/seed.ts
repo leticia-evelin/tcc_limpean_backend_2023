@@ -120,6 +120,66 @@ const insertTypeStatusRegister = async function () {
 
 }
 
+const insertRoom = async function () {
+
+    const typesRoom = ["Quarto", "Sala", "Cozinha" , "Banheiro", "Escritório", "Lavanderia", "Garagem", "Quintal"]
+
+    for (const room of typesRoom) {
+
+        const nameRoom = await prisma.tbl_comodo.findFirst({
+            where: { nome: room }
+        })
+
+        if (!nameRoom) {            
+            await prisma.tbl_comodo.create({
+                data: {
+                    nome: room
+                }
+            })
+        }
+    }
+}
+
+const insertTypeCleaning = async function () {
+
+    const typesCleaning = ["Comercial", "Padrão", "Pré obra" , "Pós obra", "Pré mudança"]
+
+    for (const typeClean of typesCleaning) {
+
+        const nameCleaning = await prisma.tbl_tipo_limpeza.findFirst({
+            where: { nome: typeClean }
+        })
+
+        if (!nameCleaning) {            
+            await prisma.tbl_tipo_limpeza.create({
+                data: {
+                    nome: typeClean
+                }
+            })
+        }
+    }
+}
+
+const insertTypeQuestion = async function () {
+
+    const typeQuestions = ["Haverão crianças no momento da faxina? ", "Haverão animais no momento da faxina?"]
+
+    for (const typeQuestion of typeQuestions) {
+
+        const question = await prisma.tbl_perguntas.findFirst({
+            where: { nome: typeQuestion }
+        })
+
+        if (!question) {            
+            await prisma.tbl_perguntas.create({
+                data: {
+                    nome: typeQuestion
+                }
+            })
+        }
+    }
+}
+
 insertGender()
     .then(() => {
         console.log("Inserção de gêneros concluído com sucesso");
@@ -161,6 +221,43 @@ insertGender()
     })
     .catch((error) =>{
         console.error("Erro ao inserir os status da conta:", error)
+    })
+    .finally(async () => {
+        await prisma.$disconnect()
+    })
+
+
+    insertRoom()
+    .then(() => {
+        console.log("Inserção dos tipos de comodo foram inseridos com sucesso");
+    })
+    .catch((error) => {
+        console.log("Erro ao inserir os tipos de comodos", error);
+    })
+    .finally(async () => {
+        await prisma.$disconnect()
+    })
+
+
+    insertTypeCleaning()
+    .then(() => {
+        console.log("Inserção dos tipos de limpeza foram inseridos com sucesso");
+    })
+    .catch((error) => {
+        console.log("Erro ao inserir os tipos de limpaza", error);
+    })
+    .finally(async () => {
+        await prisma.$disconnect()
+    })
+
+    insertTypeQuestion()
+    .then(() => {
+        console.log("Inserção de perguntas foram inseridadas com sucesso.");
+        
+    })
+    .catch((error) => {
+        console.log("Erro ao inserir os tipos de perguntas");
+        
     })
     .finally(async () => {
         await prisma.$disconnect()
