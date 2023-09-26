@@ -168,7 +168,7 @@ router.put('/v1/limpean/client/:token', verifyJWT, jsonParser, async function (r
 router.put('/v1/limpean/client/:token/:residenciaId', verifyJWT, jsonParser, async function (request, response) {
 
         const token = request.params.token;
-        const residenciaId = parseInt(request.params.residenciaId, 10); // Converte para número.
+        const residenciaId = parseInt(request.params.residenciaId); // Converte para número.
         const dataBody = request.body;
 
         const statusAddress = await updateDataAddressClient(token, residenciaId, dataBody);
