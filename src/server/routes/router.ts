@@ -88,25 +88,7 @@ router.post('/v1/limpean/login', jsonParser, async function (request, response) 
     }
 })
 
-/***************************************** Cadastro Endereço do Cliente***********************************/
-router.post('/v1/limpean/cadastro/endereco/:token', verifyJWT, jsonParser, async function (request, response) {
-
-    const contentType = request.headers['content-type'];
-
-    if (contentType === 'application/json') {
-        const dataBody = request.body;
-        const token = request.params.token; 
-      
-        const statusClient = await registerAddressCliente(dataBody, token);
-
-        if (statusClient) {
-            response.status(statusClient.status);
-            response.json(statusClient);
-        } else {
-            response.send(message.ERRO_INTERNAL_SERVER);
-        }
-    }
-});
+/***************************************** Cliente ***********************************************************/
 
 //****************************************Cliente*****************************************************
 
@@ -164,19 +146,50 @@ router.put('/v1/limpean/client/:token', verifyJWT, jsonParser, async function (r
 
 })
 
+//EndPoint para cadastrar um novo endereço
+router.post('/v1/limpean/client/novo/cadastro/endereco/:token', verifyJWT, jsonParser, async function (request, response) {
+
+    const contentType = request.headers['content-type']
+
+    if (contentType === 'application/json') {
+        const dataBody = request.body
+        const token = request.params.token
+      
+        const statusClient = await registerAddressCliente(dataBody, token)
+
+        if (statusClient) {
+            response.status(statusClient.status)
+            response.json(statusClient)
+        } else {
+            response.send(message.ERRO_INTERNAL_SERVER)
+        }
+    }
+})
+
+
 //EndPoint para atualizar um endereço específico da residencia do cliente
 router.put('/v1/limpean/client/:token/:residenciaId', verifyJWT, jsonParser, async function (request, response) {
 
-        const token = request.params.token;
-        const residenciaId = parseInt(request.params.residenciaId, 10); // Converte para número.
-        const dataBody = request.body;
+        const token = request.params.token
+        const residenciaId = parseInt(request.params.residenciaId)
+        const dataBody = request.body
 
-        const statusAddress = await updateDataAddressClient(token, residenciaId, dataBody);
+        const statusAddress = await updateDataAddressClient(token, residenciaId, dataBody)
 
-        response.status(statusAddress.status);
-        response.json(statusAddress);
+        response.status(statusAddress.status)
+        response.json(statusAddress)
    
-});
+})
+
+router.post('/v1/limpean/client/cadastro/servico/:token/:residenciaId', verifyJWT, jsonParser, async function (request, response){
+
+        const token = request.params.token
+        const residenciaId = parseInt(request.params.residenciaId)
+        const dataBody = request.body
+
+        
+
+})
 
 
 /*********************************************************************************************/

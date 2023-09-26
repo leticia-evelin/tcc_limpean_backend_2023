@@ -118,7 +118,7 @@ model tbl_diarista{
   id Int @id @default(autoincrement())
   nome                 String    @db.VarChar(100)
   cpf                  String    @db.VarChar(20) @unique
-  data_nascimento      DateTime  @db.Date
+  data_nascimento      DateTime  @db.DateTime
   biografia            String?   @db.Text
   foto_perfil          String?   @db.Text
   email                String    @db.VarChar(255) @unique

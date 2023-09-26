@@ -98,7 +98,7 @@ CREATE TABLE `tbl_diarista` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `nome` VARCHAR(100) NOT NULL,
     `cpf` VARCHAR(20) NOT NULL,
-    `data_nascimento` DATE NOT NULL,
+    `data_nascimento` DATETIME NOT NULL,
     `biografia` TEXT NULL,
     `foto_perfil` TEXT NULL,
     `email` VARCHAR(255) NOT NULL,
