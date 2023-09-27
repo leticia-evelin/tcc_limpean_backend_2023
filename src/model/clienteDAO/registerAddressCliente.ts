@@ -30,15 +30,24 @@ const registerAddressUser = async function (dataBody: EnderecoCliente, token: To
                     { id: Number(token.id) }
                 ]
             }
-        });
+        })
 
-        if (verifyClient) {
+        const verifyAdress = await prisma.tbl_endereco.findFirst({
+            where: {
+                AND: [
+                    { numero_residencia: dataBody.address.houseNumber },
+                    { cep: dataBody.address.cep}
+                ]
+            }
+        })
+
+        if (verifyClient && !verifyAdress) {
             const tbl_cidade = await prisma.tbl_cidade.create({
                 data: {
                     nome: dataBody.address.city,
                     id_estado: dataBody.address.state
                 }
-            });
+            })
 
             const tbl_endereco = await prisma.tbl_endereco.create({
                 data: {
@@ -49,7 +58,7 @@ const registerAddressUser = async function (dataBody: EnderecoCliente, token: To
                     complemento: dataBody.address.complement,
                     id_cidade: tbl_cidade.id
                 }
-            });
+            })
 
               // Converte token.id para número usando parseInt
               const idCliente = parseInt(token.id);
@@ -61,7 +70,7 @@ const registerAddressUser = async function (dataBody: EnderecoCliente, token: To
                     id_endereco: tbl_endereco.id,
                     id_tipo_residencia: dataBody.address.typeHouse
                 }
-            });
+            })
 
             return true
         } else {
@@ -70,8 +79,8 @@ const registerAddressUser = async function (dataBody: EnderecoCliente, token: To
     } catch (error) {
         return false
     } finally {
-        await prisma.$disconnect();
+        await prisma.$disconnect()
     }
 }
 
-export { registerAddressUser };
+export { registerAddressUser }

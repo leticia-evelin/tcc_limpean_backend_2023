@@ -26,17 +26,14 @@ const registerAddressCliente = async function (body: EnderecoCliente, token: str
 
     let statusRegisterAddress
 
-    console.log('Body:', body);
-    console.log('Token:', token);
-
     const SECRETE = message.REQUIRE_SECRETE;
 
     try {
         // const decoded = jwt.verify(Array.isArray(token) ? token[0] : token, SECRETE) as TokenPayLoad
-        const decoded = jwt.verify(token, SECRETE) as TokenPayLoad;
-        const { id, name } = decoded;
+        const decoded = jwt.verify(token, SECRETE) as TokenPayLoad
+        const { id, name } = decoded
 
-        const tokenDecoded = { id, name };
+        const tokenDecoded = { id, name }
 
     if (
         !validate.validateTypesJson(body)
