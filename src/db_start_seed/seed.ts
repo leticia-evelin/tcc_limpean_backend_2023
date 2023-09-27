@@ -122,7 +122,7 @@ const insertTypeStatusRegister = async function () {
 
 const insertRoom = async function () {
 
-    const typesRoom = ["Quarto", "Sala", "Cozinha" , "Banheiro", "Escritório", "Lavanderia", "Garagem", "Quintal"]
+    const typesRoom = ["Quarto", "Sala", "Cozinha" , "Banheiro", "Escritório", "Lavanderia", "Garagem", "Quintal", "Area de lazer"]
 
     for (const room of typesRoom) {
 

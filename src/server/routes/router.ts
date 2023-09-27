@@ -14,6 +14,7 @@ import { updateDataClient } from "../../controller/controllerCliente/updateDataP
 import { updateDataAddressClient } from "../../controller/controllerCliente/updateDataPersonalClient/controllerUpdateAddressClient"
 import { registerAddressCliente } from "../../controller/controllerCliente/registerAddresClient/controllerRegisterAddressClient"
 import { getDataClient } from "../../controller/controllerCliente/getDataClient/controllerDataClientById"
+import { registerService } from "../../controller/controllerCliente/registerService/controllerRegisterServiceClient"
 import * as message from "../../modulo/config"
 import * as jwt  from "jsonwebtoken"
 
@@ -181,13 +182,14 @@ router.put('/v1/limpean/client/:token/:residenciaId', verifyJWT, jsonParser, asy
    
 })
 
-router.post('/v1/limpean/client/cadastro/servico/:token/:residenciaId', verifyJWT, jsonParser, async function (request, response){
+router.post('/v1/limpean/client/cadastro/servico/:token', verifyJWT, jsonParser, async function (request, response){
 
         const token = request.params.token
-        const residenciaId = parseInt(request.params.residenciaId)
         const dataBody = request.body
 
-        
+        const statusService = await registerService(token, dataBody)
+        response.status(statusService.status)
+        response.json(statusService)
 
 })
 
