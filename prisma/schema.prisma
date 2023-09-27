@@ -187,10 +187,11 @@ model tbl_servico {
   data                  DateTime @db.Date
   hora                  DateTime @db.Time()
   servico_agendado      Boolean
-  info_adicionais       String? @db.Text
+  tarefas_adicionais    String? @db.Text
+  observacao            String @db.Text
   id_residencia_cliente Int
   id_tipo_limpeza       Int
-  id_checklist          Int
+  // id_checklist          Int
   codigo                tbl_codigo[]
   diaristaServico       tbl_diarista_servico[]   
   transacao             tbl_transacao[]
@@ -201,7 +202,7 @@ model tbl_servico {
 
   FK_ResidenciaCliente_Servico  tbl_residencia_cliente @relation(fields: [id_residencia_cliente], references: [id])
   FK_TipoLimpeza_Servico        tbl_tipo_limpeza @relation(fields: [id_tipo_limpeza], references: [id])
-  FK_Checklist_Servico          tbl_checklist @relation(fields: [id_checklist], references: [id])
+  // FK_Checklist_Servico          tbl_checklist @relation(fields: [id_checklist], references: [id])
 
   @@unique([id])
 }
@@ -294,7 +295,6 @@ model tbl_status_servico {
 model tbl_status {
   id       Int @id @default(autoincrement())
   nome     String @db.VarChar(45)
-  sigla    String? @db.VarChar(45)
   statusServico tbl_status_servico[]
 
   @@unique([id])
@@ -315,8 +315,7 @@ model tbl_formulario {
 
 model tbl_perguntas {
   id         Int @id @default(autoincrement())
-  nome       String @db.VarChar(100)
-  assunto    String? @db.VarChar(20)
+  pergunta       String @db.VarChar(100)
   formulario tbl_formulario[]
 
   @@unique([id])
@@ -330,25 +329,25 @@ model tbl_tipo_limpeza {
   @@unique([id])
 }
 
-model tbl_checklist {
-  id         Int @id @default(autoincrement())
-  nome_lista String @db.VarChar(45)
-  id_item    Int
-  servico    tbl_servico[]
+// model tbl_checklist {
+//   id         Int @id @default(autoincrement())
+//   nome_lista String @db.VarChar(45)
+//   id_item    Int
+//   servico    tbl_servico[]
 
-  FK_Item_Checklist tbl_item @relation(fields: [id_item], references: [id])
+//   FK_Item_Checklist tbl_item @relation(fields: [id_item], references: [id])
 
-  @@unique([id])
+//   @@unique([id])
 
-}
+// }
 
-model tbl_item {
-  id         Int @id @default(autoincrement())
-  nome_item  String @db.VarChar(45)
-  checklist  tbl_checklist[]
+// model tbl_item {
+//   id         Int @id @default(autoincrement())
+//   nome_item  String @db.VarChar(45)
+//   checklist  tbl_checklist[]
 
-  @@unique([id])
-}
+//   @@unique([id])
+// }
 
 model tbl_avaliacao_diarista {
   id                  Int @id @default(autoincrement())

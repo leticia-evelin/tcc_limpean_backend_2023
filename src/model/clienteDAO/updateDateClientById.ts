@@ -157,13 +157,13 @@ const updateDataAddressClient = async function (token: TokenPayLoad, residenciaI
         });
 
         if (!verifyCliente) {
-            return false; // Cliente não encontrado
+            return false; 
         }
 
-        const residencia = verifyCliente.residencia[0]; // Acesse a primeira residência (você pode ajustar isso se o cliente puder ter várias residências)
+        const residencia = verifyCliente.residencia[0]; 
 
         if (!residencia) {
-            return false; // Residência não encontrada ou não pertence ao cliente
+            return false; 
         }
 
         let statusUpdated = false;
@@ -171,7 +171,7 @@ const updateDataAddressClient = async function (token: TokenPayLoad, residenciaI
         if (!isObjectEmpty(data.tbl_endereco)) {
             const updatedAddress = await prisma.tbl_endereco.update({
                 where: {
-                    id: residencia.FK_Endereco_Residencia.id, // Usando o ID do endereço associado à residência
+                    id: residencia.FK_Endereco_Residencia.id, 
                 },
                 data: data.tbl_endereco,
             });
@@ -184,7 +184,7 @@ const updateDataAddressClient = async function (token: TokenPayLoad, residenciaI
         if (!isObjectEmpty(data.tbl_cidade)) {
             const updatedAddress = await prisma.tbl_cidade.update({
                 where: {
-                    id: residencia.FK_Endereco_Residencia.id, // Usando o ID do endereço associado à residência
+                    id: residencia.FK_Endereco_Residencia.id, 
                 },
                 data: data.tbl_cidade,
             });
