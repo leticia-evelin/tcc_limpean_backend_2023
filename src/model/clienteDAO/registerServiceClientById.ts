@@ -20,7 +20,23 @@ const dbRegisterService = async (token: Token, data: Service) => {
         if(verifyClient){
             let transaction = await prisma.$transaction(async (prisma) => {
 
-                
+                // const servico = await prisma.tbl_servico.create({
+                //     data: {
+                //         data: data.date,
+                //         hora: data.startHour,
+                //         servico_agendado: true  
+                //     }
+                // })
+
+                const servico_comodo =  await prisma.tbl_servico_comodo.createMany({
+                    data: [
+                        {
+                            id_servico: 1,
+                            id_comodo: 1,
+                            quantidade: data.bedroom
+                        }
+                    ]
+                })
 
             })
         }else {

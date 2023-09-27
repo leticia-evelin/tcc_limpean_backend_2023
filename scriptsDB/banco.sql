@@ -4,7 +4,7 @@
  * Versão: 1.0
  *************************************************/
 
-CRIAÇÃO DA VIEW PARA SELECT DE DIARISTA COMPLETO
+#CRIAÇÃO DA VIEW PARA SELECT DE DIARISTA COMPLETO
 CREATE VIEW vw_dados_diarista AS
 SELECT
 tbl_diarista.id AS id_diarista,

@@ -9,6 +9,8 @@ export interface Service {
     idTypeCleaning: number,
     hasChildren: boolean,
     hasPet: boolean,
+    observation: string | null,
+    additionalTasks: string| null,
     date: string,
     startHour: string,
     value: string
