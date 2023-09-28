@@ -39,16 +39,11 @@ const dbRegisterService = async (token: Token, data: Service) => {
             }
         })
 
-        if (data.idDiarist === null || (typeof data.idDiarist === "number" && verifyDiarist)) {  
-                      
+        if (data.idDiarist === null || (typeof data.idDiarist === "number" && verifyDiarist)) {            
             statusDiarist = true
         }
 
-        console.log(verifyClient);
-        
-        
         if (verifyClient && verifyAddress && verifyService === null && statusDiarist) {
-            
             let transaction = await prisma.$transaction(async (prisma) => {
                 
                 const service = await prisma.tbl_servico.create({
@@ -122,7 +117,7 @@ const dbRegisterService = async (token: Token, data: Service) => {
                     data: {
                         id_servico: service.id,
                         id_status: 1,
-                        data_hora: new Date()
+                        data_hora: `${data.date}T${data.startHour}:00Z`
                     }
                 })
 
@@ -144,7 +139,7 @@ const dbRegisterService = async (token: Token, data: Service) => {
                 const diaristService = await prisma.tbl_diarista_servico.create({
                     data: {
                         id_servico: service.id,
-                        id_diarista: data.idDiarist
+                        id_diarista: 1
                     }
 
                 })
