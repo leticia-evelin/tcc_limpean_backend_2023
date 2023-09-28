@@ -1,6 +1,6 @@
 export interface Service {
     addressId: number,
-    idDiarist: number | null,
+    diaristId: number | null,
     bedroom: number,
     livingRoom: number,
     kitchen: number,
@@ -10,7 +10,7 @@ export interface Service {
     garage: number,
     yard: number,
     recreationArea: number,
-    idTypeCleaning: number,
+    typeCleaningId: number,
     hasChildren: boolean,
     hasPet: boolean,
     observation: string | null,

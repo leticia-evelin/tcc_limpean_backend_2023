@@ -28,7 +28,7 @@ const dbRegisterService = async (token: Token, data: Service) => {
 
         const verifyDiarist = await prisma.tbl_diarista.findFirst({
             where: {
-                id: data.idDiarist !== null ? data.idDiarist : 0
+                id: data.diaristId !== null ? data.diaristId : 0
             }
         })        
 
@@ -39,7 +39,7 @@ const dbRegisterService = async (token: Token, data: Service) => {
             }
         })
 
-        if (data.idDiarist === null || (typeof data.idDiarist === "number" && verifyDiarist)) {            
+        if (data.diaristId === null || (typeof data.diaristId === "number" && verifyDiarist)) {            
             statusDiarist = true
         }
 
@@ -52,7 +52,7 @@ const dbRegisterService = async (token: Token, data: Service) => {
                         tarefas_adicionais: data.additionalTasks,
                         observacao: data.observation,
                         id_residencia_cliente: verifyAddress.id,
-                        id_tipo_limpeza: data.idTypeCleaning
+                        id_tipo_limpeza: data.typeCleaningId
                     }
                 })
 
@@ -139,7 +139,7 @@ const dbRegisterService = async (token: Token, data: Service) => {
                 const diaristService = await prisma.tbl_diarista_servico.create({
                     data: {
                         id_servico: service.id,
-                        id_diarista: data.idDiarist
+                        id_diarista: data.diaristId
                     }
 
                 })

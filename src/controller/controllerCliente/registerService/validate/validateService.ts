@@ -5,8 +5,8 @@ const validateDataService = (data: Service) => {
 
     if(
         typeof data.addressId  !== 'number' ||
-        (typeof data.idDiarist  !== 'number' &&
-        data.idDiarist !== null) ||
+        (typeof data.diaristId  !== 'number' &&
+        data.diaristId !== null) ||
         typeof data.bedroom    !== 'number' ||
         typeof data.livingRoom !== 'number' ||
         typeof data.kitchen    !== 'number' ||
@@ -16,7 +16,7 @@ const validateDataService = (data: Service) => {
         typeof data.garage     !== 'number' ||
         typeof data.yard       !== 'number' ||
         typeof data.recreationArea   !== 'number'  ||
-        typeof data.idTypeCleaning   !== 'number'  ||
+        typeof data.typeCleaningId   !== 'number'  ||
         typeof data.hasChildren      !== 'boolean' ||
         typeof data.hasPet           !== 'boolean' ||
         (typeof data.observation     !== "string" && data.observation !== null)     ||
@@ -34,7 +34,7 @@ const validateDataService = (data: Service) => {
 const validateIdTypeCleaning = (data: Service) => {
     let statusId = true
     if(
-        data.idTypeCleaning < 0 || data.idTypeCleaning > 5
+        data.typeCleaningId < 0 || data.typeCleaningId > 5
     ){
         statusId = false
     }
