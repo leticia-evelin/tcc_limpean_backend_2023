@@ -26,11 +26,11 @@ const dbRegisterService = async (token: Token, data: Service) => {
             }
         })
 
-        const verifyDiarist = await prisma.tbl_residencia_cliente.findFirst({
+        const verifyDiarist = await prisma.tbl_diarista.findFirst({
             where: {
                 id: data.idDiarist !== null ? data.idDiarist : 0
             }
-        })
+        })        
 
         const verifyService = await prisma.tbl_servico.findFirst({
             where: {
@@ -39,13 +39,18 @@ const dbRegisterService = async (token: Token, data: Service) => {
             }
         })
 
-        if (data.idDiarist === null || (typeof data.idDiarist === "number" && verifyDiarist)) {
+        if (data.idDiarist === null || (typeof data.idDiarist === "number" && verifyDiarist)) {  
+                      
             statusDiarist = true
         }
 
+        console.log(verifyClient);
+        
+        
         if (verifyClient && verifyAddress && verifyService === null && statusDiarist) {
+            
             let transaction = await prisma.$transaction(async (prisma) => {
-
+                
                 const service = await prisma.tbl_servico.create({
                     data: {
                         data_hora: `${data.date}T${data.startHour}:00Z`,
