@@ -139,7 +139,7 @@ const dbRegisterService = async (token: Token, data: Service) => {
                 const diaristService = await prisma.tbl_diarista_servico.create({
                     data: {
                         id_servico: service.id,
-                        id_diarista: 1
+                        id_diarista: data.idDiarist
                     }
 
                 })
