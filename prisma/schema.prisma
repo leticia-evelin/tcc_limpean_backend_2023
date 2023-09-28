@@ -184,8 +184,7 @@ model tbl_status_conta_cliente {
 
 model tbl_servico {
   id                    Int @id @default(autoincrement())
-  data                  DateTime @db.Date
-  hora                  String @db.VarChar(10)
+  data_hora             DateTime @db.DateTime()
   //servico_agendado    Boolean
   tarefas_adicionais    String? @db.Text
   observacao            String? @db.Text

@@ -17,32 +17,38 @@ const dbRegisterService = async (token: Token, data: Service) => {
                     { id: Number(token.id) }
                 ]
             }
-        }) 
+        })
 
-        const verifyAddress = await  prisma.tbl_residencia_cliente.findFirst({
+        const verifyAddress = await prisma.tbl_residencia_cliente.findFirst({
             where: {
                 id_cliente: verifyClient?.id,
                 id_endereco: data.addressId
             }
-        }) 
-                
+        })
+
         const verifyDiarist = await prisma.tbl_residencia_cliente.findFirst({
             where: {
                 id: data.idDiarist !== null ? data.idDiarist : 0
             }
         })
 
-        if(data.idDiarist === null || (typeof data.idDiarist === "number" && verifyDiarist)){            
+        const verifyService = await prisma.tbl_servico.findFirst({
+            where: {
+                data_hora: `${data.date}T${data.startHour}:00Z`,
+                id_residencia_cliente: verifyAddress?.id
+            }
+        })
+
+        if (data.idDiarist === null || (typeof data.idDiarist === "number" && verifyDiarist)) {
             statusDiarist = true
         }
 
-        if(verifyClient && verifyAddress && statusDiarist){
+        if (verifyClient && verifyAddress && verifyService === null && statusDiarist) {
             let transaction = await prisma.$transaction(async (prisma) => {
-                                
+
                 const service = await prisma.tbl_servico.create({
                     data: {
-                        data: new Date(data.date),
-                        hora: "00:00",
+                        data_hora: `${data.date}T${data.startHour}:00Z`,
                         tarefas_adicionais: data.additionalTasks,
                         observacao: data.observation,
                         id_residencia_cliente: verifyAddress.id,
@@ -57,7 +63,7 @@ const dbRegisterService = async (token: Token, data: Service) => {
                     }
                 })
 
-                const servico_comodo =  await prisma.tbl_servico_comodo.createMany({
+                const servico_comodo = await prisma.tbl_servico_comodo.createMany({
                     data: [
                         {
                             id_servico: service.id,
@@ -135,20 +141,22 @@ const dbRegisterService = async (token: Token, data: Service) => {
                         id_servico: service.id,
                         id_diarista: data.idDiarist
                     }
-                    
+
                 })
 
             })
-        }else {
+        } else {
             return false
         }
+
+        return true
     } catch (error) {
         console.log(error);
-        
+
         return false
     }
 }
 
-export { 
+export {
     dbRegisterService
 }

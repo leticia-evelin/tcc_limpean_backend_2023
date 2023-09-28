@@ -159,8 +159,7 @@ CREATE TABLE `tbl_status_conta_cliente` (
 -- CreateTable
 CREATE TABLE `tbl_servico` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `data` DATE NOT NULL,
-    `hora` VARCHAR(10) NOT NULL,
+    `data_hora` DATETIME NOT NULL,
     `tarefas_adicionais` TEXT NULL,
     `observacao` TEXT NULL,
     `id_residencia_cliente` INTEGER NOT NULL,

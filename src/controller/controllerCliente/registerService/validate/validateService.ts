@@ -47,7 +47,7 @@ function validateHour(data: Service) {
     const regexHora = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
   
     // Teste se a hora corresponde à expressão regular
-    if (regexHora.test(data.startHour)) {
+    if (regexHora.test(data.startHour)) {      
       return true
     } else {
       return false
