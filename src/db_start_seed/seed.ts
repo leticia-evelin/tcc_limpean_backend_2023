@@ -180,6 +180,27 @@ const insertTypeQuestion = async function () {
     }
 }
 
+
+const insertStatusService = async function () {
+
+    const typeStatus = ["Em aberto", "Cancelado", "Em andamento", "Finalizado"]
+
+    for (const status of typeStatus) {
+
+        const statusService = await prisma.tbl_status.findFirst({
+            where: {nome: status}
+        })
+
+        if(!statusService){
+            await prisma.tbl_status.create({
+                data: {
+                    nome: status
+                }
+            })
+        }
+    }
+}
+
 insertGender()
     .then(() => {
         console.log("Inserção de gêneros concluído com sucesso");
@@ -262,3 +283,14 @@ insertGender()
     .finally(async () => {
         await prisma.$disconnect()
     })
+
+insertStatusService()
+.then(() => {
+    console.log("Inserção dos tipos de status do serviço concluido com sucesso.");
+})
+.catch((error) => {
+    console.log("Erro ao inserir os tipos de status do serviço.");
+})
+.finally(async () => {
+    await prisma.$disconnect()
+})
