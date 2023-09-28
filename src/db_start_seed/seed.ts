@@ -167,13 +167,13 @@ const insertTypeQuestion = async function () {
     for (const typeQuestion of typeQuestions) {
 
         const question = await prisma.tbl_perguntas.findFirst({
-            where: { nome: typeQuestion }
+            where: { pergunta: typeQuestion }
         })
 
         if (!question) {            
             await prisma.tbl_perguntas.create({
                 data: {
-                    nome: typeQuestion
+                    pergunta: typeQuestion
                 }
             })
         }

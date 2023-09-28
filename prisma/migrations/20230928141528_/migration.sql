@@ -160,12 +160,11 @@ CREATE TABLE `tbl_status_conta_cliente` (
 CREATE TABLE `tbl_servico` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `data` DATE NOT NULL,
-    `hora` TIME NOT NULL,
-    `servico_agendado` BOOLEAN NOT NULL,
-    `info_adicionais` TEXT NULL,
+    `hora` VARCHAR(10) NOT NULL,
+    `tarefas_adicionais` TEXT NULL,
+    `observacao` TEXT NULL,
     `id_residencia_cliente` INTEGER NOT NULL,
     `id_tipo_limpeza` INTEGER NOT NULL,
-    `id_checklist` INTEGER NOT NULL,
 
     UNIQUE INDEX `tbl_servico_id_key`(`id`),
     PRIMARY KEY (`id`)
@@ -185,7 +184,7 @@ CREATE TABLE `tbl_codigo` (
 CREATE TABLE `tbl_diarista_servico` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `id_servico` INTEGER NOT NULL,
-    `id_diarista` INTEGER NOT NULL,
+    `id_diarista` INTEGER NULL,
 
     UNIQUE INDEX `tbl_diarista_servico_id_key`(`id`),
     PRIMARY KEY (`id`)
@@ -258,7 +257,6 @@ CREATE TABLE `tbl_status_servico` (
 CREATE TABLE `tbl_status` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `nome` VARCHAR(45) NOT NULL,
-    `sigla` VARCHAR(45) NULL,
 
     UNIQUE INDEX `tbl_status_id_key`(`id`),
     PRIMARY KEY (`id`)
@@ -278,8 +276,7 @@ CREATE TABLE `tbl_formulario` (
 -- CreateTable
 CREATE TABLE `tbl_perguntas` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `nome` VARCHAR(100) NOT NULL,
-    `assunto` VARCHAR(20) NULL,
+    `pergunta` VARCHAR(100) NOT NULL,
 
     UNIQUE INDEX `tbl_perguntas_id_key`(`id`),
     PRIMARY KEY (`id`)
@@ -292,25 +289,6 @@ CREATE TABLE `tbl_tipo_limpeza` (
 
     UNIQUE INDEX `tbl_tipo_limpeza_nome_key`(`nome`),
     UNIQUE INDEX `tbl_tipo_limpeza_id_key`(`id`),
-    PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- CreateTable
-CREATE TABLE `tbl_checklist` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `nome_lista` VARCHAR(45) NOT NULL,
-    `id_item` INTEGER NOT NULL,
-
-    UNIQUE INDEX `tbl_checklist_id_key`(`id`),
-    PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- CreateTable
-CREATE TABLE `tbl_item` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `nome_item` VARCHAR(45) NOT NULL,
-
-    UNIQUE INDEX `tbl_item_id_key`(`id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -385,16 +363,13 @@ ALTER TABLE `tbl_servico` ADD CONSTRAINT `tbl_servico_id_residencia_cliente_fkey
 ALTER TABLE `tbl_servico` ADD CONSTRAINT `tbl_servico_id_tipo_limpeza_fkey` FOREIGN KEY (`id_tipo_limpeza`) REFERENCES `tbl_tipo_limpeza`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `tbl_servico` ADD CONSTRAINT `tbl_servico_id_checklist_fkey` FOREIGN KEY (`id_checklist`) REFERENCES `tbl_checklist`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE `tbl_codigo` ADD CONSTRAINT `tbl_codigo_id_servico_fkey` FOREIGN KEY (`id_servico`) REFERENCES `tbl_servico`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `tbl_diarista_servico` ADD CONSTRAINT `tbl_diarista_servico_id_servico_fkey` FOREIGN KEY (`id_servico`) REFERENCES `tbl_servico`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `tbl_diarista_servico` ADD CONSTRAINT `tbl_diarista_servico_id_diarista_fkey` FOREIGN KEY (`id_diarista`) REFERENCES `tbl_diarista`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `tbl_diarista_servico` ADD CONSTRAINT `tbl_diarista_servico_id_diarista_fkey` FOREIGN KEY (`id_diarista`) REFERENCES `tbl_diarista`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `tbl_transacao` ADD CONSTRAINT `tbl_transacao_id_servico_fkey` FOREIGN KEY (`id_servico`) REFERENCES `tbl_servico`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -422,9 +397,6 @@ ALTER TABLE `tbl_formulario` ADD CONSTRAINT `tbl_formulario_id_servico_fkey` FOR
 
 -- AddForeignKey
 ALTER TABLE `tbl_formulario` ADD CONSTRAINT `tbl_formulario_id_perguntas_fkey` FOREIGN KEY (`id_perguntas`) REFERENCES `tbl_perguntas`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `tbl_checklist` ADD CONSTRAINT `tbl_checklist_id_item_fkey` FOREIGN KEY (`id_item`) REFERENCES `tbl_item`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `tbl_avaliacao_diarista` ADD CONSTRAINT `tbl_avaliacao_diarista_id_diarista_fkey` FOREIGN KEY (`id_diarista`) REFERENCES `tbl_diarista`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

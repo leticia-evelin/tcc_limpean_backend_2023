@@ -40,8 +40,11 @@ const registerService = async function (token: string, data: Service) {
         }        
 
         statusRegister = await dbRegisterService(decodedToken, data)
-
-        return message.UPDATE_USER
+        if(statusRegister){
+            return message.CREATED_REGISTER
+        }else{
+            return message.ERRO_REGISTER_USER
+        }
     } 
 
     return statusRegister

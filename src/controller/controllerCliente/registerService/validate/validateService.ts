@@ -4,21 +4,26 @@ const validateDataService = (data: Service) => {
     let status = true    
 
     if(
-        typeof data.addressId !== 'number' ||
-        typeof data.bedroom   !== 'number' ||
-        typeof data.bathroom !== 'number' ||
-        typeof data.office !== 'number' ||
-        typeof data.laundry !== 'number' ||
-        typeof data.garage !== 'number' ||
-        typeof data.yard !== 'number' ||
-        typeof data.idTypeCleaning !== 'number' ||
-        typeof data.hasChildren !== 'boolean' ||
-        typeof data.hasPet !== 'boolean' ||
-        (typeof data.observation !== "string" && data.observation !== null) ||
+        typeof data.addressId  !== 'number' ||
+        (typeof data.idDiarist  !== 'number' &&
+        data.idDiarist !== null) ||
+        typeof data.bedroom    !== 'number' ||
+        typeof data.livingRoom !== 'number' ||
+        typeof data.kitchen    !== 'number' ||
+        typeof data.bathroom   !== 'number' ||
+        typeof data.office     !== 'number' ||
+        typeof data.laundry    !== 'number' ||
+        typeof data.garage     !== 'number' ||
+        typeof data.yard       !== 'number' ||
+        typeof data.recreationArea   !== 'number'  ||
+        typeof data.idTypeCleaning   !== 'number'  ||
+        typeof data.hasChildren      !== 'boolean' ||
+        typeof data.hasPet           !== 'boolean' ||
+        (typeof data.observation     !== "string" && data.observation !== null)     ||
         (typeof data.additionalTasks !== "string" && data.additionalTasks !== null) ||
-        typeof data.date !== 'string' ||
-        typeof data.startHour !== 'string' ||
-        typeof data.value !== 'string')
+        typeof data.date      !== 'string'         ||
+        typeof data.startHour !== 'string'         ||
+        typeof data.value     !== 'string')
         {
         status = false
     } 
@@ -80,7 +85,7 @@ const validateValueMonetary = (data: Service) => {
       const valorNumerico = parseFloat(data.value.replace(/,/g, '').replace(/\./, ''));
   
       // Verifique se o valor numérico é maior que zero
-      if (valorNumerico > 0) {
+      if (valorNumerico > -1) {
         return true; // Valor monetário válido
       }
     }
