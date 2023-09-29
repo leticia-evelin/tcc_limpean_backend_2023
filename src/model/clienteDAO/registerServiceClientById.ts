@@ -151,8 +151,6 @@ const dbRegisterService = async (token: Token, data: Service) => {
 
         return true
     } catch (error) {
-        console.log(error);
-
         return false
     }
 }

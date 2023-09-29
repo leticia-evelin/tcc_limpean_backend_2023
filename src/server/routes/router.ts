@@ -14,6 +14,7 @@ import { updateDataClient } from "../../controller/controllerCliente/updateDataP
 import { updateDataAddressClient } from "../../controller/controllerCliente/updateDataPersonalClient/controllerUpdateAddressClient"
 import { registerAddressCliente } from "../../controller/controllerCliente/registerAddresClient/controllerRegisterAddressClient"
 import { getDataClient } from "../../controller/controllerCliente/getDataClient/controllerDataClientById"
+import { getDataAllServiceOpen } from "../../controller/getAllServiceOpen/controllerDataAllServiceOpenClients"
 import { registerService } from "../../controller/controllerCliente/registerService/controllerRegisterServiceClient"
 import * as message from "../../modulo/config"
 import * as jwt  from "jsonwebtoken"
@@ -31,8 +32,7 @@ const verifyJWT = async function(request: Request, response: Response, next: Nex
     
     const SECRETE = message.REQUIRE_SECRETE;
 
-    if (!token) {
-        
+    if (!token) {        
         return response.status(401).json(message.ERRO_REQUIRED_TOKEN);
     }
 
@@ -124,8 +124,16 @@ router.delete('/v1/limpean/client/:token', verifyJWT, async function (request, r
 
 })
 
-router.get('/v1/limpean/client/:token', verifyJWT, async function(request, response){
+router.get('/v1/limpean/client/servico-aberto', async function (request, response){
+    
+        const statusService = await getDataAllServiceOpen()
+        response.status(201)
+        response.json(statusService)
+        
+})
 
+router.get('/v1/limpean/client/:token', verifyJWT, async function(request, response){
+    
     const token = request.params.token
     const statusClient = await getDataClient(token)
 
@@ -182,6 +190,7 @@ router.put('/v1/limpean/client/:token/:residenciaId', verifyJWT, jsonParser, asy
    
 })
 
+//EndPoint para cadastrar um servico
 router.post('/v1/limpean/client/cadastro/servico/:token', verifyJWT, jsonParser, async function (request, response){
 
         const token = request.params.token
