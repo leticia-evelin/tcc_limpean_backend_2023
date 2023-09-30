@@ -142,7 +142,12 @@ const getServiceOpen = async function () {
             })
         }
 
-        return serviceClient
+        const allServiceOpen = serviceClient.filter(client => {
+            const status = client.data.status_service
+            return !status.some(status => status.status === "Cancelado")
+        })
+
+        return allServiceOpen
 
     } catch (error) {
 
