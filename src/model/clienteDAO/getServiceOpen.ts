@@ -35,15 +35,30 @@ const getServiceOpen = async function () {
                                         biografia: true,
                                         foto_perfil: true
                                     }
-                                }
-                            }
-                        }
+                                },
+                                FK_Endereco_Residencia: {
+                                    select: {
+                                        cep: true,
+                                        FK_Cidade_Endereco: {
+                                            select: {
+                                                nome: true,
+                                                FK_Estado_Cidade: {
+                                                    select: {
+                                                        nome: true
+                                                    }
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
                     },
                 },
             },
         })
 
-        const serviceClient = [];
+        const serviceClient = []
 
         for (const it of service) {
             const serviceValue = await prisma.tbl_servico_com_valor.findFirst({
@@ -117,7 +132,12 @@ const getServiceOpen = async function () {
                     room: serviceRoom.map((it) => ({
                         name: it.FK_Comodo_ServicoComodo.nome,
                         quantity: it.quantidade,
-                    }))
+                    })),
+                    address:{
+                        state: it.FK_Servico_DiaristaServico.FK_ResidenciaCliente_Servico.FK_Endereco_Residencia.FK_Cidade_Endereco.FK_Estado_Cidade.nome,
+                        city: it.FK_Servico_DiaristaServico.FK_ResidenciaCliente_Servico.FK_Endereco_Residencia.FK_Cidade_Endereco.nome,
+                        cep: it.FK_Servico_DiaristaServico.FK_ResidenciaCliente_Servico.FK_Endereco_Residencia.cep
+                    }, 
                 },
             })
         }
