@@ -111,7 +111,7 @@ const getServiceOpen = async function () {
             })
 
             serviceClient.push({
-                data: {
+                client: {
                     serviceId: it.id,
                     status_service: statusService.map((it) => ({
                         status: it.FK_Status_StatusServico.nome,
@@ -127,7 +127,7 @@ const getServiceOpen = async function () {
                     value: serviceValue?.valor,
                     question: form.map((it) => ({
                         asks: it.FK_Perguntas_Formulario.pergunta,
-                        status: it.check,
+                        answer: it.check,
                     })),
                     room: serviceRoom.map((it) => ({
                         name: it.FK_Comodo_ServicoComodo.nome,
@@ -143,16 +143,18 @@ const getServiceOpen = async function () {
         }
 
         const allServiceOpen = serviceClient.filter(client => {
-            const status = client.data.status_service
+            const status = client.client.status_service
             return !status.some(status => status.status === "Cancelado")
         })
-
-        return allServiceOpen
-
+        
+        if(allServiceOpen.length > 0){            
+            return allServiceOpen
+        }else{            
+            return false
+        }
     } catch (error) {
-
+        return false
     }
-
     finally {
         await prisma.$disconnect()
     }

@@ -183,7 +183,7 @@ const insertTypeQuestion = async function () {
 
 const insertStatusService = async function () {
 
-    const typeStatus = ["Em aberto", "Cancelado", "Em andamento", "Finalizado"]
+    const typeStatus = ["Em aberto", "Agendado", "Em andamento", "Finalizado", "Cancelado"]
 
     for (const status of typeStatus) {
 
