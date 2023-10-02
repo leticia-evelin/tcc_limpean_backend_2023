@@ -31,6 +31,7 @@ const getServiceOpen = async function () {
                             select: {
                                 FK_Cliente_Residencia: {
                                     select: {
+                                        id: true,
                                         nome: true,
                                         biografia: true,
                                         foto_perfil: true
@@ -110,6 +111,14 @@ const getServiceOpen = async function () {
                 distinct: ["id_servico"],
             })
 
+            const statusAccountClient = await prisma.tbl_status_conta_cliente.findFirst({
+                where: {
+                    id_cliente: it.FK_Servico_DiaristaServico.FK_ResidenciaCliente_Servico.FK_Cliente_Residencia.id,
+                    id_status_conta: 1
+                }
+            })
+
+            if(statusAccountClient)
             serviceClient.push({
                 client: {
                     serviceId: it.id,
