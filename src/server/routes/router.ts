@@ -124,7 +124,8 @@ router.delete('/v1/limpean/client/:token', verifyJWT, async function (request, r
 
 })
 
-router.get('/v1/limpean/client/servico-aberto', async function (request, response){
+//EndPoint responsavel por pegar todos os serviços abertos dos clientes
+router.get('/v1/limpean/client/service-open', verifyJWT, async function (request, response){
     
         const statusService = await getDataAllServiceOpen()
         
@@ -133,6 +134,7 @@ router.get('/v1/limpean/client/servico-aberto', async function (request, respons
         
 })
 
+//EndPoint responsavel por pegar os dados do cliente pelo id
 router.get('/v1/limpean/client/:token', verifyJWT, async function(request, response){
     
     const token = request.params.token
@@ -241,6 +243,7 @@ router.get('/v1/limpean/diarist', async function (request, response) {
     
 })
 
+//EndPoint Responsavel por deletar a conta do usuario
 router.delete('/v1/limpean/diarist/:token', verifyJWT, async function (request, response){
 
     const token = request.params.token
@@ -260,6 +263,10 @@ router.get('/v1/limpean/diarist/:token', verifyJWT, async function (request, res
     response.status(statusDataDiarist.status)
     response.json(statusDataDiarist)
     
+})
+
+router.get('/v1/limpean/diarist/service-especific', async function (request, response){
+
 })
 
 //EndPoint para atualizar os dados basicos de cadastro do diarista

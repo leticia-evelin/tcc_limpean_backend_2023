@@ -144,7 +144,7 @@ const getServiceOpen = async function () {
 
         const allServiceOpen = serviceClient.filter(client => {
             const status = client.client.status_service
-            return !status.some(status => status.status === "Cancelado")
+            return status.some(status => status.status === "Em aberto")
         })
         
         if(allServiceOpen.length > 0){            

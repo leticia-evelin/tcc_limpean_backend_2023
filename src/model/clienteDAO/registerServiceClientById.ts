@@ -116,7 +116,7 @@ const dbRegisterService = async (token: Token, data: Service) => {
                 const statusService = await prisma.tbl_status_servico.create({
                     data: {
                         id_servico: service.id,
-                        id_status: 1,
+                        id_status: 5,
                         data_hora: `${data.date}T${data.startHour}:00Z`
                     }
                 })
