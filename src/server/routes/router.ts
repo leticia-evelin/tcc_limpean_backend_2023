@@ -8,6 +8,7 @@ import { registerTypeUser } from "../../controller/controllerUser/register/regis
 import { dataDiaristById } from "../../controller/controllerDiarista/dataDiarist/controllerDataDiaristById"
 import { dataAllDiarist } from "../../controller/controllerDiarista/dataDiarist/controllerDataAllDiarist"
 import { deleteRegisterDiarist } from "../../controller/controllerDiarista/deleteRegisterDiarist/controllerDeleteRegisterDiarist"
+import { getInvitationById } from "../../controller/controllerDiarista/getAllServiceEspecific/controllerInvitationById"
 import { deleteRegisterClient } from "../../controller/controllerCliente/deleteRegisterClient/controllerDeleteRegisterClient"
 import { updateDataDiarist } from "../../controller/controllerDiarista/updateDataPersonalDiarist/controllerUpdateDataPersonalDiarist"
 import { updateDataClient } from "../../controller/controllerCliente/updateDataPersonalClient/controllerUpdateDataPersonalClient"
@@ -32,7 +33,7 @@ const verifyJWT = async function(request: Request, response: Response, next: Nex
     
     const SECRETE = message.REQUIRE_SECRETE;
 
-    if (!token) {        
+    if (!token) {                
         return response.status(401).json(message.ERRO_REQUIRED_TOKEN);
     }
 
@@ -198,7 +199,7 @@ router.post('/v1/limpean/client/cadastro/servico/:token', verifyJWT, jsonParser,
 
         const token = request.params.token
         const dataBody = request.body
-
+        
         const statusService = await registerService(token, dataBody)
         response.status(statusService.status)
         response.json(statusService)
@@ -268,8 +269,11 @@ router.get('/v1/limpean/diarist/:token', verifyJWT, async function (request, res
 router.get('/v1/limpean/diarist/service/all-invitation', verifyJWT, async function (request, response){
     
     const token = request.query.token
-    console.log(token);
-    
+
+    const statusDiarist = await getInvitationById(token as string)
+
+    response.status(statusDiarist.status)
+    response.json(statusDiarist)
     
 })
 
