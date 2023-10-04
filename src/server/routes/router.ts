@@ -160,7 +160,7 @@ router.put('/v1/limpean/client/:token', verifyJWT, jsonParser, async function (r
 })
 
 //EndPoint para cadastrar um novo endereço
-router.post('/v1/limpean/client/novo/cadastro/endereco/:token', verifyJWT, jsonParser, async function (request, response) {
+router.post('/v1/limpean/client/new/register/address/:token', verifyJWT, jsonParser, async function (request, response) {
 
     const contentType = request.headers['content-type']
 

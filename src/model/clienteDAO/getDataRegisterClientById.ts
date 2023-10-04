@@ -116,6 +116,7 @@ const getDataRegisterClientById = async function (id: number, name: string) {
                     state: it.FK_Endereco_Residencia.FK_Cidade_Endereco.FK_Estado_Cidade.nome,
                     city: it.FK_Endereco_Residencia.FK_Cidade_Endereco.nome,
                     typeHouse: it.FK_TipoResidencia_Residencia.nome,
+                    cep: it.FK_Endereco_Residencia.cep,
                     publicPlace: it.FK_Endereco_Residencia.logradouro,
                     complement: it.FK_Endereco_Residencia.complemento,
                     district: it.FK_Endereco_Residencia.bairro,

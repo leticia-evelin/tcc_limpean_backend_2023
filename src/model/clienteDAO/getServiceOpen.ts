@@ -120,7 +120,7 @@ const getServiceOpen = async function () {
 
             if(statusAccountClient)
             serviceClient.push({
-                client: {
+                service: {
                     serviceId: it.id,
                     status_service: statusService.map((it) => ({
                         status: it.FK_Status_StatusServico.nome,
@@ -151,13 +151,15 @@ const getServiceOpen = async function () {
             })
         }
 
-        const allServiceOpen = serviceClient.filter(client => {
-            const status = client.client.status_service
-            return status.some(status => status.status === "Em aberto")
-        })
-        
-        if(allServiceOpen.length > 0){            
-            return allServiceOpen
+        //Reponsavel por filtrar serviços em aberto
+
+        // const allServiceOpen = serviceClient.filter(client => {
+        //     const status = client.client.status_service
+        //     return status.some(status => status.status === "Em aberto")
+        // })
+                
+        if(serviceClient.length > 0){            
+            return serviceClient
         }else{            
             return false
         }
