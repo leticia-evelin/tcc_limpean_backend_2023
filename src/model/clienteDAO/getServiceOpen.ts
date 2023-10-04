@@ -107,8 +107,7 @@ const getServiceOpen = async function () {
                             nome: true,
                         },
                     },
-                },
-                distinct: ["id_servico"],
+                }
             })
 
             const statusAccountClient = await prisma.tbl_status_conta_cliente.findFirst({

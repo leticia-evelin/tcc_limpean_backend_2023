@@ -212,6 +212,8 @@ router.delete('/v1/limpean/client/service/:token/?id', verifyJWT, async function
     const idService = request.query.service
     
     const statusService = await deleteServiceClient(token, idService as string)
+    response.status(statusService.status)
+    response.json(statusService)
 
 })
 

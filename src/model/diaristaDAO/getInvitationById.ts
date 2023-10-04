@@ -106,8 +106,7 @@ const dbGetInvitation = async function (id: number) {
                             nome: true,
                         },
                     },
-                },
-                distinct: ["id_servico"],
+                }
             })
 
             const statusAccountClient = await prisma.tbl_status_conta_cliente.findFirst({
@@ -147,16 +146,16 @@ const dbGetInvitation = async function (id: number) {
                         cep: it.FK_Servico_DiaristaServico.FK_ResidenciaCliente_Servico.FK_Endereco_Residencia.cep
                     }, 
                 },
-            })
+            })            
         }
-
-        const allServiceOpen = serviceClient.filter(client => {
-            const status = client.client.status_service
-            return status.some(status => status.status === "Em aberto")
-        })        
         
-        if(allServiceOpen.length > 0){            
-            return allServiceOpen
+        // const allServiceOpen = serviceClient.filter(client => {
+        //     const status = client.client.status_service
+        //     return status.some(status => status.status === "Em aberto")
+        // })        
+        
+        if(serviceClient.length > 0){            
+            return serviceClient
         }else{            
             return false
         }
