@@ -26,7 +26,7 @@
  * 
  *  Para rodar node ./dist/app.js
  * 
- *  Para mudar o banco local e deixar online: npx prisma migrate dev
+ * Para mudar o banco local e deixar online: npx prisma migrate dev
  * 
  * git remote add 'URL'
  * Para mandar o commit para o meu repositorio pessoal: git push -u pessoal main

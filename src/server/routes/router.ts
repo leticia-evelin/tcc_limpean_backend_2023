@@ -206,6 +206,17 @@ router.post('/v1/limpean/client/cadastro/servico/:token', verifyJWT, jsonParser,
 
 })
 
+router.delete('/v1/limpean/client/cadastro/servico/:token', verifyJWT, jsonParser, async function (request, response){
+
+    const token = request.params.token
+    const dataBody = request.body
+    
+    const statusService = await registerService(token, dataBody)
+    response.status(statusService.status)
+    response.json(statusService)
+
+})
+
 
 /*********************************************************************************************/
 
@@ -232,7 +243,6 @@ router.post('/v1/limpean/client/cadastro/servico/:token', verifyJWT, jsonParser,
 //         }
 //     }
 // })
-
 
 //EndPoint para listar todos os diaristas
 router.get('/v1/limpean/diarist', async function (request, response) {
@@ -266,9 +276,10 @@ router.get('/v1/limpean/diarist/:token', verifyJWT, async function (request, res
     
 })
 
-router.get('/v1/limpean/diarist/service/all-invitation', verifyJWT, async function (request, response){
+//EndPOint para listar todos os convites do diarista
+router.get('/v1/limpean/diarist/service/all-invitation/:token', verifyJWT, async function (request, response){
     
-    const token = request.query.token
+    const token = request.params.token
 
     const statusDiarist = await getInvitationById(token as string)
 
