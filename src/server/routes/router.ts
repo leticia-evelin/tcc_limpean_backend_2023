@@ -17,6 +17,7 @@ import { registerAddressCliente } from "../../controller/controllerCliente/regis
 import { getDataClient } from "../../controller/controllerCliente/getDataClient/controllerDataClientById"
 import { getDataAllServiceOpen } from "../../controller/controllerCliente/getAllServiceOpen/controllerDataAllServiceOpenClients"
 import { registerService } from "../../controller/controllerCliente/registerService/controllerRegisterServiceClient"
+import { deleteServiceClient } from "../../controller/controllerCliente/deleteServiceClient/controllerDeleterServiceClient"
 import * as message from "../../modulo/config"
 import * as jwt  from "jsonwebtoken"
 
@@ -179,7 +180,6 @@ router.post('/v1/limpean/client/new/register/address/:token', verifyJWT, jsonPar
     }
 })
 
-
 //EndPoint para atualizar um endereço específico da residencia do cliente
 router.put('/v1/limpean/client/:token/:residenciaId', verifyJWT, jsonParser, async function (request, response) {
 
@@ -206,14 +206,12 @@ router.post('/v1/limpean/client/cadastro/servico/:token', verifyJWT, jsonParser,
 
 })
 
-router.delete('/v1/limpean/client/cadastro/servico/:token', verifyJWT, jsonParser, async function (request, response){
+router.delete('/v1/limpean/client/service/:token/?id', verifyJWT, async function (request, response){
 
     const token = request.params.token
-    const dataBody = request.body
+    const idService = request.query.service
     
-    const statusService = await registerService(token, dataBody)
-    response.status(statusService.status)
-    response.json(statusService)
+    const statusService = await deleteServiceClient(token, idService as string)
 
 })
 

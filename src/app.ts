@@ -29,8 +29,8 @@
  * Para mudar o banco local e deixar online: npx prisma migrate dev
  * 
  * git remote add 'URL'
- * Para mandar o commit para o meu repositorio pessoal: git push -u pessoal main
- * Para mandar o commit para o repositório da organização: git push -u origin main
+ * Para mandar o commit para o meu repositorio pessoal: git push -u origin main
+ * Para mandar o commit para o repositório da organização: git push -u organizacao <branch>
  * 
  * Para saber o repositorio: git remote -v
  * 
