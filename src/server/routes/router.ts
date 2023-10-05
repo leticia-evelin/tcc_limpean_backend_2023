@@ -18,6 +18,7 @@ import { getDataClient } from "../../controller/controllerCliente/getDataClient/
 import { getDataAllServiceOpen } from "../../controller/controllerCliente/getAllServiceOpen/controllerDataAllServiceOpenClients"
 import { registerService } from "../../controller/controllerCliente/registerService/controllerRegisterServiceClient"
 import { deleteServiceClient } from "../../controller/controllerCliente/deleteServiceClient/controllerDeleterServiceClient"
+import { updateStatusService } from "../../controller/controllerDiarista/updateStatusServiceDiaristWithClient/controllerUpdateStatusService"
 import * as message from "../../modulo/config"
 import * as jwt  from "jsonwebtoken"
 
@@ -311,6 +312,14 @@ router.put('/v1/limpean/diarist/schedule-service', verifyJWT, jsonParser, async 
     const token = request.headers['x-api-key']
     const idService = request.query.idService
     const idStatus = request.query.idStatus
+
+    const data = {
+        token: token,
+        idService: idService,
+        idStatus: idStatus
+    }
+    
+    const statusService = await updateStatusService(data)
     
 })
 
