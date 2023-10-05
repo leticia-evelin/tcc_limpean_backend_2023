@@ -135,6 +135,7 @@ const updateDataPhone = async function (token: TokenPayLoad, data: any) {
     }
 }
 
+
 const updateDataAddressClient = async function (token: TokenPayLoad, residenciaId: number, data: any) {
     try {
         const verifyCliente = await prisma.tbl_cliente.findFirst({
@@ -156,6 +157,7 @@ const updateDataAddressClient = async function (token: TokenPayLoad, residenciaI
             }
         });
 
+
         if (!verifyCliente) {
             return false; 
         }
@@ -171,7 +173,7 @@ const updateDataAddressClient = async function (token: TokenPayLoad, residenciaI
         if (!isObjectEmpty(data.tbl_endereco)) {
             const updatedAddress = await prisma.tbl_endereco.update({
                 where: {
-                    id: residencia.FK_Endereco_Residencia.id, 
+                    id: verifyCliente.residencia[0].FK_Endereco_Residencia.id, 
                 },
                 data: data.tbl_endereco,
             });
@@ -184,7 +186,7 @@ const updateDataAddressClient = async function (token: TokenPayLoad, residenciaI
         if (!isObjectEmpty(data.tbl_cidade)) {
             const updatedAddress = await prisma.tbl_cidade.update({
                 where: {
-                    id: residencia.FK_Endereco_Residencia.id, 
+                    id: verifyCliente.residencia[0].FK_Endereco_Residencia.id, 
                 },
                 data: data.tbl_cidade,
             });
@@ -194,6 +196,20 @@ const updateDataAddressClient = async function (token: TokenPayLoad, residenciaI
             }
         }
 
+        if(!isObjectEmpty(data.tbl_residencia_cliente)){
+            const updatedAddress = await prisma.tbl_residencia_cliente.update({
+                where: {
+                    id: verifyCliente.residencia[0].FK_Endereco_Residencia.id,
+
+                },
+                data: data.tbl_residencia_cliente,
+
+            });
+
+            if(updatedAddress){
+                statusUpdated = true;
+            } 
+        }
     
 
         if (statusUpdated) {
@@ -207,6 +223,8 @@ const updateDataAddressClient = async function (token: TokenPayLoad, residenciaI
         await prisma.$disconnect();
     }
 }
+
+
 
 
 
