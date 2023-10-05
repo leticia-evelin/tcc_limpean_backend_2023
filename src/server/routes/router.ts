@@ -116,10 +116,10 @@ router.post('/v1/limpean/login', jsonParser, async function (request, response) 
 // })
 
 //EndPoint para excluir um cliente
-router.delete('/v1/limpean/client/:token', verifyJWT, async function (request, response){
+router.delete('/v1/limpean/client', verifyJWT, async function (request, response){
 
-    const token = request.params.token
-    const statusClient = await deleteRegisterClient(token)
+    const token = request.headers['x-api-key']
+    const statusClient = await deleteRegisterClient(token as string)
    
     response.status(statusClient.status)
     response.json(statusClient)
@@ -127,7 +127,7 @@ router.delete('/v1/limpean/client/:token', verifyJWT, async function (request, r
 })
 
 //EndPoint responsavel por pegar todos os serviços abertos dos clientes
-router.get('/v1/limpean/client/service-open', verifyJWT, async function (request, response){
+router.get('/v1/limpean/client/service', verifyJWT, async function (request, response){
             
         const statusService = await getDataAllServiceOpen()
         
@@ -137,10 +137,10 @@ router.get('/v1/limpean/client/service-open', verifyJWT, async function (request
 })
 
 //EndPoint responsavel por pegar os dados do cliente pelo id
-router.get('/v1/limpean/client/:token', verifyJWT, async function(request, response){
+router.get('/v1/limpean/client', verifyJWT, async function(request, response){
     
-    const token = request.params.token
-    const statusClient = await getDataClient(token)
+    const token = request.headers['x-api-key']
+    const statusClient = await getDataClient(token as string)
 
     response.status(statusClient.status)
     response.json(statusClient)
@@ -148,12 +148,13 @@ router.get('/v1/limpean/client/:token', verifyJWT, async function(request, respo
 })
 
 //EndPoint para atualizar os dados basicos de cadastro do client
-router.put('/v1/limpean/client/:token', verifyJWT, jsonParser, async function (request, response){
+router.put('/v1/limpean/client', verifyJWT, jsonParser, async function (request, response){
 
-    const token = request.params.token
+    const token = request.headers['x-api-key']
+
     const dataBody = request.body
 
-    const statusClient = await updateDataClient(token, dataBody)
+    const statusClient = await updateDataClient(token as string, dataBody)
 
     response.status(statusClient.status)
     response.json(statusClient)
@@ -161,15 +162,15 @@ router.put('/v1/limpean/client/:token', verifyJWT, jsonParser, async function (r
 })
 
 //EndPoint para cadastrar um novo endereço
-router.post('/v1/limpean/client/new/register/address/:token', verifyJWT, jsonParser, async function (request, response) {
+router.post('/v1/limpean/client/new/register/address', verifyJWT, jsonParser, async function (request, response) {
 
     const contentType = request.headers['content-type']
 
     if (contentType === 'application/json') {
         const dataBody = request.body
-        const token = request.params.token
+        const token = request.headers['x-api-key']
       
-        const statusClient = await registerAddressCliente(dataBody, token)
+        const statusClient = await registerAddressCliente(dataBody, token as string)
 
         if (statusClient) {
             response.status(statusClient.status)
@@ -181,7 +182,7 @@ router.post('/v1/limpean/client/new/register/address/:token', verifyJWT, jsonPar
 })
 
 //EndPoint para atualizar um endereço específico da residencia do cliente
-router.put('/v1/limpean/client/:token/:residenciaId', verifyJWT, jsonParser, async function (request, response) {
+router.put('/v1/limpean/client/:residenciaId', verifyJWT, jsonParser, async function (request, response) {
 
         const token = request.params.token
         const residenciaId = parseInt(request.params.residenciaId)
@@ -195,23 +196,24 @@ router.put('/v1/limpean/client/:token/:residenciaId', verifyJWT, jsonParser, asy
 })
 
 //EndPoint para cadastrar um servico
-router.post('/v1/limpean/client/cadastro/servico/:token', verifyJWT, jsonParser, async function (request, response){
+router.post('/v1/limpean/client/cadastro/servico', verifyJWT, jsonParser, async function (request, response){
 
-        const token = request.params.token
+        const token = request.headers['x-api-key']
         const dataBody = request.body
         
-        const statusService = await registerService(token, dataBody)
+        const statusService = await registerService(token as string, dataBody)
         response.status(statusService.status)
         response.json(statusService)
 
 })
 
-router.delete('/v1/limpean/client/service/:token/?id', verifyJWT, async function (request, response){
+//EndPoint para deletar o servico de um cliente
+router.delete('/v1/limpean/client/service/?id', verifyJWT, async function (request, response){
 
-    const token = request.params.token
+    const token = request.headers['x-api-key']
     const idService = request.query.service
     
-    const statusService = await deleteServiceClient(token, idService as string)
+    const statusService = await deleteServiceClient(token as string, idService as string)
     response.status(statusService.status)
     response.json(statusService)
 
@@ -245,7 +247,7 @@ router.delete('/v1/limpean/client/service/:token/?id', verifyJWT, async function
 // })
 
 //EndPoint para listar todos os diaristas
-router.get('/v1/limpean/diarist', async function (request, response) {
+router.get('/v1/limpean/diarists', verifyJWT, async function (request, response) {
 
     const statusDataDiarist = await dataAllDiarist()
 
@@ -255,10 +257,11 @@ router.get('/v1/limpean/diarist', async function (request, response) {
 })
 
 //EndPoint Responsavel por deletar a conta do usuario
-router.delete('/v1/limpean/diarist/:token', verifyJWT, async function (request, response){
+router.delete('/v1/limpean/diarist', verifyJWT, async function (request, response){
 
-    const token = request.params.token
-    const statusDiarist = await deleteRegisterDiarist(token)
+    const token = request.headers['x-api-key']
+
+    const statusDiarist = await deleteRegisterDiarist(token as string)
 
     response.status(statusDiarist.status)
     response.json(statusDiarist)
@@ -266,10 +269,11 @@ router.delete('/v1/limpean/diarist/:token', verifyJWT, async function (request, 
 })
 
 //EndPoint para listar o diarista com base no id
-router.get('/v1/limpean/diarist/:token', verifyJWT, async function (request, response) {
+router.get('/v1/limpean/diarist', verifyJWT, async function (request, response) {
 
-    const token = request.params.token
-    const statusDataDiarist = await dataDiaristById(token)
+    const token = request.headers['x-api-key']
+
+    const statusDataDiarist = await dataDiaristById(token as string)
 
     response.status(statusDataDiarist.status)
     response.json(statusDataDiarist)
@@ -277,9 +281,9 @@ router.get('/v1/limpean/diarist/:token', verifyJWT, async function (request, res
 })
 
 //EndPOint para listar todos os convites do diarista
-router.get('/v1/limpean/diarist/service/all-invitation/:token', verifyJWT, async function (request, response){
+router.get('/v1/limpean/diarist/service/all-invitation', verifyJWT, async function (request, response){
     
-    const token = request.params.token
+    const token = request.headers['x-api-key']
 
     const statusDiarist = await getInvitationById(token as string)
 
@@ -289,15 +293,25 @@ router.get('/v1/limpean/diarist/service/all-invitation/:token', verifyJWT, async
 })
 
 //EndPoint para atualizar os dados basicos de cadastro do diarista
-router.put('/v1/limpean/diarist/:token', verifyJWT, jsonParser, async function (request, response){
+router.put('/v1/limpean/diarist', verifyJWT, jsonParser, async function (request, response){
 
-    const token = request.params.token
+    const token = request.headers['x-api-key']
+
     const dataBody = request.body
 
-    const statusDiarist = await updateDataDiarist(token, dataBody)
+    const statusDiarist = await updateDataDiarist(token as string, dataBody)
 
     response.status(statusDiarist.status)
     response.json(statusDiarist)
+
+})
+
+router.put('/v1/limpean/diarist/schedule-invitation/:idService', verifyJWT, jsonParser, async function (request, response){
+
+    const token = request.headers['x-api-key']
+
+    const dataBody = request.body
+
 
 })
 
