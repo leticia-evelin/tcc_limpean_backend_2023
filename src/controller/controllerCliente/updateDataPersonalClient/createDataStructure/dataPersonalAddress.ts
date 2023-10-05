@@ -1,4 +1,5 @@
 interface UpdateAddress {
+    typeHouse: number | null;   // Tipo da residencia
     state: number | null;       // Estado
     city: string | null;        // Cidade
     cep: string | null;         // CEP
@@ -10,6 +11,7 @@ interface UpdateAddress {
 
 const createStructureSimpleDataAddress = (data: UpdateAddress) => {
     if (
+        data.typeHouse === null && 
         data.state === null &&
         data.city === null &&
         data.cep === null &&
@@ -23,7 +25,12 @@ const createStructureSimpleDataAddress = (data: UpdateAddress) => {
         const addressData: { [key: string]: any } = {
             tbl_cidade: {},
             tbl_endereco: {},
+            tbl_residencia_cliente: {},
         };
+
+        if (data.typeHouse !== null) {
+            addressData.tbl_residencia_cliente.id_tipo_residencia = data.typeHouse;
+        }
 
         if (data.state !== null) {
             addressData.tbl_cidade.id_estado = data.state;
@@ -53,7 +60,6 @@ const createStructureSimpleDataAddress = (data: UpdateAddress) => {
             addressData.tbl_endereco.numero_residencia = data.houseNumber;
         }
 
-        console.log(addressData)
         return addressData;
         
     }

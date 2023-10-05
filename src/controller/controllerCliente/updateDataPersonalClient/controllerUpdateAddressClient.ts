@@ -4,7 +4,7 @@ import { createStructureSimpleDataAddress } from "./createDataStructure/dataPers
 import * as jwt from "jsonwebtoken";
 
 interface UpdateDataAddress {
-    typeHouse: string | null;
+    typeHouse: number | null;
     state: number | null;
     city: string | null;
     cep: string | null;
@@ -35,7 +35,7 @@ const updateDataAddressClient = async function (token: string, residenciaId: num
         const addressData = createStructureSimpleDataAddress(data);
 
         if (addressData) {
-            const updateAddress = await db.updateDataAddressClient(tokenDecoded, residenciaId, addressData); // Ajuste para passar residenciaId.
+            const updateAddress = await db.updateDataAddressClient(tokenDecoded, residenciaId, addressData); 
             
             if (!updateAddress) {
                 return message.ERRO_UPDATE_ADDRESS_CLIENT;
