@@ -306,13 +306,12 @@ router.put('/v1/limpean/diarist', verifyJWT, jsonParser, async function (request
 
 })
 
-router.put('/v1/limpean/diarist/schedule-invitation/:idService', verifyJWT, jsonParser, async function (request, response){
+router.put('/v1/limpean/diarist/schedule-service', verifyJWT, jsonParser, async function (request, response){
 
     const token = request.headers['x-api-key']
-
-    const dataBody = request.body
-
-
+    const idService = request.query.idService
+    const idStatus = request.query.idStatus
+    
 })
 
 
