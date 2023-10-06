@@ -281,12 +281,14 @@ router.get('/v1/limpean/diarist', verifyJWT, async function (request, response) 
     
 })
 
-//EndPOint para listar todos os convites do diarista
-router.get('/v1/limpean/diarist/service/all-invitation', verifyJWT, async function (request, response){
+//EndPoint para listar todos os servicos do diarista e os tipos de status: Convite, Em andamento ....
+router.get('/v1/limpean/diarist/service', verifyJWT, async function (request, response){
     
+    const statusTypeService = request.query.id
+
     const token = request.headers['x-api-key']
 
-    const statusDiarist = await getInvitationById(token as string)
+    const statusDiarist = await getInvitationById(token as string, statusTypeService)
 
     response.status(statusDiarist.status)
     response.json(statusDiarist)

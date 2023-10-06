@@ -3,8 +3,8 @@ import { server } from "../../server/server"
 
 const prisma = new PrismaClient()
 
-const dbGetInvitation = async function (id: number) {
-
+const dbGetInvitation = async function (id: number, statusTypeService: any) {
+    
     try {
 
         const service = await prisma.tbl_diarista_servico.findMany({
@@ -149,11 +149,39 @@ const dbGetInvitation = async function (id: number) {
             })            
         }
         
-        // const allServiceOpen = serviceClient.filter(client => {
-        //     const status = client.client.status_service
-        //     return status.some(status => status.status === "Em aberto")
-        // })        
-        
+        if (!isNaN(statusTypeService)) {
+            let filterService = ""
+          
+            if (statusTypeService === 1) {
+              filterService = "Em aberto"
+            } else if (statusTypeService === 2) {
+              filterService = "Agendado"
+            } else if (statusTypeService === 3) {
+              filterService = "Em andamento"
+            } else if (statusTypeService === 4) {
+              filterService = "Finalizado"
+            } else if (statusTypeService === 5) {
+              filterService = "Cancelado"
+            }
+          
+            const filterStatusServiceById = serviceClient.filter((client) => {
+              const statusArray = client.client.status_service;
+              
+              // Encontrar o índice do status atual no array
+              const currentIndex = statusArray.findIndex(
+                (status) => status.status === filterService
+              )
+
+              // Verificar se o status atual é o último no array
+              const isLastStatus = currentIndex === statusArray.length - 1;              
+          
+              // Se for o último status, incluir o cliente no resultado
+              return isLastStatus;
+            })
+          
+            return filterStatusServiceById;
+          }          
+          
         if(serviceClient.length > 0){            
             return serviceClient
         }else{            
