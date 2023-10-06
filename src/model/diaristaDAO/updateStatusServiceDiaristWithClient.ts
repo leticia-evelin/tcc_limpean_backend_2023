@@ -24,20 +24,23 @@ const dbUpdateServiceDiarist = async function(idDiarist: number, idService: numb
                 }, select: {
                     id_status: true
                 }
-            })
+            })                        
             
+            if(!statusService.some((it) => it.id_status === idStatus || it.id_status === 5)){
+                await prisma.tbl_status_servico.create({
+                    data: {
+                        id_servico: idService,
+                        id_status: idStatus,
+                        data_hora: new Date()
+                    }
+                })
+                                
+                statusServiceClient = true
+            }else{
+                statusServiceClient = false
+            }
 
-            if(!statusService.some((it) => it.id_status === idStatus))
-            await prisma.tbl_status_servico.create({
-                data: {
-                    id_servico: idService,
-                    id_status: idStatus,
-                    data_hora: new Date()
-                }
-            })
-
-            statusServiceClient = true
-
+            return statusServiceClient
         }else{
             if(idService !== 5 && idService !== 4 && idService !== 3){
                 await prisma.tbl_diarista_servico.updateMany({
@@ -55,15 +58,16 @@ const dbUpdateServiceDiarist = async function(idDiarist: number, idService: numb
                         data_hora: new Date()
                     }
                 })
-
+                
                 statusServiceClient = true
             }else{
+                
                 statusServiceClient = false
             }
 
             return statusServiceClient
         }
-    } catch (error) {
+    } catch (error) {        
         return false
     }
 }

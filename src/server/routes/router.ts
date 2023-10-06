@@ -320,6 +320,8 @@ router.put('/v1/limpean/diarist/schedule-service', verifyJWT, jsonParser, async 
     }
     
     const statusService = await updateStatusService(data)
+    response.status(statusService.status)
+    response.json(statusService)
     
 })
 
