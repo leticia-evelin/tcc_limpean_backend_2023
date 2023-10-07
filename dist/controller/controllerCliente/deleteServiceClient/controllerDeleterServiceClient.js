@@ -23,38 +23,28 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loginClient = void 0;
-const db = __importStar(require("../../../model/clienteDAO/loginCliente"));
-const jwt = __importStar(require("../../../middleware/controllerJWT"));
+exports.deleteServiceClient = void 0;
 const message = __importStar(require("../../../modulo/config"));
-const loginClient = async function (body) {
-    if (body.email === "" || body.email == null ||
-        body.password === "" || body.password == null) {
-        return message.ERRO_INVALID_USER;
+const deleteServiceClientById_1 = require("../../../model/clienteDAO/deleteServiceClientById");
+const jwt = __importStar(require("jsonwebtoken"));
+const deleteServiceClient = async function (token, idService) {
+    const SECRETE = message.REQUIRE_SECRETE;
+    if (!Number(idService)) {
+        return message.ERRO_REQUIRED_DATA_CLIENTE;
     }
-    else {
-        try {
-            const dataUser = await db.loginCliente(body);
-            if (typeof dataUser === "number") {
-                return message.ERRO_INVALID_LOGIN_USER;
-            }
-            else if (dataUser && typeof dataUser !== "number") {
-                const token = jwt.createJWT(dataUser);
-                let statusJson = {
-                    status: 200,
-                    id: dataUser.id,
-                    email: dataUser.email,
-                    token: token
-                };
-                return statusJson;
-            }
-            else {
-                return message.ERRO_INVALID_USER;
-            }
+    try {
+        const decoded = jwt.verify(Array.isArray(token) ? token[0] : token, SECRETE);
+        const { id, name } = decoded;
+        const statusService = await (0, deleteServiceClientById_1.dbDeleteService)(Number(id), name, Number(idService));
+        if (statusService) {
+            return message.DELETE_USER;
         }
-        catch (error) {
-            return message.ERRO_INTERNAL_SERVER;
+        else {
+            return message.ERRO_DELETE_USER;
         }
+    }
+    catch (error) {
+        return message.ERRO_INTERNAL_SERVER;
     }
 };
-exports.loginClient = loginClient;
+exports.deleteServiceClient = deleteServiceClient;

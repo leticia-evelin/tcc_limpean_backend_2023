@@ -30,14 +30,18 @@ const message = __importStar(require("../../../modulo/config"));
 const loginDiarist = async function (body) {
     if (body.email === "" || body.email == null ||
         body.password === "" || body.password == null) {
-        return false;
+        return message.ERRO_INVALID_USER;
     }
     else {
         try {
             const dataUser = await db.loginDiarista(body);
-            if (dataUser) {
+            if (typeof dataUser === "number") {
+                return message.ERRO_INVALID_LOGIN_USER;
+            }
+            else if (dataUser && typeof dataUser !== "number") {
                 const token = jwt.createJWT(dataUser);
                 let statusJson = {
+                    status: 200,
                     id: dataUser.id,
                     email: dataUser.email,
                     token: token

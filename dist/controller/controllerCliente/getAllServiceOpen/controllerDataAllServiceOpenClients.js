@@ -23,38 +23,29 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loginClient = void 0;
-const db = __importStar(require("../../../model/clienteDAO/loginCliente"));
-const jwt = __importStar(require("../../../middleware/controllerJWT"));
+exports.getDataAllServiceOpen = void 0;
 const message = __importStar(require("../../../modulo/config"));
-const loginClient = async function (body) {
-    if (body.email === "" || body.email == null ||
-        body.password === "" || body.password == null) {
-        return message.ERRO_INVALID_USER;
+const getServiceOpen_1 = require("../../../model/clienteDAO/getServiceOpen");
+const getDataAllServiceOpen = async function () {
+    try {
+        let statusServiceOPen;
+        const statusService = await (0, getServiceOpen_1.getServiceOpen)();
+        if (statusService) {
+            statusServiceOPen = {
+                status: 200,
+                data: statusService
+            };
+        }
+        else {
+            statusServiceOPen = {
+                status: 404,
+                data: { status: 404, message: "Nenhum registro encontrado." }
+            };
+        }
+        return statusServiceOPen;
     }
-    else {
-        try {
-            const dataUser = await db.loginCliente(body);
-            if (typeof dataUser === "number") {
-                return message.ERRO_INVALID_LOGIN_USER;
-            }
-            else if (dataUser && typeof dataUser !== "number") {
-                const token = jwt.createJWT(dataUser);
-                let statusJson = {
-                    status: 200,
-                    id: dataUser.id,
-                    email: dataUser.email,
-                    token: token
-                };
-                return statusJson;
-            }
-            else {
-                return message.ERRO_INVALID_USER;
-            }
-        }
-        catch (error) {
-            return message.ERRO_INTERNAL_SERVER;
-        }
+    catch (error) {
+        return message.ERRO_INTERNAL_SERVER;
     }
 };
-exports.loginClient = loginClient;
+exports.getDataAllServiceOpen = getDataAllServiceOpen;

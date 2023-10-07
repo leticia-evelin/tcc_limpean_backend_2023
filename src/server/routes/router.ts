@@ -22,6 +22,11 @@ import { updateStatusService } from "../../controller/controllerDiarista/updateS
 import * as message from "../../modulo/config"
 import * as jwt  from "jsonwebtoken"
 
+
+
+import { criptographyAllData } from "../../sercuryService/criptography"
+import { decripyAllData } from "../../sercuryService/criptography"
+
 const jsonParser = bodyParser.json()
 
 const router = Router()
@@ -309,6 +314,7 @@ router.put('/v1/limpean/diarist', verifyJWT, jsonParser, async function (request
 
 })
 
+//Atualiza os status do serviço do cliente
 router.put('/v1/limpean/diarist/schedule-service', verifyJWT, jsonParser, async function (request, response){
 
     const token = request.headers['x-api-key']
@@ -325,6 +331,34 @@ router.put('/v1/limpean/diarist/schedule-service', verifyJWT, jsonParser, async 
     response.status(statusService.status)
     response.json(statusService)
     
+})
+
+router.get('/v1/limpean/diarist/service/access', verifyJWT, async function (request, response){
+
+    const token = request.headers['x-api-key']
+    const idService = request.query.idService
+
+    // const objetoJSON = {
+    //     cliente: {
+    //       nome: 'João',
+    //       idade: 30,
+    //     },
+    //     diarista: {
+    //       nome: 'Maria',
+    //       idade: 25,
+    //     },
+    //     servico: {
+    //       tipo: 'Limpeza',
+    //       preco: 50.0,
+    //     },
+    //   };
+    
+    //let status = criptographyAllData(objetoJSON)
+    //console.log(status);
+    
+    //let decod = decripyAllData(status.data, status.authTag)
+    //console.log(decod);
+
 })
 
 

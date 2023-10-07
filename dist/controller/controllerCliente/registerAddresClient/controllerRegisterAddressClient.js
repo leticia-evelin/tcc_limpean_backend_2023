@@ -23,38 +23,38 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loginClient = void 0;
-const db = __importStar(require("../../../model/clienteDAO/loginCliente"));
-const jwt = __importStar(require("../../../middleware/controllerJWT"));
+exports.registerAddressCliente = void 0;
 const message = __importStar(require("../../../modulo/config"));
-const loginClient = async function (body) {
-    if (body.email === "" || body.email == null ||
-        body.password === "" || body.password == null) {
-        return message.ERRO_INVALID_USER;
-    }
-    else {
-        try {
-            const dataUser = await db.loginCliente(body);
-            if (typeof dataUser === "number") {
-                return message.ERRO_INVALID_LOGIN_USER;
-            }
-            else if (dataUser && typeof dataUser !== "number") {
-                const token = jwt.createJWT(dataUser);
-                let statusJson = {
-                    status: 200,
-                    id: dataUser.id,
-                    email: dataUser.email,
-                    token: token
-                };
-                return statusJson;
+const validate = __importStar(require("./validate/validateRegisterAddress"));
+const db = __importStar(require("../../../model/clienteDAO/registerAddressCliente"));
+const jwt = __importStar(require("jsonwebtoken"));
+const registerAddressCliente = async function (body, token) {
+    let statusRegisterAddress;
+    const SECRETE = message.REQUIRE_SECRETE;
+    try {
+        const decoded = jwt.verify(token, SECRETE);
+        const { id, name } = decoded;
+        const tokenDecoded = { id, name };
+        if (!validate.validateTypesJson(body)) {
+            statusRegisterAddress = message.ERRO_REQUIRED_DATA_CLIENTE;
+        }
+        else if (!validate.validateAddress(body)) {
+            statusRegisterAddress = message.ERRO_ADDRESS;
+        }
+        else {
+            let status = await db.registerAddressUser(body, tokenDecoded);
+            if (status) {
+                statusRegisterAddress = message.CREATED_REGISTER;
             }
             else {
-                return message.ERRO_INVALID_USER;
+                statusRegisterAddress = message.ERRO_REGISTER_USER;
             }
         }
-        catch (error) {
-            return message.ERRO_INTERNAL_SERVER;
-        }
+        return statusRegisterAddress;
+    }
+    catch (error) {
+        console.log(error);
+        return message.ERRO_INTERNAL_SERVER;
     }
 };
-exports.loginClient = loginClient;
+exports.registerAddressCliente = registerAddressCliente;

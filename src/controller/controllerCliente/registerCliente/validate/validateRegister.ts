@@ -76,7 +76,7 @@ function validadeDataResidence(dataResidence: DataResidence): boolean{
     return status
  }
 
-function validatePhoneWithDDD(ddd:string , phone: string) {
+function validatePhoneWithDDD(ddd:string | null , phone: string | null) {
 
     let numberPhone = `${ddd} ${phone}`    
 

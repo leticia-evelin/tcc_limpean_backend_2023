@@ -5,17 +5,28 @@ const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 const loginCliente = async function (dataBody) {
     try {
-        const verifyClient = await prisma.tbl_cliente.findFirst({
+        const loginClient = await prisma.tbl_cliente.findFirst({
             where: {
                 email: dataBody.email.toLowerCase(),
                 senha: dataBody.password
             }
         });
-        if (verifyClient) {
-            return {
-                id: verifyClient.id,
-                email: verifyClient.email,
-            };
+        if (loginClient) {
+            const statusContaClient = await prisma.tbl_status_conta_cliente.findFirst({
+                where: {
+                    id_cliente: loginClient.id,
+                    id_status_conta: 1
+                }
+            });
+            if (statusContaClient) {
+                return {
+                    id: loginClient.id,
+                    email: loginClient.email,
+                };
+            }
+            else {
+                return 401;
+            }
         }
         else {
             return false;

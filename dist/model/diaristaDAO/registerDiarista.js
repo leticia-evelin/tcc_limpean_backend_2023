@@ -53,6 +53,13 @@ const registerUser = async function (dataBody) {
                         id_diarista: tbl_diarista.id
                     }
                 });
+                await prisma.tbl_status_conta_diarista.create({
+                    data: {
+                        data_status: new Date(),
+                        id_diarista: tbl_diarista.id,
+                        id_status_conta: 1
+                    }
+                });
             });
         }
         else {

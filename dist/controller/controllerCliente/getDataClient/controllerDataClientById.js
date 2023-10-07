@@ -23,38 +23,28 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loginClient = void 0;
-const db = __importStar(require("../../../model/clienteDAO/loginCliente"));
-const jwt = __importStar(require("../../../middleware/controllerJWT"));
+exports.getDataClient = void 0;
+const getDataRegisterClientById_1 = require("../../../model/clienteDAO/getDataRegisterClientById");
 const message = __importStar(require("../../../modulo/config"));
-const loginClient = async function (body) {
-    if (body.email === "" || body.email == null ||
-        body.password === "" || body.password == null) {
-        return message.ERRO_INVALID_USER;
+const jwt = __importStar(require("jsonwebtoken"));
+const getDataClient = async function (token) {
+    const SECRETE = message.REQUIRE_SECRETE;
+    try {
+        const decoded = jwt.verify(Array.isArray(token) ? token[0] : token, SECRETE);
+        const { id, name } = decoded;
+        const client = await (0, getDataRegisterClientById_1.getDataRegisterClientById)(Number(id), name);
+        if (client) {
+            return {
+                status: 200,
+                data: client[0].client
+            };
+        }
+        else {
+            return message.ERRO_INVALID_TOKEN;
+        }
     }
-    else {
-        try {
-            const dataUser = await db.loginCliente(body);
-            if (typeof dataUser === "number") {
-                return message.ERRO_INVALID_LOGIN_USER;
-            }
-            else if (dataUser && typeof dataUser !== "number") {
-                const token = jwt.createJWT(dataUser);
-                let statusJson = {
-                    status: 200,
-                    id: dataUser.id,
-                    email: dataUser.email,
-                    token: token
-                };
-                return statusJson;
-            }
-            else {
-                return message.ERRO_INVALID_USER;
-            }
-        }
-        catch (error) {
-            return message.ERRO_INTERNAL_SERVER;
-        }
+    catch (error) {
+        return message.ERRO_INTERNAL_SERVER;
     }
 };
-exports.loginClient = loginClient;
+exports.getDataClient = getDataClient;

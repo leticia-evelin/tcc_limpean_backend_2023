@@ -81,6 +81,85 @@ const insertStateBrazil = async function () {
         }
     }
 };
+const insertTypeStatusRegister = async function () {
+    const status = await prisma.tbl_status_conta.findFirst({
+        where: {
+            status: "true"
+        }
+    });
+    if (!status) {
+        await prisma.tbl_status_conta.createMany({
+            data: [
+                {
+                    status: "true"
+                },
+                {
+                    status: "false"
+                }
+            ]
+        });
+    }
+};
+const insertRoom = async function () {
+    const typesRoom = ["Quarto", "Sala", "Cozinha", "Banheiro", "Escritório", "Lavanderia", "Garagem", "Quintal", "Area de lazer"];
+    for (const room of typesRoom) {
+        const nameRoom = await prisma.tbl_comodo.findFirst({
+            where: { nome: room }
+        });
+        if (!nameRoom) {
+            await prisma.tbl_comodo.create({
+                data: {
+                    nome: room
+                }
+            });
+        }
+    }
+};
+const insertTypeCleaning = async function () {
+    const typesCleaning = ["Comercial", "Padrão", "Pré obra", "Pós obra", "Pré mudança"];
+    for (const typeClean of typesCleaning) {
+        const nameCleaning = await prisma.tbl_tipo_limpeza.findFirst({
+            where: { nome: typeClean }
+        });
+        if (!nameCleaning) {
+            await prisma.tbl_tipo_limpeza.create({
+                data: {
+                    nome: typeClean
+                }
+            });
+        }
+    }
+};
+const insertTypeQuestion = async function () {
+    const typeQuestions = ["Haverão crianças no momento da faxina? ", "Haverão animais no momento da faxina?"];
+    for (const typeQuestion of typeQuestions) {
+        const question = await prisma.tbl_perguntas.findFirst({
+            where: { pergunta: typeQuestion }
+        });
+        if (!question) {
+            await prisma.tbl_perguntas.create({
+                data: {
+                    pergunta: typeQuestion
+                }
+            });
+        }
+    }
+};
+const insertStatusService = async function () {
+    const typeStatus = ["Em aberto", "Agendado", "Em andamento", "Finalizado", "Cancelado"];
+    for (const status of typeStatus) {
+        const statusService = await prisma.tbl_status.findFirst({
+            where: { nome: status }
+        });
+        if (!statusService) {
+            await prisma.tbl_status.create({
+                data: {
+                    nome: status
+                }
+            });
+        }
+    }
+};
 insertGender()
     .then(() => {
     console.log("Inserção de gêneros concluído com sucesso");
@@ -107,6 +186,56 @@ insertStateBrazil()
 })
     .catch((error) => {
     console.error("Erro ao inserir os estados:", error);
+})
+    .finally(async () => {
+    await prisma.$disconnect();
+});
+insertTypeStatusRegister()
+    .then(() => {
+    console.log("Inserção dos tipos de status da conta foi inserido com sucesso");
+})
+    .catch((error) => {
+    console.error("Erro ao inserir os status da conta:", error);
+})
+    .finally(async () => {
+    await prisma.$disconnect();
+});
+insertRoom()
+    .then(() => {
+    console.log("Inserção dos tipos de comodo foram inseridos com sucesso");
+})
+    .catch((error) => {
+    console.log("Erro ao inserir os tipos de comodos", error);
+})
+    .finally(async () => {
+    await prisma.$disconnect();
+});
+insertTypeCleaning()
+    .then(() => {
+    console.log("Inserção dos tipos de limpeza foram inseridos com sucesso");
+})
+    .catch((error) => {
+    console.log("Erro ao inserir os tipos de limpaza", error);
+})
+    .finally(async () => {
+    await prisma.$disconnect();
+});
+insertTypeQuestion()
+    .then(() => {
+    console.log("Inserção de perguntas foram inseridadas com sucesso.");
+})
+    .catch((error) => {
+    console.log("Erro ao inserir os tipos de perguntas");
+})
+    .finally(async () => {
+    await prisma.$disconnect();
+});
+insertStatusService()
+    .then(() => {
+    console.log("Inserção dos tipos de status do serviço concluido com sucesso.");
+})
+    .catch((error) => {
+    console.log("Erro ao inserir os tipos de status do serviço.");
 })
     .finally(async () => {
     await prisma.$disconnect();

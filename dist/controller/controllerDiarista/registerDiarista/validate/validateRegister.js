@@ -4,7 +4,6 @@ exports.validateTypesJson = exports.validadeAddress = exports.validatePhoneWithD
 function validateTypesJson(json) {
     try {
         const diarista = json;
-        console.log(json);
         if (typeof diarista.email !== 'string' ||
             typeof diarista.password !== 'string' ||
             typeof diarista.nameUser !== 'string' ||
@@ -37,6 +36,9 @@ function validateTypesJson(json) {
 }
 exports.validateTypesJson = validateTypesJson;
 function validatePhoneWithDDD(ddd, phone) {
+    if (typeof ddd !== "string" || typeof phone !== "string") {
+        return false;
+    }
     let numberPhone = `${ddd} ${phone}`;
     let telefone = numberPhone.replace(/\D/g, '');
     if (!(telefone.length >= 10 && telefone.length <= 11))
@@ -104,7 +106,7 @@ function validateCPF(cpf) {
 exports.validateCPF = validateCPF;
 function validadeAddress(address) {
     let statusAddress = true;
-    if (typeof address.state !== "number" || address.state <= 0 ||
+    if (typeof address.state !== "number" || address.state <= 0 || address.state > 27 ||
         !address.city || address.city === "" ||
         !address.cep || address.cep === "" ||
         !address.district || address.district === "" ||

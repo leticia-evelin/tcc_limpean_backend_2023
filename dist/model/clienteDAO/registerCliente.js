@@ -58,6 +58,13 @@ const registerUser = async function (dataBody) {
                         id_tipo_residencia: dataBody.address.typeHouse
                     }
                 });
+                await prisma.tbl_status_conta_cliente.create({
+                    data: {
+                        data_status: new Date(),
+                        id_cliente: tbl_cliente.id,
+                        id_status_conta: 1
+                    }
+                });
             });
         }
         else {
