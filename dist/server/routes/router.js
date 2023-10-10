@@ -47,8 +47,6 @@ const controllerDeleterServiceClient_1 = require("../../controller/controllerCli
 const controllerUpdateStatusService_1 = require("../../controller/controllerDiarista/updateStatusServiceDiaristWithClient/controllerUpdateStatusService");
 const message = __importStar(require("../../modulo/config"));
 const jwt = __importStar(require("jsonwebtoken"));
-const criptography_1 = require("../../sercuryService/criptography");
-const criptography_2 = require("../../sercuryService/criptography");
 const jsonParser = body_parser_1.default.json();
 const router = (0, express_1.Router)();
 exports.router = router;
@@ -201,26 +199,4 @@ router.put('/v1/limpean/diarist/schedule-service', verifyJWT, jsonParser, async 
     const statusService = await (0, controllerUpdateStatusService_1.updateStatusService)(data);
     response.status(statusService.status);
     response.json(statusService);
-});
-router.get('/v1/limpean/diarist/service/access', verifyJWT, async function (request, response) {
-    const token = request.headers['x-api-key'];
-    const idService = request.query.idService;
-    const objetoJSON = {
-        cliente: {
-            nome: 'João',
-            idade: 30,
-        },
-        diarista: {
-            nome: 'Maria',
-            idade: 25,
-        },
-        servico: {
-            tipo: 'Limpeza',
-            preco: 50.0,
-        },
-    };
-    let status = (0, criptography_1.criptographyAllData)(objetoJSON);
-    console.log(status);
-    let decod = (0, criptography_2.decripyAllData)(status.data, status.authTag);
-    console.log(decod);
 });

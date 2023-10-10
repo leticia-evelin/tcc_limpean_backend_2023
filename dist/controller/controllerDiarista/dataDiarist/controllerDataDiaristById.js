@@ -33,10 +33,19 @@ const dataDiaristById = async function (token) {
         const decoded = jwt.verify(Array.isArray(token) ? token[0] : token, SECRETE);
         const { id } = decoded;
         const diarist = await (0, getDiaristById_1.getDiaristById)(Number(id));
-        const diaristJson = {
-            status: 200,
-            user: diarist
-        };
+        let diaristJson;
+        if (diarist) {
+            diaristJson = {
+                status: 200,
+                data: diarist[0].user
+            };
+        }
+        else {
+            diaristJson = {
+                status: 404,
+                data: null
+            };
+        }
         if (diarist) {
             return diaristJson;
         }

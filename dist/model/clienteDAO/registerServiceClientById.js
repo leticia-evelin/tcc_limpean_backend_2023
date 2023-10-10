@@ -36,13 +36,19 @@ const dbRegisterService = async (token, data) => {
         }
         if (verifyClient && verifyAddress && verifyService === null && statusDiarist) {
             let transaction = await prisma.$transaction(async (prisma) => {
+                const tokenService = await prisma.tbl_token_servico.create({
+                    data: {
+                        codigo: "123456"
+                    }
+                });
                 const service = await prisma.tbl_servico.create({
                     data: {
                         data_hora: `${data.date}T${data.startHour}:00Z`,
                         tarefas_adicionais: data.additionalTasks,
                         observacao: data.observation,
                         id_residencia_cliente: verifyAddress.id,
-                        id_tipo_limpeza: data.typeCleaningId
+                        id_tipo_limpeza: data.typeCleaningId,
+                        id_token_servico: tokenService.id
                     }
                 });
                 const serviceWithValue = await prisma.tbl_servico_com_valor.create({
