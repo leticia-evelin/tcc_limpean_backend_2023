@@ -17,9 +17,18 @@ const dataDiaristById = async function (token: string | string[]) {
         const {id} = decoded
         const diarist = await getDiaristById(Number(id))        
 
-        const diaristJson = {
-            status: 200,
-            user: diarist
+        let diaristJson
+
+        if(diarist){
+            diaristJson = {
+                status: 200,
+                data: diarist[0].user
+            } 
+        }else{
+            diaristJson = {
+                status: 404, 
+                data: null
+            }
         }
         
         if(diarist){

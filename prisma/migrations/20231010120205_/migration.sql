@@ -164,8 +164,17 @@ CREATE TABLE `tbl_servico` (
     `observacao` TEXT NULL,
     `id_residencia_cliente` INTEGER NOT NULL,
     `id_tipo_limpeza` INTEGER NOT NULL,
+    `id_token_servico` INTEGER NOT NULL,
 
     UNIQUE INDEX `tbl_servico_id_key`(`id`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `tbl_token_servico` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `codigo` VARCHAR(15) NOT NULL,
+
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -360,6 +369,9 @@ ALTER TABLE `tbl_servico` ADD CONSTRAINT `tbl_servico_id_residencia_cliente_fkey
 
 -- AddForeignKey
 ALTER TABLE `tbl_servico` ADD CONSTRAINT `tbl_servico_id_tipo_limpeza_fkey` FOREIGN KEY (`id_tipo_limpeza`) REFERENCES `tbl_tipo_limpeza`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `tbl_servico` ADD CONSTRAINT `tbl_servico_id_token_servico_fkey` FOREIGN KEY (`id_token_servico`) REFERENCES `tbl_token_servico`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `tbl_codigo` ADD CONSTRAINT `tbl_codigo_id_servico_fkey` FOREIGN KEY (`id_servico`) REFERENCES `tbl_servico`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
