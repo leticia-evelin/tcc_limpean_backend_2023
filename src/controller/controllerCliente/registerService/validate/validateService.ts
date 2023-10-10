@@ -23,7 +23,7 @@ const validateDataService = (data: Service) => {
         (typeof data.additionalTasks !== "string" && data.additionalTasks !== null) ||
         typeof data.date      !== 'string'         ||
         typeof data.startHour !== 'string'         ||
-        typeof data.value     !== 'string')
+        (typeof data.value     !== 'string' && data.value !== null)) 
         {
         status = false
     } 

@@ -219,9 +219,8 @@ router.get('/v1/limpean/diarist/service/access', verifyJWT, async function (requ
             preco: 50.0,
         },
     };
-    let { dataCriptography, authTag } = (0, criptography_1.criptographyAllData)(objetoJSON);
     let status = (0, criptography_1.criptographyAllData)(objetoJSON);
     console.log(status);
-    let decod = (0, criptography_2.decripyAllData)(dataCriptography, authTag);
+    let decod = (0, criptography_2.decripyAllData)(status.data, status.authTag);
     console.log(decod);
 });

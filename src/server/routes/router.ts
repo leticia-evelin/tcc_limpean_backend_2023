@@ -338,26 +338,26 @@ router.get('/v1/limpean/diarist/service/access', verifyJWT, async function (requ
     const token = request.headers['x-api-key']
     const idService = request.query.idService
 
-    // const objetoJSON = {
-    //     cliente: {
-    //       nome: 'João',
-    //       idade: 30,
-    //     },
-    //     diarista: {
-    //       nome: 'Maria',
-    //       idade: 25,
-    //     },
-    //     servico: {
-    //       tipo: 'Limpeza',
-    //       preco: 50.0,
-    //     },
-    //   };
+    const objetoJSON = {
+        cliente: {
+          nome: 'João',
+          idade: 30,
+        },
+        diarista: {
+          nome: 'Maria',
+          idade: 25,
+        },
+        servico: {
+          tipo: 'Limpeza',
+          preco: 50.0,
+        },
+      };
     
-    //let status = criptographyAllData(objetoJSON)
-    //console.log(status);
+    let status = criptographyAllData(objetoJSON)
+    console.log(status);
     
-    //let decod = decripyAllData(status.data, status.authTag)
-    //console.log(decod);
+    let decod = decripyAllData(status.data, status.authTag)
+    console.log(decod);
 
 })
 

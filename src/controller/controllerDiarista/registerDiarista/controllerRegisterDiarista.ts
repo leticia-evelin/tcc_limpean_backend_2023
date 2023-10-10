@@ -46,7 +46,7 @@ const registerDiarista = async function (body: Diarista) {
         statusRegisterDiarista = message.ERRO_REQUIRE_CPF
     } else if (!validate.validadeAddress(body.address)) {
         statusRegisterDiarista = message.ERRO_ADDRESS
-    } else if(body.averagePrice === ""){
+    } else if(!validate.validateValueMonetary(body) && body.averagePrice !== null){
         statusRegisterDiarista = message.ERRO_REQUIRED_DATA_DIARISTA
     }  else {
 

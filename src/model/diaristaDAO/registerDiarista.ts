@@ -63,7 +63,7 @@ const registerUser = async function (dataBody: Diarista) {
                         id_cidade: tbl_cidade.id
                     }
                 })
-
+                
                 const tbl_diarista = await prisma.tbl_diarista.create({
                     data: {
                         nome: dataBody.nameUser,
@@ -79,6 +79,8 @@ const registerUser = async function (dataBody: Diarista) {
                     }
                 })
 
+                console.log(tbl_diarista);
+                
 
                 await prisma.tbl_telefone_diarista.create({
                     data: {
@@ -103,6 +105,8 @@ const registerUser = async function (dataBody: Diarista) {
         }
         return true
     } catch (error) {
+        console.log(error);
+        
         return false
     } finally {
         await prisma.$disconnect();

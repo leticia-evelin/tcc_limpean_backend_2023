@@ -46,6 +46,7 @@ const registerUser = async function (dataBody) {
                         id_endereco: tbl_endereco.id
                     }
                 });
+                console.log(tbl_diarista);
                 await prisma.tbl_telefone_diarista.create({
                     data: {
                         numero_telefone: dataBody.phone,
@@ -68,6 +69,7 @@ const registerUser = async function (dataBody) {
         return true;
     }
     catch (error) {
+        console.log(error);
         return false;
     }
     finally {

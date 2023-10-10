@@ -39,7 +39,8 @@ function validateTypesJson(json: any): boolean {
             typeof diarista.cpf !== 'string' ||
             (typeof diarista.biography !== 'string' &&
             diarista.biography !== null) ||
-            typeof diarista.averagePrice !== 'string' ||
+            typeof diarista.averagePrice !== 'string' &&
+            diarista.averagePrice !== null ||
             typeof diarista.address !== 'object' ||
             typeof diarista.address.state !== 'number' ||
             typeof diarista.address.city !== 'string' ||
@@ -187,11 +188,30 @@ function validadeAddress(address: Address){
     return statusAddress
 }
 
+const validateValueMonetary = (data: Diarista) => {
+    // Expressão regular para validar um valor monetário no formato "x,xxx.xx" ou "xx.xx"
+    const regexValor = /^(\d{1,3}(,\d{3})*(\.\d{2})?|\d{1,3}(\.\d{3})*(,\d{2})?)$/;
+  
+    // Teste se o valor corresponde à expressão regular
+    if (regexValor.test(data.averagePrice)) {
+      // Remove vírgulas e pontos para verificar o valor real
+      const valorNumerico = parseFloat(data.averagePrice.replace(/,/g, '').replace(/\./, ''));
+  
+      // Verifique se o valor numérico é maior que zero
+      if (valorNumerico > -1) {
+        return true; // Valor monetário válido
+      }
+    }
+  
+    return false; // Valor monetário inválido
+}
+
 export {
     validateEmail,
     validateCPF,
     validateDateBirth,
     validatePhoneWithDDD,
     validadeAddress,
-    validateTypesJson
+    validateTypesJson,
+    validateValueMonetary
 }

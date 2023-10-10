@@ -47,7 +47,7 @@ const registerService = async function (token, data) {
                 message: "Hora no formato inválido. Ex: 12:34"
             };
         }
-        else if (!validate.validateValueMonetary(data)) {
+        else if (!validate.validateValueMonetary(data) && data.value !== null) {
             statusRegister = {
                 status: 422,
                 message: "Valor monetario no formato inválido. Ex: 100.00 ou 100,00"

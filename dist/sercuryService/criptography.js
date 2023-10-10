@@ -34,7 +34,11 @@ const criptographyAllData = (data) => {
     let dataCriptography = cipher.update(dataService, 'utf-8', 'hex');
     dataCriptography += cipher.final('hex');
     const authTag = cipher.getAuthTag();
-    return { dataCriptography, authTag };
+    let dataCriptographyJson = {
+        data: dataCriptography,
+        authTag: authTag
+    };
+    return dataCriptographyJson;
 };
 exports.criptographyAllData = criptographyAllData;
 const decripyAllData = (dataCriptography, authTag) => {

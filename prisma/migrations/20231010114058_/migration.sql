@@ -103,7 +103,7 @@ CREATE TABLE `tbl_diarista` (
     `foto_perfil` TEXT NULL,
     `email` VARCHAR(255) NOT NULL,
     `senha` VARCHAR(64) NOT NULL,
-    `media_valor` VARCHAR(45) NOT NULL,
+    `media_valor` VARCHAR(45) NULL,
     `id_endereco` INTEGER NOT NULL,
     `id_genero` INTEGER NOT NULL,
 
@@ -234,7 +234,7 @@ CREATE TABLE `tbl_comodo` (
 -- CreateTable
 CREATE TABLE `tbl_servico_com_valor` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `valor` VARCHAR(45) NOT NULL,
+    `valor` VARCHAR(45) NULL,
     `id_servico` INTEGER NOT NULL,
 
     UNIQUE INDEX `tbl_servico_com_valor_id_key`(`id`),

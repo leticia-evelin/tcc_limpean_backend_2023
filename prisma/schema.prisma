@@ -123,7 +123,7 @@ model tbl_diarista{
   foto_perfil          String?   @db.Text
   email                String    @db.VarChar(255) @unique
   senha                String    @db.VarChar(64)
-  media_valor          String    @db.VarChar(45)
+  media_valor          String?    @db.VarChar(45)
   id_endereco          Int
   id_genero            Int
   telefone             tbl_telefone_diarista[]
@@ -271,7 +271,7 @@ model tbl_comodo {
 
 model tbl_servico_com_valor {
  id         Int @id @default(autoincrement())
- valor      String @db.VarChar(45)
+ valor      String? @db.VarChar(45)
  id_servico Int
 
  FK_Servico_ServicoComValor tbl_servico @relation(fields: [id_servico], references: [id])

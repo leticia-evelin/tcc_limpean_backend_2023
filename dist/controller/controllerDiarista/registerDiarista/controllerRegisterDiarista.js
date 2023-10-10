@@ -50,7 +50,7 @@ const registerDiarista = async function (body) {
     else if (!validate.validadeAddress(body.address)) {
         statusRegisterDiarista = message.ERRO_ADDRESS;
     }
-    else if (body.averagePrice === "") {
+    else if (!validate.validateValueMonetary(body) && body.averagePrice !== null) {
         statusRegisterDiarista = message.ERRO_REQUIRED_DATA_DIARISTA;
     }
     else {
