@@ -24,6 +24,7 @@ const ERRO_NUMBER_PHONE = {status: 422, message: "Atenção o número de telefon
 const ERRO_ADDRESS = {status: 422, message: "Atenção, verifique os dados referentes ao endereço e tente novamente"}
 const ERRO_DELETE_USER = {status: 500, message: "Erro ao tentar deletar os dados do usuario, verifique e tente novamente."}
 const ERRO_UPDATE_USER = {status:500, message: "Erro ao tentar atualizar dados, verifique a documentação e tente novamente."}
+const ERRO_UPDATE_DATA_SERVICE = {status:500, message: "Erro ao tentar atualizar dados, verifique a documentação e tente novamente."}
 const ERRO_UPDATE_PHONE_USER = {status:500, message: "Erro ao tentar atualizar os dados referentes ao número de telefone."}
 const ERRO_UPDATE_DATA_SIMPLE_DIARIST = {status: 500, message: "Erro, Não foi possivel atualizar os dados referentes a Nome, Biografia, Genero, Senha, Foto ou Preço."} 
 const ERRO_UPDATE_ADDRESS_CLIENT = {status: 500, message: "Erro, Não foi possivel atualizar o endereço"} 
@@ -33,6 +34,7 @@ const ERRO_INVALID_TOKEN = {status: 401, message: "Token inválido."}
 /***************************************   CONSTANTES DE SUCESSO  ************************************************************************************************/
 const CREATED_REGISTER = {status: 201, message: "Registro criado com sucesso."}
 const UPDATE_USER = {status: 201, message: "Registro atualizado com sucesso"}
+const UPDATE_SERVICE = {status: 201, message: "Registro atualizado com sucesso"}
 const DELETE_USER= {status: 200, message: "Registro deletado com sucesso."}
 
 export {
@@ -61,5 +63,7 @@ export {
     ERRO_REQUIRED_DATA_HOUSE_CLIENTE,
     ERRO_REQUIRED_TOKEN,
     ERRO_INVALID_TOKEN,
-    ERRO_UPDATE_ADDRESS_CLIENT
+    ERRO_UPDATE_ADDRESS_CLIENT,
+    ERRO_UPDATE_DATA_SERVICE,
+    UPDATE_SERVICE
 }
