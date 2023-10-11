@@ -4,6 +4,18 @@ import { PrismaClient } from "@prisma/client"
 
 const prisma = new PrismaClient()
 
+function generateRandomString() {
+    const characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    let result = '';
+  
+    for (let i = 0; i < 6; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length)
+      result += characters.charAt(randomIndex)
+    }
+  
+    return result
+  }
+
 const dbRegisterService = async (token: Token, data: Service) => {
 
     try {
@@ -48,7 +60,7 @@ const dbRegisterService = async (token: Token, data: Service) => {
 
                 const tokenService = await prisma.tbl_token_servico.create({
                     data: {
-                        codigo: "123456"
+                        codigo: generateRandomString()
                     }
                 })
                 

@@ -11,6 +11,7 @@ import { deleteRegisterDiarist } from "../../controller/controllerDiarista/delet
 import { getInvitationById } from "../../controller/controllerDiarista/getAllServiceEspecific/controllerInvitationById"
 import { deleteRegisterClient } from "../../controller/controllerCliente/deleteRegisterClient/controllerDeleteRegisterClient"
 import { updateDataDiarist } from "../../controller/controllerDiarista/updateDataPersonalDiarist/controllerUpdateDataPersonalDiarist"
+import { getTokenService } from "../../controller/controllerDiarista/getTokenService/controllerGetTokenService"
 import { updateDataClient } from "../../controller/controllerCliente/updateDataPersonalClient/controllerUpdateDataPersonalClient"
 import { updateDataAddressClient } from "../../controller/controllerCliente/updateDataPersonalClient/controllerUpdateAddressClient"
 import { registerAddressCliente } from "../../controller/controllerCliente/registerAddresClient/controllerRegisterAddressClient"
@@ -361,5 +362,14 @@ router.put('/v1/limpean/diarist/schedule-service', verifyJWT, jsonParser, async 
 
 // })
 
+router.get('/v1/limpean/diarist/service/access', verifyJWT, async function (request, response) {
+    const token = request.headers['x-api-key']
+    const idService = request.query.idService
+
+    const tokenService = await getTokenService(token as string, idService)
+    response.status(tokenService.status)
+    response.json(tokenService)
+    
+})
 
 export { router }
