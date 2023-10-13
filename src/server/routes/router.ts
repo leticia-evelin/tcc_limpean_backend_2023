@@ -334,42 +334,42 @@ router.put('/v1/limpean/diarist/schedule-service', verifyJWT, jsonParser, async 
     
 })
 
-router.get('/v1/limpean/diarist/service/access', verifyJWT, async function (request, response){
+// router.get('/v1/limpean/diarist/service/access', verifyJWT, async function (request, response){
 
-    const token = request.headers['x-api-key']
-    const idService = request.query.idService
-
-    const objetoJSON = {
-        cliente: {
-          nome: 'João',
-          idade: 30,
-        },
-        diarista: {
-          nome: 'Maria',
-          idade: 25,
-        },
-        servico: {
-          tipo: 'Limpeza',
-          preco: 50.0,
-        },
-      };
-    
-    let status = criptographyAllData(objetoJSON)
-    console.log(status);
-    
-    let decod = decripyAllData(status.data, status.authTag)
-    console.log(decod);
-
-})
-
-// router.get('/v1/limpean/diarist/service/access', verifyJWT, async function (request, response) {
 //     const token = request.headers['x-api-key']
 //     const idService = request.query.idService
 
-//     const tokenService = await getTokenService(token as string, idService)
-//     response.status(tokenService.status)
-//     response.json(tokenService)
+//     const objetoJSON = {
+//         cliente: {
+//           nome: 'João',
+//           idade: 30,
+//         },
+//         diarista: {
+//           nome: 'Maria',
+//           idade: 25,
+//         },
+//         servico: {
+//           tipo: 'Limpeza',
+//           preco: 50.0,
+//         },
+//       };
     
+//     let status = criptographyAllData(objetoJSON)
+//     console.log(status);
+    
+//     let decod = decripyAllData(status.data, status.authTag)
+//     console.log(decod);
+
 // })
+
+router.get('/v1/limpean/diarist/service/token', verifyJWT, async function (request, response) {
+    const token = request.headers['x-api-key']
+    const idService = request.query.idService
+
+    const tokenService = await getTokenService(token as string, idService)
+    response.status(tokenService.status)
+    response.json(tokenService)
+    
+})
 
 export { router }
