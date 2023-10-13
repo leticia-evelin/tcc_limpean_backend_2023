@@ -10,6 +10,7 @@ import { dataAllDiarist } from "../../controller/controllerDiarista/dataDiarist/
 import { deleteRegisterDiarist } from "../../controller/controllerDiarista/deleteRegisterDiarist/controllerDeleteRegisterDiarist"
 import { getInvitationById } from "../../controller/controllerDiarista/getAllServiceEspecific/controllerInvitationById"
 import { deleteRegisterClient } from "../../controller/controllerCliente/deleteRegisterClient/controllerDeleteRegisterClient"
+import { getStatusTokenClient } from "../../controller/controllerCliente/getStatusTokenService/controllerTokenServiceClient"
 import { updateDataDiarist } from "../../controller/controllerDiarista/updateDataPersonalDiarist/controllerUpdateDataPersonalDiarist"
 import { getTokenService } from "../../controller/controllerDiarista/getTokenService/controllerGetTokenService"
 import { updateDataClient } from "../../controller/controllerCliente/updateDataPersonalClient/controllerUpdateDataPersonalClient"
@@ -226,6 +227,18 @@ router.delete('/v1/limpean/client/service/?id', verifyJWT, async function (reque
 
 })
 
+
+router.get("/v1/limpean/client/service/token", verifyJWT, async function(request, response){
+
+    const token = request.headers['x-api-key']
+    const idService = request.query.idService
+    const tokenService = request.query.token
+
+    const statusToken = await getStatusTokenClient(token as string, idService as string, tokenService as string)
+    response.status(statusToken.status)
+    response.json(statusToken)
+    
+})
 
 /*********************************************************************************************/
 

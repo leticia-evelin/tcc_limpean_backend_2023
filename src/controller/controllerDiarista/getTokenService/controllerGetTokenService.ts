@@ -26,7 +26,7 @@ const getTokenService = async function (token: string, idServiceClient: any){
                 status: 201,
                 data: {
                     status: 404,
-                    message: "Dados do serviço invalidos, verique se o diarista está vinculado ao serviço e tente novamente. "
+                    message: "Dados do serviço invalidos, verique se o diarista está vinculado ao serviço e tente novamente. Obs: Verique se o serviço não foi cancelado."
                 }
             }
         }else if(statusToken){

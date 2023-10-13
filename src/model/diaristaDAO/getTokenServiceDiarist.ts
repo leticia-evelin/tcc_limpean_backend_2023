@@ -30,7 +30,16 @@ const dbGetTokenServiceDiarist = async function(idDiarist: number, emailDiarist:
             }
         })
 
-        if(verifyDiarist && serviceDiarist){
+        
+        const statusServico = await prisma.tbl_status_servico.findMany({
+            where: {
+                id_servico: idService
+            },select: {
+                id_status: true
+            }
+        })
+                
+        if(verifyDiarist && serviceDiarist && statusServico.some(it => it.id_status === 2) && !statusServico.some(it => it.id_status === 5)){
             let token = serviceDiarist.FK_Servico_DiaristaServico.FK_TokenServico_Servico.codigo
             return token
         }else{

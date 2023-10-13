@@ -48,7 +48,6 @@ const loginDiarista = async function (dataBody: Login): Promise<Payload | false 
         await prisma.$disconnect();
     }
 }
-// test
 
 export{
     loginDiarista
