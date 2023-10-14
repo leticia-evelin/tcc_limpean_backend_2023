@@ -28,7 +28,7 @@ interface UpdateService {
     value: string | null;
 }
 
-const updateDataService = async (token: string, dataService: UpdateService) => {
+const updateDataService = async (token: string, serviceId: number, dataService: UpdateService) => {
     const SECRET = message.REQUIRE_SECRETE; 
 
     try {
@@ -37,28 +37,75 @@ const updateDataService = async (token: string, dataService: UpdateService) => {
         const tokenDecoded = { id, name };
 
         // Verificar se o serviço pode ser atualizado com base nos dados fornecidos
-        const statusCheck = await checkDataService(dataService, tokenDecoded);
+        const statusCheck = await checkDataService(dataService);
 
-        if (!statusCheck) {
-            return message.ERRO_UPDATE_DATA_SERVICE;
-        } else {
-            // Criar estrutura de dados para atualização (se necessário)
+         if (!statusCheck) {
+             return message.ERRO_UPDATE_DATA_SERVICE;
+         } else {
+          
             const serviceData = createStructureService(dataService);
 
                 if(serviceData){
-                    const updateData = await db.updateDataService(tokenDecoded, serviceData)
+                    const updateData = await db.updateDataService(serviceId, serviceData)
                     if(!updateData){
                         return message.ERRO_UPDATE_DATA_SERVICE
                     } 
+
                 } 
+            const addressData = createStructureService(dataService);
+            
+                if(addressData){
+                    const updateAddress = await db.updateDataAddressService(serviceId, serviceData)
+                    if(!updateAddress){
+                        return message.ERRO_UPDATE_DATA_SERVICE
+                    }
+                  
+                }
+
+            const serviceValue = createStructureService(dataService);
+
+            if(serviceValue){
+                const updateValue = await db.updateServiceValue(serviceId, serviceData, tokenDecoded)
+                if(!updateValue){
+                    return message.ERRO_UPDATE_DATA_SERVICE
+                }
+               
+            }
             
 
+            const statusForm = createStructureService(dataService);
+
+            if(statusForm){
+                const updateStatusForm = await db.updateStatusForm(serviceId, serviceData)
+                if(!updateStatusForm){
+                    return message.ERRO_UPDATE_DATA_SERVICE
+                }
+               
+               
+            }
+
+            const serviceRooms = createStructureService(dataService);
+
+            if(serviceRooms){
+                const updateRooms = await db.updateServiceRooms(serviceId, serviceData, tokenDecoded)
+                if(!updateRooms){
+                    return message.ERRO_UPDATE_DATA_SERVICE
+                }
+            
+               
+            }
+        
             return message.UPDATE_SERVICE
-        } 
+        }
+
+        
     } catch (error) {
+       console.log(error)
         return message.ERRO_INTERNAL_SERVER
+        
     }
 };
+
 
 export { 
     updateDataService 

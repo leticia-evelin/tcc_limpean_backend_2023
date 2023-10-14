@@ -1,27 +1,45 @@
 import { PrismaClient } from "@prisma/client";
 import { Token } from "../../interfaceGlobal/token"
 
+
 const prisma = new PrismaClient()
 
 
-const updateDataService = async function (token: Token, data: any) {
-    
+const updateDataService = async function (serviceId: number, data: any) {
+    console.log(updateDataService);
     try {
-        const verifyClient = await prisma.tbl_cliente.findFirst({
+      
+        const verifyService = await prisma.tbl_servico.findFirst({
             where: {
-                AND: [
-                    { email: token.name.toLowerCase() },
-                    { id: Number(token.id) }
-                ]
-            }
-        })
+                id: serviceId,
+            },
+           
+        });
         
-        if(verifyClient){
+        if(verifyService){
+
+
+            const updateData: any = {};
+
+            if (data.observacao !== undefined && data.observacao !== null && data.observacao !== '') {
+                updateData.observacao = data.observacao;
+            }
+
+            if (data.tarefas_adicionais !== undefined && data.tarefas_adicionais !== null && data.tarefas_adicionais !== '') {
+                updateData.tarefas_adicionais = data.tarefas_adicionais;
+            }
+
+            if (data.data_hora !== undefined && data.data_hora !== null && data.data_hora !== '') {
+                updateData.data_hora = data.data_hora;
+            }
+
+
+            
             await prisma.tbl_servico.update({
                 where: {
-                    id: verifyClient.id
+                    id: verifyService.id
                 },
-                data: data
+                data: updateData
             })
 
             return true
@@ -30,33 +48,35 @@ const updateDataService = async function (token: Token, data: any) {
         }
 
     } catch (error) {
+        console.log(error)
         return false
     } finally {
         await prisma.$disconnect()
     }
 }
 
-const updateDataAddressService = async (token: Token, addressId: number) => {
+const updateDataAddressService = async ( serviceId: number, data: any) => {
+    
     try {
-        const verifyClient = await prisma.tbl_cliente.findFirst({
+        const verifyService = await prisma.tbl_servico.findFirst({
             where: {
-                AND: [
-                    { email: token.name.toLowerCase() },
-                    { id: Number(token.id) }
-                ]
-            }
+                id: serviceId,
+            },
+           
         });
 
-        if(verifyClient) {
+        if(verifyService) {
 
-            const tbl_residencia_cliente = await prisma.tbl_residencia_cliente.findFirst({
+            const updateService = await prisma.tbl_servico.update({
                 where: {
-                    id_cliente: verifyClient?.id,
-                    id_endereco: addressId,
+                    id: serviceId,
                 },
+                data: {
+                    id_residencia_cliente: data.addressId
+                }
             });
     
-            if(tbl_residencia_cliente){
+            if(updateService){
                 return true
             } else{
                 return false
@@ -66,6 +86,7 @@ const updateDataAddressService = async (token: Token, addressId: number) => {
         }
 
     } catch (error) {
+        console.log(error)
         return false
     } finally {
         await prisma.$disconnect()
@@ -75,6 +96,7 @@ const updateDataAddressService = async (token: Token, addressId: number) => {
 };
 
 const updateServiceValue = async (serviceId: number, data: any, token: Token) => {
+   
     try {
         const verifyClient = await prisma.tbl_cliente.findFirst({
             where: {
@@ -104,12 +126,13 @@ const updateServiceValue = async (serviceId: number, data: any, token: Token) =>
                 id: serviceId, 
             },
             data: {
-                valor: data.value,
+                valor: data,
             },
         });
 
         return updatedServiceValue;
     } catch (error) {
+     
         return false 
     } finally {
         await prisma.$disconnect()
@@ -117,52 +140,53 @@ const updateServiceValue = async (serviceId: number, data: any, token: Token) =>
 };
 
 
-
-const updateStatusForm = async (serviceId: number, data: any, token: Token) => {
+const updateStatusForm = async (serviceId: number, data: any) => {
+   
     try {
-        const verifyClient = await prisma.tbl_cliente.findFirst({
+        const verifyService = await prisma.tbl_servico.findFirst({
             where: {
                 AND: [
-                    { email: token.name.toLowerCase() },
-                    { id: Number(token.id) }
+                    { id: serviceId },
+                    { id_residencia_cliente: data.addressId },
                 ]
             }
         });
 
-        if(verifyClient) {
+        if (verifyService) {
+            const updateData: any = {};
+            if (data.hasChildren !== null) {
+                updateData.check_crianca = data.hasChildren;
+            }
+            if (data.hasPet !== null) {
+                updateData.check_pet = data.hasPet;
+            }
+
             const tbl_formulario = await prisma.tbl_formulario.updateMany({
                 where: {
                     id_servico: serviceId,
                 },
-                data: [
-                    {
-                        check: data.hasChildren,
-                    },
-                    {
-                        check: data.hasPet,
-                    },
-                ],
+                data: updateData,
             });
-    
-    
-            if(tbl_formulario){
-                return true
-            }else{
-                return false
+
+            if (tbl_formulario) {
+                return true;
+            } else {
+                return false;
             }
-        } else {            
-            return false
+        } else {
+            return false;
         }
-        
     } catch (error) {
-            return false
-        } finally {
-            await prisma.$disconnect()
-        }
+        console.log(error);
+        return false;
+    } finally {
+        await prisma.$disconnect();
+    }
 };
 
 
 const updateServiceRooms = async (serviceId: number, data: any, token: Token) => {
+ 
     try {
         const verifyClient = await prisma.tbl_cliente.findFirst({
             where: {
@@ -240,6 +264,8 @@ const updateServiceRooms = async (serviceId: number, data: any, token: Token) =>
 
        
     } catch (error) {
+        console.log(error);
+        
        return false
     }   finally {
         await prisma.$disconnect()

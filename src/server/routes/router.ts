@@ -12,6 +12,7 @@ import { getInvitationById } from "../../controller/controllerDiarista/getAllSer
 import { deleteRegisterClient } from "../../controller/controllerCliente/deleteRegisterClient/controllerDeleteRegisterClient"
 import { updateDataDiarist } from "../../controller/controllerDiarista/updateDataPersonalDiarist/controllerUpdateDataPersonalDiarist"
 import { updateDataClient } from "../../controller/controllerCliente/updateDataPersonalClient/controllerUpdateDataPersonalClient"
+import { updateDataService } from "../../controller/controllerCliente/updateService/controllerUpdateService"
 import { updateDataAddressClient } from "../../controller/controllerCliente/updateDataPersonalClient/controllerUpdateAddressClient"
 import { registerAddressCliente } from "../../controller/controllerCliente/registerAddresClient/controllerRegisterAddressClient"
 import { getDataClient } from "../../controller/controllerCliente/getDataClient/controllerDataClientById"
@@ -219,6 +220,21 @@ router.delete('/v1/limpean/client/service/?id', verifyJWT, async function (reque
 
 })
 
+//EndPoint para atualizar um serviço específico do cliente
+router.put('/v1/limpean/client/update/:serviceId', verifyJWT, jsonParser, async function (request, response) {
+
+    const token = request.headers['x-api-key']
+    const serviceId = parseInt(request.params.serviceId)
+    const dataBody = request.body
+
+    const statusService = await updateDataService(token as string, serviceId, dataBody)
+
+    console.log(statusService);
+
+    response.status(statusService.status)
+    response.json(statusService)
+
+})
 
 /*********************************************************************************************/
 
