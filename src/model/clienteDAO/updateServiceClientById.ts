@@ -95,22 +95,8 @@ const updateDataAddressService = async ( serviceId: number, data: any) => {
    
 };
 
-const updateServiceValue = async (serviceId: number, data: any, token: Token) => {
-   
+const updateServiceValue = async (serviceId: number, data: any) => {
     try {
-        const verifyClient = await prisma.tbl_cliente.findFirst({
-            where: {
-                AND: [
-                    { email: token.name.toLowerCase() },
-                    { id: Number(token.id) }
-                ]
-            }
-        });
-
-        if (!verifyClient) {
-           return false
-        }
-
         const existingServiceValue = await prisma.tbl_servico_com_valor.findFirst({
             where: {
                 id_servico: serviceId,
@@ -118,24 +104,24 @@ const updateServiceValue = async (serviceId: number, data: any, token: Token) =>
         });
 
         if (!existingServiceValue) {
-           return false
+            return false;
         }
 
         const updatedServiceValue = await prisma.tbl_servico_com_valor.update({
             where: {
-                id: serviceId, 
+                id: existingServiceValue.id,
             },
             data: {
-                valor: data,
+                valor: data.value,
             },
         });
 
         return updatedServiceValue;
     } catch (error) {
-     
-        return false 
+        console.error(error);
+        return false;
     } finally {
-        await prisma.$disconnect()
+        await prisma.$disconnect();
     }
 };
 
@@ -145,11 +131,9 @@ const updateStatusForm = async (serviceId: number, data: any) => {
     try {
         const verifyService = await prisma.tbl_servico.findFirst({
             where: {
-                AND: [
-                    { id: serviceId },
-                    { id_residencia_cliente: data.addressId },
-                ]
-            }
+                id: serviceId,
+            },
+           
         });
 
         if (verifyService) {
@@ -188,16 +172,14 @@ const updateStatusForm = async (serviceId: number, data: any) => {
 const updateServiceRooms = async (serviceId: number, data: any, token: Token) => {
  
     try {
-        const verifyClient = await prisma.tbl_cliente.findFirst({
+        const verifyService = await prisma.tbl_servico.findFirst({
             where: {
-                AND: [
-                    { email: token.name.toLowerCase() },
-                    { id: Number(token.id) }
-                ]
-            }
+                id: serviceId,
+            },
+           
         });
 
-        if (verifyClient) {
+        if (verifyService) {
 
             const existingRooms = await prisma.tbl_servico_comodo.findMany({
                 where: {
@@ -273,11 +255,47 @@ const updateServiceRooms = async (serviceId: number, data: any, token: Token) =>
 };
 
 
+const updateCleaningType = async (serviceId: number, data: any) => {
+    try {
+       
+
+        const verifyService = await prisma.tbl_servico.findFirst({
+            where: {
+                id: serviceId,
+            },
+        });
+
+        if (verifyService) {
+            const updatedService = await prisma.tbl_servico.update({
+                where: {
+                    id: serviceId,
+                },
+                data: {
+                    id_tipo_limpeza: verifyService.id_tipo_limpeza,
+                },
+            });
+
+            if (updatedService) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    } catch (error) {
+        console.log(error);
+        return false;
+    } finally {
+        await prisma.$disconnect();
+    }
+};
 
 export {
     updateDataService,
     updateDataAddressService,
     updateServiceValue,
     updateStatusForm,
-    updateServiceRooms
+    updateServiceRooms,
+    updateCleaningType
 };

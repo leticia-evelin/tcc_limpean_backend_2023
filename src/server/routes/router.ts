@@ -229,10 +229,17 @@ router.put('/v1/limpean/client/update/:serviceId', verifyJWT, jsonParser, async 
 
     const statusService = await updateDataService(token as string, serviceId, dataBody)
 
-    console.log(statusService);
+    // console.log(statusService);
 
-    response.status(statusService.status)
-    response.json(statusService)
+    if (statusService !== undefined) {
+        response.status(statusService.status).json(statusService);
+    } else {
+      
+        response.status(500).json({ status: 500, message: 'Erro interno do servidor teste' });
+    }
+
+    // response.status(statusService.status)
+    // response.json(statusService)
 
 })
 
